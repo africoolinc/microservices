@@ -1,0 +1,206 @@
+1) Configure Consul (Service Registry)
+2) Configure Keycloak (Authorization)
+3) Configure Kibana (Logs Visualization)
+4) Configure Grafana (Metrics Visualization)
+5) Configure All (Idempotent)
+6) Monitoring Dryrun Workflow (with Health Checks & Fixes)
+7) View Logs
+0) Exit
+ Container app-db  Restarting
+ Container app-db  Started
+ Container consul  Restarting
+ Container consul  Started
+ Container elasticsearch  Restarting
+ Container elasticsearch  Started
+ Container kafka  Restarting
+ Container kafka  Started
+ Container keycloak  Restarting
+ Container keycloak  Started
+ Container keycloak-db  Restarting
+ Container keycloak-db  Started
+ Container kibana  Restarting
+ Container kibana  Started
+ Container kong-db  Restarting
+ Container kong-db  Started
+ Container logstash  Restarting
+ Container logstash  Started
+ Container prometheus  Restarting
+ Container prometheus  Started
+ Container redis  Restarting
+ Container redis  Started
+ Container zookeeper  Restarting
+ Container zookeeper  Started
+ Container zookeeper  Restarting
+ Container zookeeper  Started
+zookeeper  | [2026-01-21 07:55:27,085] INFO PrepRequestProcessor (sid:0) started, reconfigEnabled=false (org.apache.zookeeper.server.PrepRequestProcessor)
+zookeeper  | [2026-01-21 07:55:27,104] INFO Using checkIntervalMs=60000 maxPerMinute=10000 maxNeverUsedIntervalMs=0 (org.apache.zookeeper.server.ContainerManager)
+zookeeper  | [2026-01-21 07:55:27,105] INFO ZooKeeper audit is disabled. (org.apache.zookeeper.audit.ZKAuditProvider)
+ Container kafka  Restarting
+ Container kafka  Started
+kafka  | [2026-01-21 07:55:43,389] INFO Session establishment complete on server zookeeper/172.19.0.5:2181, session id = 0x10000535bdd0001, negotiated timeout = 18000 (org.apache.zookeeper.ClientCnxn)
+kafka  | [2026-01-21 07:55:43,393] INFO [ZooKeeperClient Kafka server] Connected. (kafka.zookeeper.ZooKeeperClient)
+kafka  | [2026-01-21 07:55:43,899] INFO Cluster ID = _kWR9ih_RCC9oFc6j0AcFg (kafka.server.KafkaServer)
+ Container service-a  Restarting
+Error response from daemon: Cannot restart container 1c7cea9614033b64bc014250f9d36b15d3af308e8082c43c3c95623882e2fafa: failed to set up container networking: driver failed programming external connectivity on endpoint service-a (bfdf82575e3dc4ca8bfeff5cbe3da9600eca0916435c8371a3ba87a65db32e9a): Bind for 0.0.0.0:5001 failed: port is already allocated
+service-a  |   File "/usr/local/lib/python3.12/site-packages/requests/adapters.py", line 677, in send
+service-a  |     raise ConnectionError(e, request=request)
+service-a  | requests.exceptions.ConnectionError: HTTPConnectionPool(host='consul', port=8500): Max retries exceeded with url: /v1/agent/service/register (Caused by NameResolutionError("HTTPConnection(host='consul', port=8500): Failed to resolve 'consul' ([Errno -3] Temporary failure in name resolution)"))
+ Container service-c  Restarting
+ Container service-c  Started
+ Container service-b  Restarting
+ Container service-b  Started
+ Container kibana  Restarting
+ Container kibana  Started
+kibana  | Native global console methods have been overridden in production environment.
+kibana  | [2026-01-21T07:56:13.805+00:00][INFO ][root] Kibana is starting
+kibana  | [2026-01-21T07:56:13.893+00:00][INFO ][node] Kibana process configured with roles: [background_tasks, ui]
+ Container kong  Restarting
+Error response from daemon: Cannot restart container 059ddea5b96960c85a5f419571f3d8214f56cea35499addbe5bb62e24c786768: failed to set up container networking: driver failed programming external connectivity on endpoint kong (2f4abd644e6677e8b0d0b632211e09270c144c50ab9e7f7c18fa6d03cf1a8d48): Bind for 0.0.0.0:8000 failed: port is already allocated
+elasticsearch  | {"@timestamp":"2026-01-21T07:53:46.654Z", "log.level": "INFO", "message":"recovered [38] indices into cluster_state", "ecs.version": "1.2.0","service.name":"ES_ECS","event.dataset":"elasticsearch.server","process.thread.name":"elasticsearch[aa056f46db64][masterService#updateTask][T#1]","log.logger":"org.elasticsearch.gateway.GatewayService","elasticsearch.cluster.uuid":"Bi21Mu8PSFeoFpdN4mINPA","elasticsearch.node.id":"5BXWaDNdShaAkaWmGFWqhw","elasticsearch.node.name":"aa056f46db64","elasticsearch.cluster.name":"docker-cluster"}
+elasticsearch  | {"@timestamp":"2026-01-21T07:53:46.985Z", "log.level": "INFO", "message":"Node [{aa056f46db64}{5BXWaDNdShaAkaWmGFWqhw}] is selected as the current health node.", "ecs.version": "1.2.0","service.name":"ES_ECS","event.dataset":"elasticsearch.server","process.thread.name":"elasticsearch[aa056f46db64][management][T#3]","log.logger":"org.elasticsearch.health.node.selection.HealthNodeTaskExecutor","elasticsearch.cluster.uuid":"Bi21Mu8PSFeoFpdN4mINPA","elasticsearch.node.id":"5BXWaDNdShaAkaWmGFWqhw","elasticsearch.node.name":"aa056f46db64","elasticsearch.cluster.name":"docker-cluster"}
+elasticsearch  | {"@timestamp":"2026-01-21T07:53:49.214Z", "log.level": "INFO",  "current.health":"YELLOW","message":"Cluster health status changed from [RED] to [YELLOW] (reason: [shards started [[.apm-source-map][0]]]).","previous.health":"RED","reason":"shards started [[.apm-source-map][0]]" , "ecs.version": "1.2.0","service.name":"ES_ECS","event.dataset":"elasticsearch.server","process.thread.name":"elasticsearch[aa056f46db64][masterService#updateTask][T#1]","log.logger":"org.elasticsearch.cluster.routing.allocation.AllocationService","elasticsearch.cluster.uuid":"Bi21Mu8PSFeoFpdN4mINPA","elasticsearch.node.id":"5BXWaDNdShaAkaWmGFWqhw","elasticsearch.node.name":"aa056f46db64","elasticsearch.cluster.name":"docker-cluster"}
+ Container keycloak  Restarting
+ Container keycloak  Started
+keycloak  | 2026-01-21 07:53:56,053 WARN  [org.keycloak.quarkus.runtime.KeycloakMain] (main) Running the server in development mode. DO NOT use this configuration in production.
+keycloak  | 2026-01-21 07:56:19,842 INFO  [com.arjuna.ats.jbossatx] (Shutdown thread) ARJUNA032014: Stopping transaction recovery manager
+keycloak  | 2026-01-21 07:56:19,875 INFO  [io.quarkus] (Shutdown thread) Keycloak stopped in 0.055s
+1) Configure Consul (Service Registry)
+2) Configure Keycloak (Authorization)
+3) Configure Kibana (Logs Visualization)
+4) Configure Grafana (Metrics Visualization)
+5) Configure All (Idempotent)
+6) Monitoring Dryrun Workflow (with Health Checks & Fixes)
+7) View Logs
+0) Exit
+ Container app-db  Restarting
+ Container app-db  Started
+ Container consul  Restarting
+ Container consul  Started
+ Container elasticsearch  Restarting
+ Container elasticsearch  Started
+ Container kafka  Restarting
+ Container kafka  Started
+ Container keycloak  Restarting
+ Container keycloak  Started
+ Container keycloak-db  Restarting
+ Container keycloak-db  Started
+ Container kibana  Restarting
+ Container kibana  Started
+ Container kong-db  Restarting
+ Container kong-db  Started
+ Container logstash  Restarting
+ Container logstash  Started
+ Container prometheus  Restarting
+ Container prometheus  Started
+ Container redis  Restarting
+ Container redis  Started
+ Container service-b  Restarting
+ Container service-b  Started
+ Container service-c  Restarting
+ Container service-c  Started
+ Container zookeeper  Restarting
+ Container zookeeper  Started
+ Container zookeeper  Restarting
+ Container zookeeper  Started
+zookeeper  | [2026-01-21 08:12:46,924] INFO zookeeper.request_throttler.shutdownTimeout = 10000 ms (org.apache.zookeeper.server.RequestThrottler)
+zookeeper  | [2026-01-21 08:12:46,941] INFO Using checkIntervalMs=60000 maxPerMinute=10000 maxNeverUsedIntervalMs=0 (org.apache.zookeeper.server.ContainerManager)
+zookeeper  | [2026-01-21 08:12:46,942] INFO ZooKeeper audit is disabled. (org.apache.zookeeper.audit.ZKAuditProvider)
+ Container kafka  Restarting
+ Container kafka  Started
+kafka  | [2026-01-21 08:13:04,504] INFO [zk-broker-1-to-controller-alter-partition-channel-manager]: Recorded new controller, from now on will use node kafka:9092 (id: 1 rack: null) (kafka.server.BrokerToControllerRequestThread)
+kafka  | [2026-01-21 08:13:04,514] TRACE [Controller id=1 epoch=8] Received response UpdateMetadataResponseData(errorCode=0) for request UPDATE_METADATA with correlation id 0 sent to broker kafka:9092 (id: 1 rack: null) (state.change.logger)
+kafka  | [2026-01-21 08:13:04,582] INFO [zk-broker-1-to-controller-forwarding-channel-manager]: Recorded new controller, from now on will use node kafka:9092 (id: 1 rack: null) (kafka.server.BrokerToControllerRequestThread)
+ Container service-a  Restarting
+Error response from daemon: Cannot restart container 1c7cea9614033b64bc014250f9d36b15d3af308e8082c43c3c95623882e2fafa: failed to set up container networking: driver failed programming external connectivity on endpoint service-a (d77ceda978889c7100d95a005749b4f6cbd676d1a6df80d01e6a41306c17be4d): Bind for 0.0.0.0:5001 failed: port is already allocated
+service-a  |   File "/usr/local/lib/python3.12/site-packages/requests/adapters.py", line 677, in send
+service-a  |     raise ConnectionError(e, request=request)
+service-a  | requests.exceptions.ConnectionError: HTTPConnectionPool(host='consul', port=8500): Max retries exceeded with url: /v1/agent/service/register (Caused by NameResolutionError("HTTPConnection(host='consul', port=8500): Failed to resolve 'consul' ([Errno -3] Temporary failure in name resolution)"))
+ Container kibana  Restarting
+ Container kibana  Started
+kibana  | Native global console methods have been overridden in production environment.
+kibana  | [2026-01-21T08:13:13.045+00:00][INFO ][root] Kibana is starting
+kibana  | [2026-01-21T08:13:13.218+00:00][INFO ][node] Kibana process configured with roles: [background_tasks, ui]
+ Container kong  Restarting
+Error response from daemon: Cannot restart container 059ddea5b96960c85a5f419571f3d8214f56cea35499addbe5bb62e24c786768: failed to set up container networking: driver failed programming external connectivity on endpoint kong (d263c2b9223d5d5e9c15bc2d5f2c3c800693b6ab5ec873e87c664d6399a6b773): Bind for 0.0.0.0:8000 failed: port is already allocated
+elasticsearch  | {"@timestamp":"2026-01-21T08:10:18.107Z", "log.level": "WARN", "message":"path: /.kibana_task_manager/_search, params: {ignore_unavailable=true, index=.kibana_task_manager}, status: 503", "ecs.version": "1.2.0","service.name":"ES_ECS","event.dataset":"elasticsearch.server","process.thread.name":"elasticsearch[aa056f46db64][system_read][T#4]","log.logger":"rest.suppressed","trace.id":"80dfb0aaa4c797d5d4a59b6805ad4bd1","elasticsearch.cluster.uuid":"Bi21Mu8PSFeoFpdN4mINPA","elasticsearch.node.id":"5BXWaDNdShaAkaWmGFWqhw","elasticsearch.node.name":"aa056f46db64","elasticsearch.cluster.name":"docker-cluster","error.type":"org.elasticsearch.action.search.SearchPhaseExecutionException","error.message":"all shards failed","error.stack_trace":"Failed to execute phase [query], all shards failed; shardFailures {[5BXWaDNdShaAkaWmGFWqhw][.kibana_task_manager_8.14.1_001][0]: org.elasticsearch.action.NoShardAvailableActionException: [aa056f46db64][172.19.0.11:9300][indices:data/read/search[phase/query]]\n}\n\tat org.elasticsearch.server@8.14.1/org.elasticsearch.action.search.AbstractSearchAsyncAction.onPhaseFailure(AbstractSearchAsyncAction.java:712)\n\tat org.elasticsearch.server@8.14.1/org.elasticsearch.action.search.AbstractSearchAsyncAction.executeNextPhase(AbstractSearchAsyncAction.java:404)\n\tat org.elasticsearch.server@8.14.1/org.elasticsearch.action.search.AbstractSearchAsyncAction.onPhaseDone(AbstractSearchAsyncAction.java:744)\n\tat org.elasticsearch.server@8.14.1/org.elasticsearch.action.search.AbstractSearchAsyncAction.onShardFailure(AbstractSearchAsyncAction.java:497)\n\tat org.elasticsearch.server@8.14.1/org.elasticsearch.action.search.AbstractSearchAsyncAction$1.onFailure(AbstractSearchAsyncAction.java:335)\n\tat org.elasticsearch.server@8.14.1/org.elasticsearch.action.ActionListenerImplementations.safeAcceptException(ActionListenerImplementations.java:62)\n\tat org.elasticsearch.server@8.14.1/org.elasticsearch.action.ActionListenerImplementations.safeOnFailure(ActionListenerImplementations.java:73)\n\tat org.elasticsearch.server@8.14.1/org.elasticsearch.action.DelegatingActionListener.onFailure(DelegatingActionListener.java:31)\n\tat org.elasticsearch.server@8.14.1/org.elasticsearch.action.ActionListenerResponseHandler.handleException(ActionListenerResponseHandler.java:53)\n\tat org.elasticsearch.server@8.14.1/org.elasticsearch.action.search.SearchTransportService$ConnectionCountingHandler.handleException(SearchTransportService.java:634)\n\tat org.elasticsearch.server@8.14.1/org.elasticsearch.transport.TransportService$UnregisterChildTransportResponseHandler.handleException(TransportService.java:1752)\n\tat org.elasticsearch.server@8.14.1/org.elasticsearch.transport.TransportService$ContextRestoreResponseHandler.handleException(TransportService.java:1476)\n\tat org.elasticsearch.server@8.14.1/org.elasticsearch.transport.TransportService$DirectResponseChannel.processException(TransportService.java:1610)\n\tat org.elasticsearch.server@8.14.1/org.elasticsearch.transport.TransportService$DirectResponseChannel.sendResponse(TransportService.java:1585)\n\tat org.elasticsearch.server@8.14.1/org.elasticsearch.transport.TaskTransportChannel.sendResponse(TaskTransportChannel.java:44)\n\tat org.elasticsearch.server@8.14.1/org.elasticsearch.action.support.ChannelActionListener.onFailure(ChannelActionListener.java:44)\n\tat org.elasticsearch.server@8.14.1/org.elasticsearch.action.ActionRunnable.onFailure(ActionRunnable.java:151)\n\tat org.elasticsearch.server@8.14.1/org.elasticsearch.common.util.concurrent.ThreadContext$ContextPreservingAbstractRunnable.onFailure(ThreadContext.java:967)\n\tat org.elasticsearch.server@8.14.1/org.elasticsearch.common.util.concurrent.AbstractRunnable.run(AbstractRunnable.java:28)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)\n\tat java.base/java.lang.Thread.run(Thread.java:1570)\nCaused by: org.elasticsearch.action.NoShardAvailableActionException: [aa056f46db64][172.19.0.11:9300][indices:data/read/search[phase/query]]\n\tat org.elasticsearch.server@8.14.1/org.elasticsearch.action.NoShardAvailableActionException.forOnShardFailureWrapper(NoShardAvailableActionException.java:28)\n\tat org.elasticsearch.server@8.14.1/org.elasticsearch.action.search.AbstractSearchAsyncAction.onShardFailure(AbstractSearchAsyncAction.java:532)\n\tat org.elasticsearch.server@8.14.1/org.elasticsearch.action.search.AbstractSearchAsyncAction.onShardFailure(AbstractSearchAsyncAction.java:479)\n\t... 18 more\n"}
+elasticsearch  | {"@timestamp":"2026-01-21T08:10:18.114Z", "log.level": "WARN", "message":"path: /.kibana_task_manager/_update_by_query, params: {ignore_unavailable=true, refresh=true, index=.kibana_task_manager}, status: 503", "ecs.version": "1.2.0","service.name":"ES_ECS","event.dataset":"elasticsearch.server","process.thread.name":"elasticsearch[aa056f46db64][system_read][T#2]","log.logger":"rest.suppressed","trace.id":"80dfb0aaa4c797d5d4a59b6805ad4bd1","elasticsearch.cluster.uuid":"Bi21Mu8PSFeoFpdN4mINPA","elasticsearch.node.id":"5BXWaDNdShaAkaWmGFWqhw","elasticsearch.node.name":"aa056f46db64","elasticsearch.cluster.name":"docker-cluster","error.type":"org.elasticsearch.action.search.SearchPhaseExecutionException","error.message":"all shards failed","error.stack_trace":"Failed to execute phase [query], all shards failed; shardFailures {[5BXWaDNdShaAkaWmGFWqhw][.kibana_task_manager_8.14.1_001][0]: org.elasticsearch.action.NoShardAvailableActionException: [aa056f46db64][172.19.0.11:9300][indices:data/read/search[phase/query]]\n}\n\tat org.elasticsearch.server@8.14.1/org.elasticsearch.action.search.AbstractSearchAsyncAction.onPhaseFailure(AbstractSearchAsyncAction.java:712)\n\tat org.elasticsearch.server@8.14.1/org.elasticsearch.action.search.AbstractSearchAsyncAction.executeNextPhase(AbstractSearchAsyncAction.java:404)\n\tat org.elasticsearch.server@8.14.1/org.elasticsearch.action.search.AbstractSearchAsyncAction.onPhaseDone(AbstractSearchAsyncAction.java:744)\n\tat org.elasticsearch.server@8.14.1/org.elasticsearch.action.search.AbstractSearchAsyncAction.onShardFailure(AbstractSearchAsyncAction.java:497)\n\tat org.elasticsearch.server@8.14.1/org.elasticsearch.action.search.AbstractSearchAsyncAction$1.onFailure(AbstractSearchAsyncAction.java:335)\n\tat org.elasticsearch.server@8.14.1/org.elasticsearch.action.ActionListenerImplementations.safeAcceptException(ActionListenerImplementations.java:62)\n\tat org.elasticsearch.server@8.14.1/org.elasticsearch.action.ActionListenerImplementations.safeOnFailure(ActionListenerImplementations.java:73)\n\tat org.elasticsearch.server@8.14.1/org.elasticsearch.action.DelegatingActionListener.onFailure(DelegatingActionListener.java:31)\n\tat org.elasticsearch.server@8.14.1/org.elasticsearch.action.ActionListenerResponseHandler.handleException(ActionListenerResponseHandler.java:53)\n\tat org.elasticsearch.server@8.14.1/org.elasticsearch.action.search.SearchTransportService$ConnectionCountingHandler.handleException(SearchTransportService.java:634)\n\tat org.elasticsearch.server@8.14.1/org.elasticsearch.transport.TransportService$UnregisterChildTransportResponseHandler.handleException(TransportService.java:1752)\n\tat org.elasticsearch.server@8.14.1/org.elasticsearch.transport.TransportService$ContextRestoreResponseHandler.handleException(TransportService.java:1476)\n\tat org.elasticsearch.server@8.14.1/org.elasticsearch.transport.TransportService$DirectResponseChannel.processException(TransportService.java:1610)\n\tat org.elasticsearch.server@8.14.1/org.elasticsearch.transport.TransportService$DirectResponseChannel.sendResponse(TransportService.java:1585)\n\tat org.elasticsearch.server@8.14.1/org.elasticsearch.transport.TaskTransportChannel.sendResponse(TaskTransportChannel.java:44)\n\tat org.elasticsearch.server@8.14.1/org.elasticsearch.action.support.ChannelActionListener.onFailure(ChannelActionListener.java:44)\n\tat org.elasticsearch.server@8.14.1/org.elasticsearch.action.ActionRunnable.onFailure(ActionRunnable.java:151)\n\tat org.elasticsearch.server@8.14.1/org.elasticsearch.common.util.concurrent.ThreadContext$ContextPreservingAbstractRunnable.onFailure(ThreadContext.java:967)\n\tat org.elasticsearch.server@8.14.1/org.elasticsearch.common.util.concurrent.AbstractRunnable.run(AbstractRunnable.java:28)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)\n\tat java.base/java.lang.Thread.run(Thread.java:1570)\nCaused by: org.elasticsearch.action.NoShardAvailableActionException: [aa056f46db64][172.19.0.11:9300][indices:data/read/search[phase/query]]\n\tat org.elasticsearch.server@8.14.1/org.elasticsearch.action.NoShardAvailableActionException.forOnShardFailureWrapper(NoShardAvailableActionException.java:28)\n\tat org.elasticsearch.server@8.14.1/org.elasticsearch.action.search.AbstractSearchAsyncAction.onShardFailure(AbstractSearchAsyncAction.java:532)\n\tat org.elasticsearch.server@8.14.1/org.elasticsearch.action.search.AbstractSearchAsyncAction.onShardFailure(AbstractSearchAsyncAction.java:479)\n\t... 18 more\n"}
+elasticsearch  | {"@timestamp":"2026-01-21T08:10:19.385Z", "log.level": "INFO",  "current.health":"YELLOW","message":"Cluster health status changed from [RED] to [YELLOW] (reason: [shards started [[.apm-source-map][0]]]).","previous.health":"RED","reason":"shards started [[.apm-source-map][0]]" , "ecs.version": "1.2.0","service.name":"ES_ECS","event.dataset":"elasticsearch.server","process.thread.name":"elasticsearch[aa056f46db64][masterService#updateTask][T#1]","log.logger":"org.elasticsearch.cluster.routing.allocation.AllocationService","elasticsearch.cluster.uuid":"Bi21Mu8PSFeoFpdN4mINPA","elasticsearch.node.id":"5BXWaDNdShaAkaWmGFWqhw","elasticsearch.node.name":"aa056f46db64","elasticsearch.cluster.name":"docker-cluster"}
+ Container keycloak  Restarting
+ Container keycloak  Started
+keycloak  | 2026-01-21 08:13:27,623 INFO  [io.quarkus] (main) Profile dev activated. 
+keycloak  | 2026-01-21 08:13:27,624 INFO  [io.quarkus] (main) Installed features: [agroal, cdi, hibernate-orm, jdbc-postgresql, keycloak, logging-gelf, narayana-jta, reactive-routes, resteasy-reactive, resteasy-reactive-jackson, smallrye-context-propagation, smallrye-health, vertx]
+keycloak  | 2026-01-21 08:13:27,628 WARN  [org.keycloak.quarkus.runtime.KeycloakMain] (main) Running the server in development mode. DO NOT use this configuration in production.
+1) Configure Consul (Service Registry)
+2) Configure Keycloak (Authorization)
+3) Configure Kibana (Logs Visualization)
+4) Configure Grafana (Metrics Visualization)
+5) Configure All (Idempotent)
+6) Monitoring Dryrun Workflow (with Health Checks & Fixes)
+7) View Logs
+0) Exit
+ Container app-db  Restarting
+ Container app-db  Started
+ Container consul  Restarting
+ Container consul  Started
+ Container elasticsearch  Restarting
+ Container elasticsearch  Started
+ Container kafka  Restarting
+ Container kafka  Started
+ Container keycloak  Restarting
+ Container keycloak  Started
+ Container keycloak-db  Restarting
+ Container keycloak-db  Started
+ Container kibana  Restarting
+ Container kibana  Started
+ Container kong-db  Restarting
+ Container kong-db  Started
+ Container logstash  Restarting
+ Container logstash  Started
+ Container prometheus  Restarting
+ Container prometheus  Started
+ Container redis  Restarting
+ Container redis  Started
+ Container service-b  Restarting
+ Container service-b  Started
+ Container service-c  Restarting
+ Container service-c  Started
+ Container zookeeper  Restarting
+ Container zookeeper  Started
+ Container zookeeper  Restarting
+ Container zookeeper  Started
+zookeeper  | [2026-01-21 11:00:30,172] INFO zookeeper.request_throttler.shutdownTimeout = 10000 ms (org.apache.zookeeper.server.RequestThrottler)
+zookeeper  | [2026-01-21 11:00:30,217] INFO Using checkIntervalMs=60000 maxPerMinute=10000 maxNeverUsedIntervalMs=0 (org.apache.zookeeper.server.ContainerManager)
+zookeeper  | [2026-01-21 11:00:30,219] INFO ZooKeeper audit is disabled. (org.apache.zookeeper.audit.ZKAuditProvider)
+ Container kafka  Restarting
+ Container kafka  Started
+kafka  | ===> Launching ... 
+kafka  | ===> Launching kafka ... 
+kafka  | [2026-01-21 11:00:42,980] INFO Registered kafka:type=kafka.Log4jController MBean (kafka.utils.Log4jControllerRegistration$)
+ Container service-a  Restarting
+Error response from daemon: Cannot restart container 1c7cea9614033b64bc014250f9d36b15d3af308e8082c43c3c95623882e2fafa: failed to set up container networking: driver failed programming external connectivity on endpoint service-a (b0b9e862bc7dab98748c6eb124fe76d60922c138f45757f66838acc34e423618): Bind for 0.0.0.0:5001 failed: port is already allocated
+service-a  |   File "/usr/local/lib/python3.12/site-packages/requests/adapters.py", line 677, in send
+service-a  |     raise ConnectionError(e, request=request)
+service-a  | requests.exceptions.ConnectionError: HTTPConnectionPool(host='consul', port=8500): Max retries exceeded with url: /v1/agent/service/register (Caused by NameResolutionError("HTTPConnection(host='consul', port=8500): Failed to resolve 'consul' ([Errno -3] Temporary failure in name resolution)"))
+ Container kibana  Restarting
+ Container kibana  Started
+kibana  | Native global console methods have been overridden in production environment.
+kibana  | [2026-01-21T11:00:54.138+00:00][INFO ][root] Kibana is starting
+kibana  | [2026-01-21T11:00:54.424+00:00][INFO ][node] Kibana process configured with roles: [background_tasks, ui]
+ Container kong  Restarting
+Error response from daemon: Cannot restart container 059ddea5b96960c85a5f419571f3d8214f56cea35499addbe5bb62e24c786768: failed to set up container networking: driver failed programming external connectivity on endpoint kong (f6082a659b16d4f822ecbb89b51547fd5391a3cdba8ae4f315262e6b93b593a9): Bind for 0.0.0.0:8000 failed: port is already allocated
+elasticsearch  | {"@timestamp":"2026-01-21T10:58:06.367Z", "log.level": "INFO", "message":"recovered [38] indices into cluster_state", "ecs.version": "1.2.0","service.name":"ES_ECS","event.dataset":"elasticsearch.server","process.thread.name":"elasticsearch[aa056f46db64][masterService#updateTask][T#1]","log.logger":"org.elasticsearch.gateway.GatewayService","elasticsearch.cluster.uuid":"Bi21Mu8PSFeoFpdN4mINPA","elasticsearch.node.id":"5BXWaDNdShaAkaWmGFWqhw","elasticsearch.node.name":"aa056f46db64","elasticsearch.cluster.name":"docker-cluster"}
+elasticsearch  | {"@timestamp":"2026-01-21T10:58:07.258Z", "log.level": "INFO", "message":"Node [{aa056f46db64}{5BXWaDNdShaAkaWmGFWqhw}] is selected as the current health node.", "ecs.version": "1.2.0","service.name":"ES_ECS","event.dataset":"elasticsearch.server","process.thread.name":"elasticsearch[aa056f46db64][management][T#3]","log.logger":"org.elasticsearch.health.node.selection.HealthNodeTaskExecutor","elasticsearch.cluster.uuid":"Bi21Mu8PSFeoFpdN4mINPA","elasticsearch.node.id":"5BXWaDNdShaAkaWmGFWqhw","elasticsearch.node.name":"aa056f46db64","elasticsearch.cluster.name":"docker-cluster"}
+elasticsearch  | {"@timestamp":"2026-01-21T10:58:12.104Z", "log.level": "INFO",  "current.health":"YELLOW","message":"Cluster health status changed from [RED] to [YELLOW] (reason: [shards started [[.apm-source-map][0]]]).","previous.health":"RED","reason":"shards started [[.apm-source-map][0]]" , "ecs.version": "1.2.0","service.name":"ES_ECS","event.dataset":"elasticsearch.server","process.thread.name":"elasticsearch[aa056f46db64][masterService#updateTask][T#1]","log.logger":"org.elasticsearch.cluster.routing.allocation.AllocationService","elasticsearch.cluster.uuid":"Bi21Mu8PSFeoFpdN4mINPA","elasticsearch.node.id":"5BXWaDNdShaAkaWmGFWqhw","elasticsearch.node.name":"aa056f46db64","elasticsearch.cluster.name":"docker-cluster"}
+ Container keycloak  Restarting
+ Container keycloak  Started
+keycloak  | 2026-01-21 10:58:19,071 WARN  [org.keycloak.quarkus.runtime.KeycloakMain] (main) Running the server in development mode. DO NOT use this configuration in production.
+keycloak  | 2026-01-21 11:01:00,773 INFO  [com.arjuna.ats.jbossatx] (Shutdown thread) ARJUNA032014: Stopping transaction recovery manager
+keycloak  | 2026-01-21 11:01:00,883 INFO  [io.quarkus] (Shutdown thread) Keycloak stopped in 0.162s
+1) Configure Consul (Service Registry)
+2) Configure Keycloak (Authorization)
+3) Configure Kibana (Logs Visualization)
+4) Configure Grafana (Metrics Visualization)
+5) Configure All (Idempotent)
+6) Monitoring Dryrun Workflow (with Health Checks & Fixes)
+7) View Logs
+0) Exit

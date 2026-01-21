@@ -1,0 +1,16 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+  - job_name: 'consul'
+    static_configs:
+      - targets: ['consul:8500']
+  - job_name: 'services'
+    static_configs:
+      - targets: ['service-a:5000', 'service-b:5000', 'service-c:5000']  # Add /metrics endpoint in real services
+
+rule_files:
+  - "prometheus-rules.yml"
