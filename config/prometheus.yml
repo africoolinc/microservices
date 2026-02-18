@@ -1,0 +1,42 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+rule_files:
+  # - "first_rules.yml"
+  # - "second_rules.yml"
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          # - alertmanager:9093
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: 'ecommerce-service'
+    static_configs:
+      - targets: ['ecommerce-service:5000']
+    metrics_path: '/metrics'
+    scrape_interval: 5s
+
+  - job_name: 'fintech-service'
+    static_configs:
+      - targets: ['fintech-service:5000']
+    metrics_path: '/metrics'
+    scrape_interval: 5s
+
+  - job_name: 'social-media-service'
+    static_configs:
+      - targets: ['social-media-service:5000']
+    metrics_path: '/metrics'
+    scrape_interval: 5s
+
+  - job_name: 'kong'
+    static_configs:
+      - targets: ['kong:8001']
+    metrics_path: '/metrics'
+    scrape_interval: 5s

@@ -1,0 +1,9 @@
+{
+  "timestamp": "2026-02-17T23:30:45.442407",
+  "ping": "UP",
+  "ssh_port": "OPEN",
+  "ssh_auth": "SUCCESS",
+  "cloudflare": "TOKEN_READY",
+  "preferred_channel": "SSH",
+  "health_score": 10
+}

@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAO Wallet - AI-Governed Phone→Wallet DAO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #0f172a 100%); }
+        .card-gradient { background: linear-gradient(145deg, rgba(30,58,95,0.6) 0%, rgba(15,23,42,0.8) 100%); }
+        .glow { box-shadow: 0 0 40px rgba(59,130,246,0.3); }
+        .pulse-glow { animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { box-shadow: 0 0 20px rgba(59,130,246,0.3); } 50% { box-shadow: 0 0 40px rgba(59,130,246,0.5); } }
+        .hero-pattern { background-image: radial-gradient(circle at 25% 25%, rgba(59,130,246,0.1) 0%, transparent 50%), radial-gradient(circle at 75% 75%, rgba(16,185,129,0.1) 0%, transparent 50%); }
+    </style>
+</head>
+<body class="gradient-bg min-h-screen hero-pattern text-white">
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-slate-900/80 backdrop-blur-lg border-b border-slate-700/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-2">
+                    <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-emerald-500 rounded-xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+                        </svg>
+                    </div>
+                    <span class="text-xl font-bold bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent">DAO Wallet</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#how-it-works" class="text-slate-300 hover:text-white transition">How it Works</a>
+                    <a href="#pricing" class="text-slate-300 hover:text-white transition">Pricing</a>
+                    <a href="#faq" class="text-slate-300 hover:text-white transition">FAQ</a>
+                    <button class="px-4 py-2 text-slate-300 hover:text-white transition">Sign In</button>
+                    <button class="px-5 py-2 bg-gradient-to-r from-blue-500 to-emerald-500 rounded-lg font-semibold hover:opacity-90 transition pulse-glow">Get Started</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-20 px-4">
+        <div class="max-w-7xl mx-auto text-center">
+            <div class="inline-flex items-center px-4 py-2 bg-blue-500/10 border border-blue-500/30 rounded-full text-blue-400 text-sm mb-8">
+                <span class="w-2 h-2 bg-blue-400 rounded-full mr-2 animate-pulse"></span>
+                Bridging mobile money with Ethereum
+            </div>
+            <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+                AI-Governed<br>
+                <span class="bg-gradient-to-r from-blue-400 via-emerald-400 to-cyan-400 bg-clip-text text-transparent">Phone→Wallet DAO</span>
+            </h1>
+            <p class="text-xl text-slate-400 mb-10 max-w-2xl mx-auto">
+                Bridging mobile money with Ethereum for unbanked users across emerging markets. Join the DAO revolution.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <button class="px-8 py-4 bg-gradient-to-r from-blue-500 to-emerald-500 rounded-xl font-bold text-lg hover:opacity-90 transition glow">
+                    Join the DAO Today
+                </button>
+                <button class="px-8 py-4 bg-slate-800/50 border border-slate-600 rounded-xl font-semibold text-lg hover:bg-slate-700/50 transition">
+                    Learn More →
+                </button>
+            </div>
+            
+            <!-- Stats -->
+            <div class="grid grid-cols-3 gap-8 mt-20 max-w-3xl mx-auto">
+                <div class="text-center">
+                    <div class="text-4xl font-bold text-blue-400">$1T+</div>
+                    <div class="text-slate-400 text-sm">Market Size</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl font-bold text-emerald-400">1M+</div>
+                    <div class="text-slate-400 text-sm">Target Users</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl font-bold text-cyan-400">5</div>
+                    <div class="text-slate-400 text-sm">Verticals</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Verticals -->
+    <section class="py-20 px-4 bg-slate-900/50">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-4">Powering Multiple Verticals</h2>
+            <p class="text-slate-400 text-center mb-16 max-w-2xl mx-auto">Revenue-generating use cases optimized for emerging markets</p>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Fintech -->
+                <div class="card-gradient border border-slate-700/50 rounded-2xl p-6 hover:border-blue-500/50 transition glow">
+                    <div class="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Fintech/Mobile Payments</h3>
+                    <p class="text-slate-400 text-sm mb-4">Transaction fees, cross-border remittances, and affiliate referrals</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-green-400 text-sm">Revenue: High</span>
+                        <span class="text-yellow-400 text-xs">Risk: Regulatory</span>
+                    </div>
+                </div>
+                
+                <!-- DeFi -->
+                <div class="card-gradient border border-slate-700/50 rounded-2xl p-6 hover:border-emerald-500/50 transition glow">
+                    <div class="w-12 h-12 bg-emerald-500/20 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">DeFi/Lending</h3>
+                    <p class="text-slate-400 text-sm mb-4">Yield farming, staking, and DAO-backed micro-loans</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-green-400 text-sm">Revenue: Med-High</span>
+                        <span class="text-orange-400 text-xs">Risk: Volatility</span>
+                    </div>
+                </div>
+                
+                <!-- DAO -->
+                <div class="card-gradient border border-slate-700/50 rounded-2xl p-6 hover:border-purple-500/50 transition glow">
+                    <div class="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">DAO/Community</h3>
+                    <p class="text-slate-400 text-sm mb-4">Governance and subscription-based participation</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-green-400 text-sm">Revenue: Medium</span>
+                        <span class="text-green-400 text-xs">Risk: Low</span>
+                    </div>
+                </div>
+                
+                <!-- AI -->
+                <div class="card-gradient border border-slate-700/50 rounded-2xl p-6 hover:border-cyan-500/50 transition glow">
+                    <div class="w-12 h-12 bg-cyan-500/20 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">AI-Blockchain</h3>
+                    <p class="text-slate-400 text-sm mb-4">AI usage fees and data monetization</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-green-400 text-sm">Revenue: High</span>
+                        <span class="text-yellow-400 text-xs">Risk: Privacy</span>
+                    </div>
+                </div>
+                
+                <!-- Gaming -->
+                <div class="card-gradient border border-slate-700/50 rounded-2xl p-6 hover:border-pink-500/50 transition glow">
+                    <div class="w-12 h-12 bg-pink-500/20 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Web3 Gaming</h3>
+                    <p class="text-slate-400 text-sm mb-4">Play-to-earn mechanics and digital asset trading</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-green-400 text-sm">Revenue: Medium</span>
+                        <span class="text-orange-400 text-xs">Risk: Competition</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="how-it-works" class="py-20 px-4">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-16">How It Works</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-gradient-to-r from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6 text-3xl font-bold">1</div>
+                    <h3 class="text-xl font-bold mb-3">Sign Up</h3>
+                    <p class="text-slate-400">Create your account with just your phone number - no bank account needed</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-6 text-3xl font-bold">2</div>
+                    <h3 class="text-xl font-bold mb-3">Connect Mobile Money</h3>
+                    <p class="text-slate-400">Link your existing mobile money account to your crypto wallet seamlessly</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-gradient-to-r from-cyan-500 to-cyan-600 rounded-2xl flex items-center justify-center mx-auto mb-6 text-3xl font-bold">3</div>
+                    <h3 class="text-xl font-bold mb-3">Start Earning</h3>
+                    <p class="text-slate-400">Access DeFi, earn yields, and participate in DAO governance instantly</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="py-20 px-4 bg-slate-900/50">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-4">Pricing Plans</h2>
+            <p class="text-slate-400 text-center mb-16">Choose the plan that best fits your needs</p>
+            
+            <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <!-- Starter -->
+                <div class="card-gradient border border-slate-700/50 rounded-2xl p-8">
+                    <h3 class="text-2xl font-bold mb-2">Starter</h3>
+                    <p class="text-slate-400 mb-6">Perfect for individuals getting started</p>
+                    <div class="text-4xl font-bold mb-6">$100<span class="text-lg text-slate-400">/month</span></div>
+                    <ul class="space-y-3 mb-8 text-slate-300">
+                        <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> Basic wallet registration</li>
+                        <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> Mobile money integration</li>
+                        <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> Standard transaction fees</li>
+                        <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> Community access</li>
+                        <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> Email support</li>
+                    </ul>
+                    <button class="w-full py-3 bg-slate-700 hover:bg-slate-600 rounded-xl font-semibold transition">Get Started</button>
+                </div>
+                
+                <!-- Pro -->
+                <div class="card-gradient border border-blue-500/50 rounded-2xl p-8 glow relative">
+                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 px-4 py-1 bg-gradient-to-r from-blue-500 to-emerald-500 rounded-full text-sm font-semibold">Most Popular</div>
+                    <h3 class="text-2xl font-bold mb-2">Pro</h3>
+                    <p class="text-slate-400 mb-6">Best for active community members</p>
+                    <div class="text-4xl font-bold mb-6">$200<span class="text-lg text-slate-400">/month</span></div>
+                    <ul class="space-y-3 mb-8 text-slate-300">
+                        <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> Everything in Starter</li>
+                        <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> Priority transaction processing</li>
+                        <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> Advanced DeFi features</li>
+                        <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> DAO voting rights</li>
+                        <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> Priority support</li>
+                        <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> Reduced fees</li>
+                        <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> API access</li>
+                    </ul>
+                    <button class="w-full py-3 bg-gradient-to-r from-blue-500 to-emerald-500 rounded-xl font-semibold hover:opacity-90 transition">Get Started</button>
+                </div>
+                
+                <!-- Advanced -->
+                <div class="card-gradient border border-slate-700/50 rounded-2xl p-8">
+                    <h3 class="text-2xl font-bold mb-2">Advanced</h3>
+                    <p class="text-slate-400 mb-6">For power users and businesses</p>
+                    <div class="text-4xl font-bold mb-6">$300<span class="text-lg text-slate-400">/month</span></div>
+                    <ul class="space-y-3 mb-8 text-slate-300">
+                        <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> Everything in Pro</li>
+                        <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> White-label solutions</li>
+                        <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> Custom integrations</li>
+                        <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> Dedicated account manager</li>
+                        <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> Advanced analytics</li>
+                        <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> Enterprise SLA</li>
+                    </ul>
+                    <button class="w-full py-3 bg-slate-700 hover:bg-slate-600 rounded-xl font-semibold transition">Get Started</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-20 px-4">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-16">Loved by People Worldwide</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6">
+                    <p class="text-slate-300 mb-6">"This platform has transformed how I manage my business finances. I can now access DeFi services with just my phone!"</p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center font-bold">AO</div>
+                        <div class="ml-4">
+                            <div class="font-semibold">Amara Okonkwo</div>
+                            <div class="text-slate-400 text-sm">Small Business Owner, Nigeria</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6">
+                    <p class="text-slate-300 mb-6">"Finally, a way to participate in the global economy without needing a traditional bank account. The mobile money integration is seamless."</p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-emerald-500 rounded-full flex items-center justify-center font-bold">KM</div>
+                        <div class="ml-4">
+                            <div class="font-semibold">Kofi Mensah</div>
+                            <div class="text-slate-400 text-sm">Student, Ghana</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6">
+                    <p class="text-slate-300 mb-6">"The DAO governance features give me a real voice in the platform's future. It's truly community-driven and transparent."</p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center font-bold">FH</div>
+                        <div class="ml-4">
+                            <div class="font-semibold">Fatima Hassan</div>
+                            <div class="text-slate-400 text-sm">Entrepreneur, Kenya</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="py-20 px-4 bg-slate-900/50">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-16">Frequently Asked Questions</h2>
+            <div class="space-y-4">
+                <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-6">
+                    <h3 class="font-semibold mb-2">How do I get started without a bank account?</h3>
+                    <p class="text-slate-400">Simply sign up with your phone number. No bank account or ID verification is required to get started.</p>
+                </div>
+                <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-6">
+                    <h3 class="font-semibold mb-2">What are the transaction fees?</h3>
+                    <p class="text-slate-400">Fees vary by plan. Starter users pay standard fees, while Pro and Advanced members enjoy reduced rates.</p>
+                </div>
+                <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-6">
+                    <h3 class="font-semibold mb-2">Is my money safe?</h3>
+                    <p class="text-slate-400">We use industry-leading security measures including encryption, multi-sig wallets, and DAO-governed insurance.</p>
+                </div>
+                <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-6">
+                    <h3 class="font-semibold mb-2">How does DAO governance work?</h3>
+                    <p class="text-slate-400">Token holders vote on platform decisions, ensuring community-driven development and transparent operations.</p>
+                </div>
+                <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-6">
+                    <h3 class="font-semibold mb-2">Can I withdraw back to mobile money?</h3>
+                    <p class="text-slate-400">Yes! Convert your crypto back to mobile money instantly and withdraw to your registered phone number.</p>
+                </div>
+                <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-6">
+                    <h3 class="font-semibold mb-2">What mobile money services are supported?</h3>
+                    <p class="text-slate-400">We support M-Pesa (Kenya), MTN (Ghana/Nigeria), Airtel Money, and other major providers.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-20 px-4">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-4xl font-bold mb-6">Ready to Join the Future of Finance?</h2>
+            <p class="text-xl text-slate-400 mb-10">Start your journey today and become part of the AI-Governed DAO revolutionizing mobile money in emerging markets.</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <button class="px-8 py-4 bg-gradient-to-r from-blue-500 to-emerald-500 rounded-xl font-bold text-lg hover:opacity-90 transition glow">
+                    Get Started Now
+                </button>
+                <button class="px-8 py-4 bg-slate-800/50 border border-slate-600 rounded-xl font-semibold text-lg hover:bg-slate-700/50 transition">
+                    Contact Sales
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 px-4 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-emerald-500 rounded-lg flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+                            </svg>
+                        </div>
+                        <span class="font-bold">DAO Wallet</span>
+                    </div>
+                    <p class="text-slate-400 text-sm">Bridging mobile money with Ethereum for unbanked users worldwide.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Product</h4>
+                    <ul class="space-y-2 text-slate-400 text-sm">
+                        <li><a href="#" class="hover:text-white transition">Features</a></li>
+                        <li><a href="#" class="hover:text-white transition">Pricing</a></li>
+                        <li><a href="#" class="hover:text-white transition">Security</a></li>
+                        <li><a href="#" class="hover:text-white transition">Roadmap</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Resources</h4>
+                    <ul class="space-y-2 text-slate-400 text-sm">
+                        <li><a href="#" class="hover:text-white transition">Documentation</a></li>
+                        <li><a href="#" class="hover:text-white transition">API Reference</a></li>
+                        <li><a href="#" class="hover:text-white transition">Community</a></li>
+                        <li><a href="#" class="hover:text-white transition">Support</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Legal</h4>
+                    <ul class="space-y-2 text-slate-400 text-sm">
+                        <li><a href="#" class="hover:text-white transition">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-white transition">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-white transition">Cookie Policy</a></li>
+                        <li><a href="#" class="hover:text-white transition">Compliance</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="text-center text-slate-500 text-sm pt-8 border-t border-slate-800">
+                © 2025 AI-Governed Phone→Wallet DAO. All rights reserved.
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

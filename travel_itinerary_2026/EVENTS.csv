@@ -1,0 +1,13 @@
+Event,Month,Location,Travel Cost (1-10),Productivity Boost (1-10),Revenue/Profit Boost (1-10)
+CES,Jan,"Las Vegas, USA",9,8,9
+MWC,Feb,"Barcelona, Spain",7,7,8
+SXSW,Mar,"Austin, USA",9,8,7
+LEAP,Apr,"Riyadh, Saudi Arabia",5,7,9
+Black is Tech,Apr,"Houston, USA",9,6,8
+Viva Technology,Jun,"Paris, France",7,8,9
+InfoComm,Jun,"Las Vegas, USA",9,9,6
+Black Hat,Aug,"Las Vegas, USA",9,9,7
+Future Festival,Sep,"Toronto, Canada",8,9,8
+TechCrunch Disrupt,Oct,"San Francisco, USA",9,7,10
+Web Summit,Nov,"Lisbon, Portugal",7,8,9
+GITEX,Dec,"Dubai, UAE",4,7,9
