@@ -1,0 +1,12 @@
+# Secrets - DO NOT COMMIT
+.secrets/
+.openclaw/
+*.log
+
+# SSH Keys (use separate secure storage)
+ssh/github_ssh_key
+ssh/github_ssh_key.pub
+
+# OS files
+.DS_Store
+Thumbs.db

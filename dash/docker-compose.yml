@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  gibsons_dash:
+    build: .
+    image: gibsons_dash:latest
+    container_name: gibsons_dash
+    ports:
+      - "10000:3000"
+    environment:
+      - NODE_ENV=production
+      - ADB_HOST=10.144.180.80
+      - ADB_PORT=5555
+      - STACKFORGE_HOST=10.144.118.159
+      - HYPERLIQUID_PRIVATE_KEY=${HYPERLIQUID_KEY:-}
+      - DB_PATH=/app/data/dash.db
+    volumes:
+      - ./data:/app/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+    network_mode: bridge

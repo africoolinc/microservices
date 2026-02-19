@@ -1,0 +1,67 @@
+{
+  "timestamp": "2026-02-16T15:12:01.251121",
+  "device_info": {
+    "model": "V20",
+    "manufacturer": "VILLAON",
+    "brand": "VILLAON",
+    "android_version": "13",
+    "security_patch": "2025-10-05",
+    "serial": "20429563B4043064",
+    "android_id": "2d528612edf23efc"
+  },
+  "battery": {
+    "voltage": 4265,
+    "status": "2",
+    "health": "2",
+    "level": 95,
+    "temperature": 32.0,
+    "technology": "Li-ion"
+  },
+  "storage": {
+    "total": "26831360",
+    "used": "5007604",
+    "available": "21771800",
+    "percent": "19%"
+  },
+  "network": {
+    "wifi_ip": "192.168.100.224",
+    "wifi_ssid": "\"Juma\", B",
+    "mobile_ip": "N/A"
+  },
+  "location": {
+    "providers_allowed": "null",
+    "gps_enabled": false,
+    "note": "Exact coordinates require location permission"
+  },
+  "memory": {
+    "total_ram": "1,986,188K (status normal)",
+    "free_ram": "1,053,672K (  384,896K cached pss +   531,224K cached kernel +   137,552K free)",
+    "used_ram": "1,091,727K (  878,099K used pss +   213,628K kernel)"
+  },
+  "cpu": {
+    "model": "ARMv7 Processor rev 3 (v7l)",
+    "bogomips": "33.17"
+  },
+  "apps": {
+    "user_apps_count": 5,
+    "apps": [
+      "com.google.android.safetycore",
+      "com.zerotier.one",
+      "com.zhiliaoapp.musically",
+      "com.droidrun.portal",
+      "com.termux"
+    ]
+  },
+  "screen": {
+    "display_id": "0"
+  },
+  "uptime": {
+    "uptime_hours": 125,
+    "uptime_minutes": 39
+  },
+  "bluetooth": {
+    "connected_devices": [
+      "MaxConnectedAudioDevices: 5"
+    ]
+  }
+}
