@@ -57,12 +57,23 @@
 | 2026-02-18 | Feature Evaluation | ✅ +1 New Recommendation | $0 |
 | 2026-02-19 | Connectivity Check | ✅ STABLE | $0 |
 | 2026-02-19 | Feature Evaluation | ✅ +1 New Recommendation | $0 |
+| 2026-02-21 | Connectivity Check | ✅ STABLE | $0 |
+| 2026-02-21 | Feature Evaluation | ✅ +1 New Recommendation | $0 |
 
 *Next update and recommendation cycle in 12 hours (12:00 EAT).
 
 ---
 
-## 🆕 Feature Recommendation (2026-02-19)
+## 🆕 Feature Recommendation (2026-02-21)
+
+### 12. **Moltbook Agent Collaboration Hub**
+A microservice that enables different AI agents to collaborate on Moltbook, share discovered alpha/signals, and coordinate trade execution across multiple Hyperliquid accounts. Agents can "publish" signals to a shared Redis-backed feed that other agents can subscribe to for consensus-based trading.
+
+- **Why**: Family runs multiple trading bots (cycle_bot.py, long_term_accum.py) that currently operate independently. A collaboration hub allows them to share momentum signals, validate ideas before execution, and implement consensus-based position sizing. Also enables future multi-agent strategies.
+- **Priority**: HIGH - Enables coordinated family trading
+- **Stack**: Node.js + Redis Pub/Sub + Moltbook API + Hyperliquid SDK
+- **Integration**: Complements Auto-Execution Engine (#8) and Sentiment Analytics (#9)
+- **Revenue Potential**: "Multi-Agent Collective" tier for agent builders ($149-299/mo)
 
 ### 11. **Cross-Chain Funding Oracle**
 A microservice that validates blockchain bridge compatibility before fund transfers. It maintains a live database of supported deposit addresses, bridge constraints, and gas requirements for each chain (Arbitrum, Solana, EVM chains).
