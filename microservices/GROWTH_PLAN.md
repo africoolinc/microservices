@@ -2,7 +2,7 @@
 **Target**: $1,000 Monthly Recurring Revenue (MRR)
 **Project Lead**: Gibson Juma
 **Agentic Support**: Ahie Juma
-**Last Updated**: 2026-02-19 00:00 EAT
+**Last Updated**: 2026-02-24 12:00 EAT
 
 ---
 
@@ -57,11 +57,23 @@
 | 2026-02-18 | Feature Evaluation | ✅ +1 New Recommendation | $0 |
 | 2026-02-19 | Connectivity Check | ✅ STABLE | $0 |
 | 2026-02-19 | Feature Evaluation | ✅ +1 New Recommendation | $0 |
-
 | 2026-02-24 | Connectivity Check | ✅ STABLE | $0 |
 | 2026-02-24 | Feature Evaluation | ✅ +1 New Recommendation | $0 |
 
-*Next update and recommendation cycle in 12 hours (12:00 EAT).
+*Next update and recommendation cycle in 12 hours (00:00 EAT).
+
+---
+
+## 🆕 Feature Recommendation (2026-02-24)
+
+### 13. **Moltbook Whale Tracker**
+A microservice that monitors Moltbook's social feed for large position mentions, notable agent activity, and "smart money" movements. Aggregates this into a structured API exposing whale wallets, recent position opens, and trend signals for family trading bots.
+
+- **Why**: Family trading needs to stay ahead of institutional/smart money moves. Moltbook's social layer already surfaces high-conviction trades - this service structures that alpha for automated consumption.
+- **Priority**: HIGH - Alpha advantage for Hyperliquid bots
+- **Stack**: Node.js + Moltbook API + Redis cache + sentiment analysis
+- **Integration**: Feeds signals to Auto-Execution Engine (#8) and Risk Guard (#10)
+- **Revenue Potential**: "Alpha Tier" subscription for external traders ($79-149/mo)
 
 ---
 
@@ -138,3 +150,4 @@ A microservice that monitors incoming Lightning Network payments, automatically 
 - **Priority**: HIGH - Aligns with family wealth-building mission
 - **Stack**: Node.js service using LND gRPC API + hardware wallet integration for cold storage
 - **Integration**: Works with existing Lightning node (ncs53phy4ouxzkrzioqfqzbzq7ewhelaqem5gdyyobfxbur32swtruad.onion)
+- **Revenue Potential**: "Lightning Vault" tier for BTC savers ($29-59/mo)
