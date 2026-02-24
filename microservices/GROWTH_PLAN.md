@@ -58,7 +58,23 @@
 | 2026-02-19 | Connectivity Check | ✅ STABLE | $0 |
 | 2026-02-19 | Feature Evaluation | ✅ +1 New Recommendation | $0 |
 
+| 2026-02-24 | Connectivity Check | ✅ STABLE | $0 |
+| 2026-02-24 | Feature Evaluation | ✅ +1 New Recommendation | $0 |
+
 *Next update and recommendation cycle in 12 hours (12:00 EAT).
+
+---
+
+## 🆕 Feature Recommendation (2026-02-24)
+
+### 12. **Multi-Account Portfolio Orchestrator**
+A unified dashboard and API layer that aggregates positions, balances, and PnL across multiple Hyperliquid accounts (family trading bots, accumulation strategies, spiral bot). Enables coordinated position sizing and risk exposure monitoring from a single interface.
+
+- **Why**: Family currently runs 3+ trading accounts (spiral bot, long-term accumulator, manual trades) with no unified view. The Orchestrator provides portfolio-level visibility and enables cross-account rebalancing for optimal capital deployment.
+- **Priority**: HIGH - Operational efficiency for existing trading infrastructure
+- **Stack**: Node.js + Hyperliquid SDK + Redis for state + React dashboard
+- **Integration**: Aggregates data from 0x970d1e1756804cc1420e1202cd3833d83f2b93d5 and future accounts
+- **Revenue Potential**: "Family Office" tier for multi-account traders ($149-299/mo)
 
 ---
 
