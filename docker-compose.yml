@@ -197,7 +197,10 @@ services:
       REDIS_PORT: 6379
       KAFKA_BOOTSTRAP: kafka:9092
       KEYCLOAK_URL: http://keycloak:8080
-      KEYCLOAK_REALM: master
+      KEYCLOAK_REALM: stack-duka
+      KEYCLOAK_CLIENT_ID: stack-duka-app
+      KEYCLOAK_CLIENT_SECRET: stack-duka-secret-2026
+      FLASK_ENV: ${FLASK_ENV:-production}
     depends_on:
       consul:
         condition: service_healthy
@@ -207,10 +210,13 @@ services:
         condition: service_healthy
       kafka:
         condition: service_started
+      keycloak:
+        condition: service_healthy
     ports:
       - '5001:5000'
     networks:
       - backend
+    restart: unless-stopped
 
   fintech-service:
     build:
@@ -220,9 +226,13 @@ services:
     environment:
       SERVICE_ID: fintech-service
       KEYCLOAK_URL: http://keycloak:8080
-      KEYCLOAK_REALM: fintech
-      KEYCLOAK_CLIENT_ID: fintech-app
-      KEYCLOAK_CLIENT_SECRET: ${KEYCLOAK_CLIENT_SECRET:-fintech-secret-key}
+      KEYCLOAK_REALM: stack-duka
+      KEYCLOAK_CLIENT_ID: stack-duka-app
+      KEYCLOAK_CLIENT_SECRET: stack-duka-secret-2026
+      DB_HOST: app-db
+      DB_NAME: appdb
+      DB_USER: appuser
+      DB_PASS: apppass
     depends_on:
       consul:
         condition: service_healthy
