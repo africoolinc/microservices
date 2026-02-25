@@ -34,6 +34,11 @@
 - [ ] List available markets
 - [ ] Understand fee structure
 
+### 2026-02-25
+- [ ] Browser automation unavailable (device token mismatch)
+- [x] Web fetch shows basic platform info
+- [ ] Need manual browser access for detailed exploration
+
 ### API Connection Issue
 - **Error:** "Your IP is not included in your API key's IP whitelist"
 - **Action Required:** Add IP address to Blofin API whitelist
@@ -46,6 +51,29 @@
 1. Go to Blofin → API Management
 2. Add IP `104.28.211.149` to whitelist
 3. Or use `0.0.0.0/0` for all IPs (less secure)
+
+---
+
+## Platform Features (To Research)
+
+### Known Capabilities
+- AI-powered trading signals
+- Crypto futures trading
+- Prediction markets
+- Multiple exchange connections (Blofin, other prop firms)
+
+### Markets to Explore
+- [ ] BTC/USDT Perpetual
+- [ ] ETH/USDT Perpetual  
+- [ ] Altcoin futures
+- [ ] Prediction market tokens
+- [ ] Stock CFDs (if available)
+
+### Trading Desk MVP Features
+1. **Market Data Feed** - Real-time prices from Insilico/Blofin
+2. **Signal Alerts** - AI-generated trade signals
+3. **Portfolio Tracking** - P&L across positions
+4. **Auto-Trading** - Execute trades via API (future phase)
 
 ---
 
