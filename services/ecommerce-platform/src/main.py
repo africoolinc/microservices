@@ -13,6 +13,9 @@ from pythonjsonlogger import jsonlogger
 from functools import wraps
 from marshmallow import Schema, fields
 
+# Import Keycloak Auth
+from auth.keycloak_auth import keycloak_required, subscription_required, register_routes, SUBSCRIPTION_TIERS
+
 # Initialize Flask app
 app = Flask(__name__, static_folder='../frontend', static_url_path='')
 
@@ -157,4 +160,8 @@ def place_order():
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
+    
+    # Register Keycloak auth routes
+    register_routes(app)
+    
     app.run(host='0.0.0.0', port=5000)
