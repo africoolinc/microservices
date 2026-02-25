@@ -1,0 +1,10 @@
+# Gibson Calendar Alerts - Add to crontab
+# Check events every hour and send SMS if needed
+0 * * * * cd /home/africool/.openclaw/workspace/projects/members/Gibson/ngrok && source venv/bin/activate && python3 -c "
+import requests
+try:
+    r = requests.post('http://localhost:5050/check-events', timeout=10)
+    print('Checked:', r.json())
+except:
+    pass
+"
