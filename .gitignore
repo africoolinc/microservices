@@ -10,3 +10,7 @@ ssh/github_ssh_key.pub
 # OS files
 .DS_Store
 Thumbs.db
+ngrok/venv/
+services/*/node_modules/
+*.log
+backups/*.tar.gz
