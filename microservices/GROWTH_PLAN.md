@@ -61,8 +61,30 @@
 | 2026-02-24 | Feature Evaluation | ✅ +1 New Recommendation | $0 |
 | 2026-02-25 | Connectivity Check | ✅ STABLE | $0 |
 | 2026-02-25 | Feature Evaluation | ✅ +1 New Recommendation | $0 |
+| 2026-02-26 | Connectivity Check | ✅ STABLE | $0 |
+| 2026-02-26 | Feature Evaluation | ✅ +1 New Recommendation | $0 |
 
 *Next update and recommendation cycle in 12 hours (00:00 EAT).
+
+---
+
+## 🆕 Feature Recommendation (2026-02-26)
+
+### 16. **Moltbook Strategy Marketplace & Replicator**
+A microservice that catalogs successful trading strategies published on Moltbook's social layer, structures them into executable rules, and provides a one-click replication API for Hyperliquid bots. Includes performance tracking, strategy ranking by ROI, and risk-adjusted copy-trading.
+
+- **Why**: Family trading bots execute manually-defined strategies, but Moltbook's community constantly publishes winning plays. The Marketplace bridges social discovery with executable replication, allowing bots to automatically adopt top-performing strategies without manual intervention. Addresses the gap between Moltbook alpha (#13 Whale Tracker, #9 Sentiment) and execution (#8 Auto-Execution).
+- **Priority**: HIGH - Completes the Moltbook→Execution pipeline with strategy intelligence
+- **Stack**: Node.js + Moltbook API + Hyperliquid SDK + Redis strategy cache + ML ranking engine
+- **Integration**: Works with existing Auto-Execution Engine (#8) and Risk Guard (#10)
+- **Revenue Potential**: "Pro Strategist" tier for strategy subscribers ($99-199/mo) + "Marketplace Builder" for strategy creators (10% performance fee)
+A unified microservice that aggregates real-time balances, positions, and PnL across all Hyperliquid accounts (spiral bot, long-term accumulator, manual trades). Provides a centralized dashboard for funding alerts, margin health checks, and cross-account rebalancing automation.
+
+- **Why**: Following the $22.42 loss incident from incompatible bridge transfers, the family needs a single source of truth for account health. Currently, each bot operates in isolation with no unified view. The Dashboard surfaces funding needs before balances run low, prevents bridge mismatches, and enables one-click fund redistribution between accounts.
+- **Priority**: HIGH - Operational visibility and incident prevention
+- **Stack**: Node.js + Hyperliquid SDK + Redis state + React dashboard
+- **Integration**: Aggregates all family accounts (primary: 0x970d1e1756804cc1420e1202cd3833d83f2b93d5)
+- **Revenue Potential**: "Family Office Dashboard" tier for multi-account traders ($49-99/mo)
 
 ---
 

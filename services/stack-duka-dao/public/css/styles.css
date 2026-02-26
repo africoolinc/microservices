@@ -1,0 +1,22 @@
+/* public/css/styles.css - Custom styles for engagement optimization */
+
+/* Mobile-first responsive design */
+body {
+  font-family: Arial, sans-serif;
+}
+
+/* Fast loading: Simple styles, no heavy images */
+.table-hover tbody tr:hover {
+  background-color: #f8f9fa; /* Interactive hover for engagement */
+}
+
+/* CTAs with contrast */
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+/* Accordion for interactive content */
+.accordion .card-header button {
+  text-decoration: none;
+}

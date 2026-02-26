@@ -1,0 +1,16 @@
+# docker-compose.yml for Duka DAO Tech Stack
+version: '3.8'
+
+services:
+  duka-dao-app:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./DAO_members:/app/DAO_members  # Persist members data
+    restart: unless-stopped  # Auto-restart on boot/failure
+    environment:
+      - NODE_ENV=production
+
+volumes:
+  duka_data:
