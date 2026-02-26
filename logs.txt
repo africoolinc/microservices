@@ -190,3 +190,111 @@ All hang at: SSH2_MSG_KEXINIT → authentication phase
 CONTAINER STATUS (Last known - Feb 26 09:55):
 - 9 running: trusting_beaver, stack-duka-dao-app-1, gibsons_dash, dao_wallet, zerotier, portainer, keycloak, kong-db, keycloak-db
 - 12 offline: consul, kong, redis, app-db, zookeeper, kafka, prometheus, grafana, elasticsearch, kibana, ecommerce-service, fintech-service
+
+[2026-02-26 13:09] [FALLBACK] Connection Alternatives Research
+=============================================================
+Researched fallback procedures from workspace docs:
+
+1. CLOUDFLARE TUNNEL (OOB - Primary Fallback)
+   - Token: eyJhIjoiY2NiZmNjMDE3ZmE0ZGFlNThjNTA1N2NlZTA0MjhiOTki...
+   - Container: cloudflared (if running in stack)
+   - URL: ssh.juma.family (DNS not resolving currently)
+   
+2. NGROK TUNNEL (Secondary Fallback)
+   - Token: 34uQFTqtprsWWtXKb24iV0vz8e8_2zjdMUQSyLustVhmAHo9F
+   - Config: ngrok/.env
+   
+3. MANUAL RECOVERY
+   - Update IP: ./scripts/recover_connection.sh <new_ip>
+   - Check remote_details.txt for current config
+
+AVAILABLE SSH KEYS:
+- ~/.ssh/id_ed25519
+- ~/.ssh/id_rsa
+- ~/.ssh/id_rsa_gibson
+- projects/members/Gibson/ssh/github_ssh_key
+
+CURRENT STATUS:
+- Ping: OK (~500ms)
+- SSH: HANGS at auth (TCP OK, auth fails)
+- Likely: remote authorized_keys issue or sshd problem
+
+[2026-02-26 14:25] [SSH] Connection Attempts - All Failed
+======================================================
+- Ping: ✅ OK (~515ms)
+- Port 22: ✅ TCP OK
+- SSH Key Exchange: ✅ OK (curve25519-sha256)
+- SSH Authentication: ❌ HANGS (stuck at KEX_ECDH_REPLY)
+- Tried users: gibz, root
+- Tried keys: id_ed25519, id_rsa, id_rsa_gibson, github_ssh_key
+- All hang at: expecting SSH2_MSG_KEX_ECDH_REPLY → authentication
+
+DIAGNOSIS:
+- Remote sshd is accepting connections but not processing authentication
+- Likely causes:
+  1. sshd process hung/crashed
+  2. authorized_keys file locked/corrupted
+  3. Too many failed auth attempts (Rate limiting)
+  4. System under heavy load
+
+RECOMMENDATION:
+- Physical/local access required to fix
+- Run: sudo systemctl restart ssh
+- Or check: sudo journalctl -u sshd -n 50
+
+[2026-02-26 19:00] [CRON] Status Assessment - Gibson Microservices Stack
+=========================================================================
+
+CONTAINER STATUS (12 Running)
+==============================
+✅ RUNNING:
+- consul: Up 8 hours (healthy) - port 8500
+- kong-db: Up 8 hours (healthy)
+- keycloak-db: Up 8 hours (healthy)
+- app-db: Up 8 hours (healthy)
+- redis: Up 8 hours (healthy) - port 6379
+- zookeeper: Up 8 hours - port 2181
+- stack-duka-dao-app-1: Up 9 hours (healthy) - port 3000
+- keycloak: Up 9 hours (unhealthy) - port 8080
+- trusting_beaver: Up 3 days
+- gibsons_dash: Up 3 days - port 10000
+- dao_wallet: Up 3 days - port 5002
+- zerotier: Up 3 days
+- portainer: Up 3 days - ports 8000, 9443
+
+❌ NOT RUNNING:
+- kafka: Failed to start (image pull interrupted, config updated)
+- kong: Not created/started
+- prometheus, grafana: Not started
+- elasticsearch, kibana: Not started
+- ecommerce-service: Exited (255) 10 days ago - depends on Kafka
+- fintech-service: Not built/started
+- social-media-service: Not started
+
+INFRASTRUCTURE NOTES
+====================
+- Consul: ✅ Operational (leader: 172.19.0.8:8300)
+- Keycloak: ⚠️ Running but unhealthy (dev mode - expected)
+- Kafka: ❌ Config updated (cp-kafka:7.5.0), needs restart
+- Kong: ❌ Not deployed
+
+GIT STATUS
+==========
+Branch: master
+Modified: docker-compose.yml (Kafka config fix), logs.txt
+Untracked: logs/connection_fallback_2026-02-26.md, logs/ssh_tunnel_setup_2026-02-26.md
+Last commit: 53f4d24 (2026-02-26) - Update: stack-duka-dao service, docker configs, logs
+
+SYSTEM RESOURCES
+================
+- Uptime: 2 days, 9:26
+- Load: 4.82, 4.86, 4.35 (elevated)
+- Memory: 7.2Gi/12Gi used (60%)
+- Disk: 203G/457G used (47%)
+
+ACTION TAKEN
+============
+- Fixed Kafka configuration (removed KRaft mode, reverted to Zookeeper-based)
+- Changed image from 'latest' to 'confluentinc/cp-kafka:7.5.0'
+- Kafka restart pending (image pull was interrupted)
+
