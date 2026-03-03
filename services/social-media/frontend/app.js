@@ -18,8 +18,8 @@ let isLoginMode = true;
 let memes = [];
 
 // Keycloak & Gibson Server Config
-const KEYCLOAK_URL = 'http://10.144.118.159:8080';
-const CONSUL_URL = 'http://10.144.118.159:8500';
+const KEYCLOAK_URL = 'http://localhost:8080';
+const CONSUL_URL = 'http://localhost:8500';
 const REALM = 'lyrikali';
 
 // ==================== MIXPANEL TRACKING ====================
@@ -33,7 +33,7 @@ const Mixpanel = {
                 track_pageview: true,
                 persistence: 'localStorage'
             });
-            this.track('App Loaded', { version: '2.0.0', timestamp: new Date().toISOString() });
+            this.track('App Loaded', { version: '3.1.0', timestamp: new Date().toISOString() });
         }
     },
     
@@ -53,6 +53,93 @@ const Mixpanel = {
             mixpanel.identify(userId);
             mixpanel.people.set(props);
         }
+    }
+};
+
+// ==================== FIREBASE AUTH ====================
+const FirebaseAuth = {
+    provider: null,
+    
+    init() {
+        if (typeof firebase !== 'undefined' && firebase.auth) {
+            this.provider = new firebase.auth.GoogleAuthProvider();
+            this.provider.setCustomParameters({
+                prompt: 'select_account'
+            });
+            console.log('[Firebase] Google Auth initialized');
+            return true;
+        }
+        console.warn('[Firebase] Not available');
+        return false;
+    },
+    
+    async signInWithGoogle() {
+        if (!this.provider) {
+            this.init();
+        }
+        
+        try {
+            const result = await firebase.auth().signInWithPopup(this.provider);
+            const user = result.user;
+            
+            console.log('[Firebase] Signed in:', user.email);
+            
+            // Send ID token to backend for verification
+            const idToken = await user.getIdToken();
+            
+            // Try to register/login on backend
+            const response = await fetch(`${API_BASE}/api/v1/auth/firebase-login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    firebase_token: idToken,
+                    email: user.email,
+                    name: user.displayName,
+                    photo_url: user.photoURL
+                })
+            });
+            
+            const data = await response.json();
+            
+            if (data.status === 'success') {
+                window.currentUser = data.user;
+                localStorage.setItem('lyrikali_user', JSON.stringify(data.user));
+                Mixpanel.identify(user.uid, {
+                    email: user.email,
+                    name: user.displayName,
+                    provider: 'google'
+                });
+                Mixpanel.track('Signed In with Google', {
+                    email: user.email,
+                    user_id: user.uid
+                });
+            }
+            
+            return { success: true, user: user, backend: data };
+        } catch (error) {
+            console.error('[Firebase] Auth error:', error);
+            Mixpanel.track('Google Sign In Error', { error: error.message });
+            return { success: false, error: error.message };
+        }
+    },
+    
+    async signOut() {
+        try {
+            await firebase.auth().signOut();
+            Mixpanel.track('Signed Out');
+            return true;
+        } catch (error) {
+            console.error('[Firebase] Sign out error:', error);
+            return false;
+        }
+    },
+    
+    onAuthChange(callback) {
+        if (typeof firebase !== 'undefined' && firebase.auth) {
+            firebase.auth().onAuthStateChanged(callback);
+        }
+    }
+};
     }
 };
 

@@ -1,98 +1,97 @@
-# 🔗 .crypto Domain Resolution Service
+# Crypto Stack - .crypto Domain DNS Resolution
 
-Blockchain-powered DNS resolution for .crypto domains with Cloudflare integration.
-
-## Quick Start
-
-```bash
-# Navigate to stack directory
-cd ~/projects/members/Gibson/crypto_stack
-
-# Copy environment file
-cp .env.example .env
-
-# Edit .env with your ETH RPC URL
-nano .env
-
-# Start the stack
-docker-compose up -d
-
-# Check status
-docker-compose ps
-```
-
-## Services
-
-| Service | Port | Description |
-|---------|------|-------------|
-| resolver | 3000 | Domain resolution API |
-| dns | 8053 | DNS-over-HTTPS endpoint |
-| api | 8888 | HTTP reverse proxy |
-| cache | 6379 | Redis for caching |
-
-## API Endpoints
-
-### Resolve a .crypto domain
-```bash
-curl "http://localhost:3000/resolve?domain=mamaduka.crypto"
-```
-
-### DNS-over-HTTPS (Cloudflare-style)
-```bash
-curl "http://localhost:8053/dns-query?name=mamaduka.crypto&type=A"
-```
-
-### Via Nginx proxy
-```http://localhost:bash
-curl "8888/resolve?domain=mamaduka.crypto"
-curl "http://localhost:8888/dns-query?name=mamaduka.crypto&type=A"
-```
-
-## Deployment to Cloudflare
-
-### Option 1: Cloudflare Worker
-1. Go to Cloudflare Dashboard → Workers
-2. Create new worker
-3. Copy contents from `worker/worker.js`
-4. Deploy
-
-### Option 2: Traditional DNS
-Configure in Cloudflare:
-- **A Record**: `dns.mamaduka.crypto` → Your server IP (proxied)
-- **CNAME**: `mamaduka.crypto` → Your domain
-
-## Environment Variables
-
-| Variable | Description | Default |
-|----------|-------------|---------|
-| ETH_RPC_URL | Ethereum JSON-RPC endpoint | https://eth.llamarpc.com |
-| REGISTRY_ADDRESS | .Crypto registry contract | 0xD1E5b0FF1287aA9f9A268759062E4Ab08b9Dacbe |
-| CACHE_TTL | Cache duration (seconds) | 300 |
+A Docker-based service for resolving .crypto domains via the Ethereum blockchain.
 
 ## Architecture
 
 ```
-Client Request
-      ↓
-   DNS Query
-      ↓
-┌─────────────┐
-│  DNS (8053) │ ← Handles DoH queries
-└─────────────┘
-      ↓
-┌─────────────┐
-│ Resolver    │ ← Queries Ethereum blockchain
-│   (3000)    │
-└─────────────┘
-      ↓
-┌─────────────┐
-│  Redis      │ ← Caches results
-│  Cache      │
-└─────────────┘
+┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
+│  Cloudflare    │────▶│  DNS Resolver   │────▶│  Blockchain     │
+│  Worker/Client │     │  Gateway        │     │  Listener       │
+└─────────────────┘     └─────────────────┘     └─────────────────┘
+                               │                        │
+                               ▼                        ▼
+                        ┌─────────────────┐     ┌─────────────────┐
+                        │  Redis Cache    │◀────│  Ethereum       │
+                        │                 │     │  Mainnet        │
+                        └─────────────────┘     └─────────────────┘
+```
+
+## Services
+
+1. **blockchain-listener** - Monitors .crypto registry events on Ethereum
+2. **dns-resolver** - Handles DNS queries for .crypto domains (REST + DNS)
+3. **redis** - Caches domain resolutions
+4. **cf-worker-manager** - Manages Cloudflare Worker deployment
+
+## Quick Start
+
+### 1. Configure Environment
+
+```bash
+cp .env.example .env
+# Edit .env with your values
+```
+
+Required variables:
+- `ETH_RPC_URL` - Ethereum RPC endpoint
+- `CLOUDFLARE_API_TOKEN` - For Cloudflare Worker deployment (optional)
+
+### 2. Deploy to Remote Server
+
+```bash
+# Deploy to Gibson's server
+./deploy.sh
+```
+
+### 3. Test Resolution
+
+```bash
+# REST API
+curl http://localhost:3000/resolve/mamaduka.crypto
+
+# Health check
+curl http://localhost:3000/health
 ```
 
 ## Contract Information
 
-- **Registry**: [0xD1E5b0FF1287aA9f9A268759062E4Ab08b9Dacbe](https://etherscan.io/token/0xD1E5b0FF1287aA9f9A268759062E4Ab08b9Dacbe)
-- **Type**: ERC-721 (NFT)
-- **Network**: Ethereum Mainnet
+- **Registry Address**: `0xD1E5b0FF1287aA9f9A268759062E4Ab08b9Dacbe`
+- **Blockchain**: Ethereum Mainnet
+- **Token Standard**: ERC-721 (UNS - Unstoppable Domains)
+
+## Cloudflare Integration
+
+### Deploy Cloudflare Worker
+
+```bash
+cd cf-worker
+npm install
+CLOUDFLARE_API_TOKEN=your_token CLOUDFLARE_ACCOUNT_ID=your_id npm run deploy
+```
+
+### Configure DNS
+
+1. Create a CNAME record for `mamaduka.crypto`
+2. Point it to your worker or the DNS resolver
+
+## API Endpoints
+
+| Endpoint | Description |
+|----------|-------------|
+| `GET /resolve/:domain` | Resolve a .crypto domain |
+| `GET /health` | Health check |
+| `GET /dns-query?name=x.crypto` | DNS-over-HTTPS query |
+
+## Development
+
+```bash
+# Local development
+docker-compose up
+
+# View logs
+docker-compose logs -f
+
+# Stop
+docker-compose down
+```

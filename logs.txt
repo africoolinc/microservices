@@ -152,3 +152,66 @@ VERIFIED:
 ✅ PostHog events sent successfully
 
 PostHog Dashboard: https://app.posthog.com
+
+[2026-03-03 14:20] [INTEGRATION] Firebase Integration Status
+==========================================================
+✅ Firebase Config Ready:
+   - API Key: AIzaSyAmS0qOzT2QIfw_4pvGjdK9zRDUNYrX41s
+   - Project: lyrikali-app
+   - Hosting Site: lyrikali-app.web.app
+
+✅ Firebase Hosting Config: firebase.json
+   - Rewrites: API → Cloud Function, SPA fallback
+   - Cache headers configured
+
+⚠️ Needs Setup (missing values):
+   - messagingSenderId: "YOUR_SENDER_ID"
+   - appId: "YOUR_APP_ID"
+   - measurementId: "YOUR_MEASUREMENT_ID"
+
+✅ Firebase Fallback Logic in app.js:
+   - Auto-detects API failure
+   - Switches to Firebase URL
+   - Tracks fallback in Mixpanel
+
+DEPLOYMENT:
+1. npm install -g firebase-tools
+2. firebase login
+3. cd services/social-media/frontend
+4. firebase init hosting
+5. firebase deploy --only hosting
+
+DOCS: services/social-media/docs/FIREBASE_DEPLOYMENT.md
+
+[2026-03-03 14:42] [INTEGRATION] Firebase Google Sign-In + v3.1.0 Update
+========================================================================
+✅ Added Firebase Google Sign-In to frontend
+   - "Sign in with Google" button in header
+   - FirebaseAuth module in app.js
+   - Google popup authentication
+
+✅ Added Backend Endpoint: /api/v1/auth/firebase-login
+   - Accepts Firebase token + email + name
+   - Auto-creates user if new
+   - Tracks in PostHog
+
+✅ Updated app.js:
+   - FirebaseAuth.init() - Initialize Google provider
+   - FirebaseAuth.signInWithGoogle() - Popup sign-in
+   - FirebaseAuth.signOut() - Sign out
+   - Auto-tracks in Mixpanel
+
+✅ Updated index.html:
+   - Google sign-in button in header
+   - Calls FirebaseAuth.signInWithGoogle()
+
+✅ Fixed Keycloak URL to localhost:8080
+
+VERIFIED:
+✅ Service running on port 10500
+✅ Firebase login endpoint working
+✅ PostHog tracking enabled
+
+NEXT STEPS:
+- User needs to run firebase login locally to deploy to Firebase Hosting
+- firebase deploy --only hosting

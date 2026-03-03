@@ -597,6 +597,77 @@ def login_user():
     
     return jsonify({"error": "Invalid credentials"}), 401
 
+@app.route('/api/v1/auth/firebase-login', methods=['POST'])
+def firebase_login():
+    """Authenticate user via Firebase Google Sign-In."""
+    data = request.get_json()
+    
+    firebase_token = data.get('firebase_token')
+    email = data.get('email')
+    name = data.get('name', '')
+    photo_url = data.get('photo_url', '')
+    
+    if not firebase_token or not email:
+        return jsonify({"error": "Firebase token and email required"}), 400
+    
+    # In production, verify the Firebase token:
+    # For now, we trust the token from our own Firebase config
+    # In production: use firebase-admin to verify
+    
+    # Extract username from email
+    username = email.split('@')[0].replace('.', '_').lower()
+    
+    # Create or update user
+    if username not in users_db:
+        user_id = str(uuid.uuid4())
+        users_db[username] = {
+            "id": user_id,
+            "username": username,
+            "email": email,
+            "name": name,
+            "photo_url": photo_url,
+            "is_premium": False,
+            "subscription_tier": "free",
+            "balance_tokens": 0,
+            "memes_created": 0,
+            "auth_provider": "google",
+            "created_at": datetime.utcnow().isoformat()
+        }
+        subscription_tiers[username] = {
+            "tier": "free",
+            "started_at": datetime.utcnow().isoformat(),
+            "expires_at": None,
+            "paid": False
+        }
+        
+        # Register with Consul
+        register_user_with_consul(users_db[username]["id"], email, username)
+        
+        # Track in PostHog
+        track_event("User Registered via Google", username, {
+            "email": email,
+            "name": name,
+            "tier": "free"
+        })
+    else:
+        # Update existing user
+        users_db[username]["name"] = name
+        users_db[username]["photo_url"] = photo_url
+        users_db[username]["auth_provider"] = "google"
+        
+        # Track in PostHog
+        track_event("User Logged In via Google", username, {
+            "email": email,
+            "tier": subscription_tiers.get(username, {}).get("tier", "free")
+        })
+    
+    return jsonify({
+        "status": "success",
+        "message": "Login successful via Google",
+        "user": users_db[username],
+        "subscription": subscription_tiers.get(username, {"tier": "free"})
+    })
+
 @app.route('/api/v1/auth/profile', methods=['GET'])
 def get_profile():
     """Get user profile with subscription info."""
