@@ -54,25 +54,32 @@ const Mixpanel = {
 };
 
 // ==================== FIREBASE FALLBACK ====================
+// Firebase fallback - activates when primary Gibson API is unavailable
 const FirebaseFallback = {
     enabled: false,
+    firebaseUrl: 'https://lyrikali-app.web.app',
     
     async checkHealth() {
         try {
             const controller = new AbortController();
             const timeout = setTimeout(() => controller.abort(), 3000);
             
+            // Check primary API health
             const response = await fetch('/api/health', { 
                 method: 'HEAD',
                 signal: controller.signal 
             });
             clearTimeout(timeout);
             
-            return response.ok;
+            if (!response.ok) throw new Error('API not healthy');
+            
+            // Primary is up - no fallback needed
+            this.enabled = false;
+            return true;
         } catch (e) {
-            console.warn('Primary API unavailable, using fallback');
+            console.warn('Primary API unavailable, activating Firebase fallback');
             this.enabled = true;
-            Mixpanel.track('Fallback Activated', { reason: 'api_unavailable' });
+            Mixpanel.track('Fallback Activated', { reason: 'api_unavailable', error: e.message });
             return false;
         }
     },
