@@ -213,6 +213,13 @@ document.addEventListener('DOMContentLoaded', () => {
     checkExistingSession();
     setupDragDrop();
     Mixpanel.init();
+    
+    // Check API health every 12 hours for fallback decision
+    const HEALTH_CHECK_INTERVAL = 12 * 60 * 60 * 1000; // 12 hours
+    setInterval(() => FirebaseFallback.checkHealth(), HEALTH_CHECK_INTERVAL);
+    
+    // Initial health check
+    FirebaseFallback.checkHealth();
 });
 
 // ==================== AUTH ====================

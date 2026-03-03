@@ -1,8 +1,9 @@
 // Lyrikali Service Worker
-// Provides offline support and caching
+// Provides offline support and caching + Auto-update every 12 hours
 
-const CACHE_NAME = 'lyrikali-v2';
+const CACHE_NAME = 'lyrikali-v3';
 const OFFLINE_URL = '/offline.html';
+const UPDATE_INTERVAL = 12 * 60 * 60 * 1000; // 12 hours
 
 // Assets to cache immediately
 const PRECACHE_ASSETS = [
@@ -100,3 +101,9 @@ self.addEventListener('message', (event) => {
         self.skipWaiting();
     }
 });
+
+// Periodic cache update every 12 hours
+setInterval(() => {
+    console.log('[SW] Periodic cache update check');
+    self.skipWaiting();
+}, UPDATE_INTERVAL);
