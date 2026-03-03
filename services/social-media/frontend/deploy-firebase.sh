@@ -1,26 +1,27 @@
 #!/bin/bash
-# Lyrikali Firebase Deploy Script
-# Run: chmod +x deploy-firebase.sh && ./deploy-firebase.sh
+# Auto-deploy script for Lyrikali Firebase Hosting
+# Run manually or set up cron for automated deployments
 
 set -e
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-cd "$SCRIPT_DIR"
-
-echo "🚀 Deploying Lyrikali to Firebase..."
-
-# Check if logged in
-if ! firebase projects:list >/dev/null 2>&1; then
-    echo "❌ Not logged in. Run: firebase login"
+# Check for Firebase CLI
+if ! command -v firebase &> /dev/null; then
+    echo "❌ Firebase CLI not found. Install with: npm install -g firebase-tools"
     exit 1
 fi
 
-# Use correct project
-firebase use africool-fd821 --project africool-fd821 2>/dev/null || true
+# Check if logged in
+echo "🔐 Checking Firebase authentication..."
+firebase projects:list &>/dev/null || {
+    echo "❌ Not logged in to Firebase."
+    echo "   Run: firebase login"
+    echo "   Then re-run this script."
+    exit 1
+}
 
-# Deploy hosting
-echo "📦 Deploying to Firebase Hosting..."
+# Deploy
+echo "🚀 Deploying to Firebase Hosting..."
 firebase deploy --only hosting --project africool-fd821
 
 echo "✅ Deployment complete!"
-echo "🌐 Live at: https://africool-fd821.web.app"
+echo "🌐 https://africool-fd821.web.app"

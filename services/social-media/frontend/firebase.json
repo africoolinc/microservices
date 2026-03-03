@@ -19,32 +19,14 @@
     "headers": [
       {
         "source": "**/*.@(jpg|jpeg|gif|png|svg|webp)",
-        "headers": [
-          {
-            "key": "Cache-Control",
-            "value": "max-age=31536000"
-          }
-        ]
+        "headers": [{"key": "Cache-Control", "value": "max-age=31536000"}]
       },
       {
         "source": "**/*.@(js|css)",
-        "headers": [
-          {
-            "key": "Cache-Control",
-            "value": "max-age=86400"
-          }
-        ]
+        "headers": [{"key": "Cache-Control", "value": "max-age=86400"}]
       }
     ],
     "site": "africool-fd821",
     "trailingSlash": false
-  },
-  "functions": {
-    "source": "functions",
-    "runtime": "nodejs18"
-  },
-  "firestore": {
-    "rules": "firestore.rules",
-    "indexes": "firestore.indexes.json"
   }
 }

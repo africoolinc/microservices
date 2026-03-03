@@ -312,3 +312,66 @@ The Lyrikali social platform with BTC Lightning payments is market-ready. The cr
 
 ACTION REQUIRED: Add above SSH key to GitHub account (Settings > SSH Keys)
 
+[2026-03-03 16:50] [FIREBASE] Setup Complete
+======================================
+✅ Firebase CLI installed (v15.8.0)
+✅ firebase.json updated to africool-fd821
+✅ Deploy script created: services/social-media/frontend/deploy-firebase.sh
+✅ 12-hour auto-update checks added to app.js
+✅ 12-hour periodic cache update added to sw.js
+
+📋 MANUAL DEPLOYMENT REQUIRED (first time):
+===========================================
+Run on your local machine with Firebase CLI:
+
+  firebase login
+  cd services/social-media/frontend
+  firebase deploy --only hosting
+
+OR use the deploy script:
+  ./deploy-firebase.sh
+
+🌐 Live URL will be: https://africool-fd821.web.app
+
+⚠️ GitHub push blocked - SSH key not authorized
+
+[2026-03-03 18:08] [FIREBASE] Account Mismatch Detected
+=============================================
+- gcloud authenticated as: swahilisafarifame@gmail.com
+- Firebase project (africool-fd821) owned by: africoolinc@gmail.com
+
+❌ Cannot deploy - different Google accounts
+
+[2026-03-03 19:55] [FIREBASE] Authentication Issue
+=============================================
+⚠️ Firebase CLI not linked to africoolinc@gmail.com
+- Current gcloud account: swahilisafarifame@gmail.com (no Firebase projects)
+- Target Firebase account: africoolinc@gmail.com
+
+📋 DEPLOYMENT OPTIONS:
+======================
+
+OPTION 1 - Run on your LOCAL machine:
+--------------------------------------
+1. Copy services/social-media/frontend/ to your local machine
+2. Run: firebase login (login as africoolinc@gmail.com)
+3. Run: firebase deploy --only hosting --project africool-fd821
+
+OR use the helper script:
+   ./scripts/deploy-firebase-local.sh
+
+OPTION 2 - Manual browser auth (recommended):
+---------------------------------------------
+1. SSH into server: ssh root@ahie
+2. Run: firebase login --no-localhost
+3. Open the URL in browser on YOUR machine (not server)
+4. Enter verification code
+
+OPTION 3 - Use Google Cloud token:
+----------------------------------
+1. Go to: https://console.cloud.google.com/apis/credentials
+2. Create OAuth client ID
+3. Use credentials with Firebase CLI
+
+CURRENT STACK STATUS: 14 services running ✅
+
