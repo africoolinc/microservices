@@ -1,28 +1,132 @@
 // Lyrikali Mix - App JavaScript
 // AI Meme Engine & Auth Controller
+// Version: Firebase + Mixpanel Enabled
 
-const API_BASE = ''; // Same origin
+// ==================== CONFIGURATION ====================
+const API_BASE = ''; // Same origin - uses Gibson infrastructure by default
+const FALLBACK_BASE = 'https://lyrikali-app.web.app'; // Firebase fallback
+
+// Mixpanel Configuration - REPLACE WITH YOUR TOKEN
+const MIXPANEL_TOKEN = '6f1822434e5fe7491b6acf4efe9a0b5d';
 
 // Auth State
 let isLoginMode = true;
 let currentUser = null;
 let memes = [];
 
-// Keycloak & Consul Config
+// Keycloak & Gibson Server Config
 const KEYCLOAK_URL = 'http://10.144.118.159:8080';
 const CONSUL_URL = 'http://10.144.118.159:8500';
 const REALM = 'lyrikali';
 
-// Initialize
+// ==================== MIXPANEL TRACKING ====================
+const Mixpanel = {
+    token: MIXPANEL_TOKEN,
+    
+    init() {
+        if (typeof mixpanel !== 'undefined') {
+            mixpanel.init(this.token, {
+                debug: false,
+                track_pageview: true,
+                persistence: 'localStorage'
+            });
+            this.track('App Loaded', { version: '2.0.0', timestamp: new Date().toISOString() });
+        }
+    },
+    
+    track(event, props = {}) {
+        if (typeof mixpanel !== 'undefined') {
+            mixpanel.track(event, {
+                ...props,
+                timestamp: new Date().toISOString(),
+                url: window.location.href
+            });
+        }
+        console.log('[Mixpanel]', event, props);
+    },
+    
+    identify(userId, props = {}) {
+        if (typeof mixpanel !== 'undefined') {
+            mixpanel.identify(userId);
+            mixpanel.people.set(props);
+        }
+    }
+};
+
+// ==================== FIREBASE FALLBACK ====================
+const FirebaseFallback = {
+    enabled: false,
+    
+    async checkHealth() {
+        try {
+            const controller = new AbortController();
+            const timeout = setTimeout(() => controller.abort(), 3000);
+            
+            const response = await fetch('/api/health', { 
+                method: 'HEAD',
+                signal: controller.signal 
+            });
+            clearTimeout(timeout);
+            
+            return response.ok;
+        } catch (e) {
+            console.warn('Primary API unavailable, using fallback');
+            this.enabled = true;
+            Mixpanel.track('Fallback Activated', { reason: 'api_unavailable' });
+            return false;
+        }
+    },
+    
+    getBaseUrl() {
+        return this.enabled ? FALLBACK_BASE : API_BASE;
+    }
+};
+
+// ==================== API CLIENT ====================
+async function apiCall(endpoint, options = {}) {
+    const base = FirebaseFallback.getBaseUrl();
+    const url = `${base}${endpoint}`;
+    
+    try {
+        const response = await fetch(url, {
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+        
+        if (!response.ok) {
+            throw new Error(`API Error: ${response.status}`);
+        }
+        
+        return response;
+    } catch (error) {
+        // Try fallback if primary fails
+        if (!FirebaseFallback.enabled) {
+            await FirebaseFallback.checkHealth();
+            return apiCall(endpoint, options);
+        }
+        throw error;
+    }
+}
+
+// ==================== INITIALIZATION ====================
 document.addEventListener('DOMContentLoaded', () => {
     checkExistingSession();
     setupDragDrop();
+    Mixpanel.init();
 });
 
+// ==================== AUTH ====================
 function checkExistingSession() {
     const savedUser = localStorage.getItem('lyrikali_user');
     if (savedUser) {
         currentUser = JSON.parse(savedUser);
+        Mixpanel.identify(currentUser.id || currentUser.email, {
+            username: currentUser.username,
+            email: currentUser.email
+        });
         showDashboard();
     }
 }
@@ -33,6 +137,7 @@ function showAuth() {
     document.querySelector('.footer')?.classList.add('hidden');
     document.getElementById('mainNav')?.classList.add('hidden');
     document.getElementById('authSection')?.classList.remove('hidden');
+    Mixpanel.track('Auth Screen Viewed', { mode: isLoginMode ? 'login' : 'signup' });
 }
 
 function showDashboard() {
@@ -62,6 +167,7 @@ function showDashboard() {
     }
     
     loadUserMemes();
+    Mixpanel.track('Dashboard Viewed', { user_id: currentUser?.id });
 }
 
 function toggleAuthMode(e) {
@@ -90,6 +196,8 @@ function toggleAuthMode(e) {
         if (authBtn) authBtn.textContent = 'Sign Up';
         if (toggle) toggle.innerHTML = "Already have an account? <a href='#' onclick='toggleAuthMode(event)'>Sign In</a>";
     }
+    
+    Mixpanel.track('Auth Mode Toggled', { mode: isLoginMode ? 'login' : 'signup' });
 }
 
 async function handleAuth(e) {
@@ -118,16 +226,33 @@ async function handleAuth(e) {
         const data = await response.json();
         
         if (response.ok) {
-            currentUser = data.user || { username, email, phone };
+            currentUser = data.user || { username, email, phone, id: Date.now() };
             localStorage.setItem('lyrikali_user', JSON.stringify(currentUser));
+            
+            // Mixpanel tracking
+            Mixpanel.track(isLoginMode ? 'User Logged In' : 'User Signed Up', {
+                user_id: currentUser.id,
+                username: currentUser.username,
+                email: currentUser.email,
+                method: 'email'
+            });
+            Mixpanel.identify(currentUser.id, {
+                username: currentUser.username,
+                email: currentUser.email,
+                created_at: new Date().toISOString()
+            });
+            
             showDashboard();
         } else {
+            Mixpanel.track('Auth Error', { error: data.error, mode: isLoginMode ? 'login' : 'signup' });
             alert(data.error || 'Authentication failed');
         }
     } catch (error) {
         console.error('Auth error:', error);
+        Mixpanel.track('Auth Error', { error: error.message, mode: isLoginMode ? 'login' : 'signup' });
+        
         // Demo mode fallback
-        currentUser = { username: username || 'demo', email: email || 'demo@lyrikali.ke', phone };
+        currentUser = { id: 'demo_' + Date.now(), username: username || 'demo', email: email || 'demo@lyrikali.ke', phone };
         localStorage.setItem('lyrikali_user', JSON.stringify(currentUser));
         showDashboard();
     }
@@ -139,6 +264,8 @@ async function handleAuth(e) {
 }
 
 function logout() {
+    Mixpanel.track('User Logged Out', { user_id: currentUser?.id });
+    
     localStorage.removeItem('lyrikali_user');
     localStorage.removeItem('keycloak_token');
     currentUser = null;
@@ -172,6 +299,11 @@ function handleFileSelect(e) {
                 <div class="upload-hint">${(file.size / 1024 / 1024).toFixed(2)} MB</div>
             `;
         }
+        Mixpanel.track('File Selected', { 
+            filename: file.name, 
+            size_bytes: file.size,
+            type: file.type 
+        });
     }
 }
 
@@ -192,13 +324,18 @@ function setupDragDrop() {
         e.preventDefault();
         uploadZone.classList.remove('dragover');
         const file = e.dataTransfer.files[0];
-        if (file && file.type.startsWith('image/') || file.type.startsWith('video/')) {
+        if (file && (file.type.startsWith('image/') || file.type.startsWith('video/'))) {
             selectedFile = file;
             uploadZone.innerHTML = `
                 <div class="upload-icon">✅</div>
                 <div class="upload-text">${file.name}</div>
                 <div class="upload-hint">${(file.size / 1024 / 1024).toFixed(2)} MB</div>
             `;
+            Mixpanel.track('File Dropped', { 
+                filename: file.name, 
+                size_bytes: file.size,
+                type: file.type 
+            });
         }
     });
 }
@@ -219,11 +356,17 @@ async function generateMeme() {
         btn.disabled = true;
     }
     
+    Mixpanel.track('Meme Generation Started', {
+        style: style,
+        has_caption: !!caption,
+        has_image: !!selectedFile,
+        user_id: currentUser.id
+    });
+    
     try {
         // Upload file if exists
         let imageUrl = null;
         if (selectedFile) {
-            // In production, upload to cloud storage and get URL
             imageUrl = URL.createObjectURL(selectedFile);
         }
         
@@ -250,11 +393,19 @@ async function generateMeme() {
                 views: 0
             });
             renderMemes();
+            Mixpanel.track('Meme Generated', {
+                meme_id: data.meme.id,
+                style: style,
+                source: 'api'
+            });
         } else {
+            Mixpanel.track('Meme Generation Failed', { error: data.error });
             alert(data.error || 'Failed to generate meme');
         }
     } catch (error) {
         console.error('Meme generation error:', error);
+        Mixpanel.track('Meme Generation Error', { error: error.message });
+        
         // Demo: add local meme
         memes.unshift({
             id: Date.now(),
@@ -264,6 +415,7 @@ async function generateMeme() {
             views: 0
         });
         renderMemes();
+        Mixpanel.track('Meme Generated (Demo)', { style: style });
     }
     
     if (btn) {
@@ -332,6 +484,9 @@ function renderMemes() {
             </div>
         </div>
     `).join('');
+    
+    // Track meme views
+    Mixpanel.track('Memes Rendered', { count: memes.length });
 }
 
 function getStyleEmoji(style) {
@@ -351,6 +506,22 @@ function generateAICaption(style) {
     const styleCaps = captions[style] || captions.funny;
     return styleCaps[Math.floor(Math.random() * styleCaps.length)];
 }
+
+// ==================== ERROR TRACKING ====================
+window.addEventListener('error', (e) => {
+    Mixpanel.track('JavaScript Error', {
+        message: e.message,
+        filename: e.filename,
+        lineno: e.lineno,
+        url: window.location.href
+    });
+});
+
+window.addEventListener('unhandledrejection', (e) => {
+    Mixpanel.track('Unhandled Promise Rejection', {
+        reason: e.reason?.message || String(e.reason)
+    });
+});
 
 // Make functions globally available
 window.showAuth = showAuth;

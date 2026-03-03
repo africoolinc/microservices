@@ -1,0 +1,15 @@
+{
+  "name": "crypto-blockchain-listener",
+  "version": "1.0.0",
+  "description": "Listens to .crypto registry events on Ethereum",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "dependencies": {
+    "ethers": "^5.7.2",
+    "ioredis": "^5.3.2",
+    "dotenv": "^16.3.1",
+    "winston": "^3.11.0"
+  }
+}

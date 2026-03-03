@@ -47,6 +47,13 @@
 - IPv4: `104.28.211.149` (also seen: `104.28.243.151`)
 - IPv6: `2a09:bac5:46e5:145a::207:7`
 
+### 2026-03-02 - API Keys Received
+- Received API key: `b300b23547334adbbb57d8a3be10fb53`
+- Received secret: `75e4a251a2404e8a9bf5f54911bdc510`
+- **Issue:** Authentication failing - 401 Unauthorized
+- **Investigation:** The key was created via "Connect to Third-Party Applications" → "Insilico Terminal" which is designed to connect Blofin TO Insilico, not for direct API access
+- **Note:** Need to check if a passphrase was set during key creation
+
 ### Action for User
 1. Go to Blofin → API Management
 2. Add IP `104.28.211.149` to whitelist

@@ -63,8 +63,38 @@
 | 2026-02-25 | Feature Evaluation | ✅ +1 New Recommendation | $0 |
 | 2026-02-26 | Connectivity Check | ✅ STABLE | $0 |
 | 2026-02-26 | Feature Evaluation | ✅ +1 New Recommendation | $0 |
+| 2026-03-02 | Connectivity Check | ⚠️ DEGRADED (VPN Ping OK, SSH Failing) | $0 |
+| 2026-03-02 | Feature Evaluation | ✅ +1 New Recommendation | $0 |
+| 2026-03-03 | Connectivity Check | ❌ OFFLINE (VPN Unreachable) | $0 |
+| 2026-03-03 | Feature Evaluation | ✅ +1 New Recommendation | $0 |
 
 *Next update and recommendation cycle in 12 hours (00:00 EAT).
+
+---
+
+## 🆕 Feature Recommendation (2026-03-03)
+
+### 18. **Moltbook Agent Performance Mirror**
+A microservice that scrapes and aggregates performance metrics from Moltbook's agent leaderboards, tracking ROI, win rates, and trading volume for top-performing agents. Provides a structured API that correlates agent reputation scores with Hyperliquid trade execution history, enabling data-driven copy-trading decisions.
+
+- **Why**: Family trading bots need quantifiable performance data to select which Moltbook agents to follow. Currently, agent selection is manual and based on anecdotal social signals. The Mirror provides real-time performance benchmarking, allowing bots to auto-adjust exposure based on agent track records.
+- **Priority**: HIGH - Bridges social alpha with quantitative performance tracking
+- **Stack**: Node.js + Moltbook API + Redis metrics cache + ML ranking engine
+- **Integration**: Works with Strategy Marketplace (#16), Auto-Execution Engine (#8), and Reputation Oracle (#5)
+- **Revenue Potential**: "Alpha Analytics" tier for serious Moltbook traders ($59-99/mo) + "Strategy Consultant" for agent developers (performance reporting)
+
+---
+
+## 🆕 Feature Recommendation (2026-03-02)
+
+### 17. **Hyperliquid Funding Navigator & Arbitrum Bridge Manager**
+A unified microservice that manages the complete funding lifecycle for Hyperliquid accounts. It maintains the family funding address (0x2Df1c51E09aECF9cacB7bc98cB1742757f163dF7), monitors USDC/ETH balances across Arbitrum, queues bridge transfers when gas is optimal, and provides a unified API for all deposit/withdrawal operations.
+
+- **Why**: Following the $22.42 loss incident and the need to fund the primary account via Arbitrum, the family需要一个 centralized funding hub. The Navigator prevents bridge mismatches, monitors gas prices for optimal transfer timing, and provides alerts when balances run low. Currently, each funding attempt is manual and risky.
+- **Priority**: CRITICAL - Operational infrastructure for trading capital management
+- **Stack**: Node.js + Arbitrum RPC + Hyperliquid SDK + Redis state + Telegram/Discord alerts
+- **Integration**: Primary funding address: 0x2Df1c51E09aECF9cacB7bc98cB1742757f163dF7 on Arbitrum; Works with Cross-Chain Funding Oracle (#11) for validation
+- **Revenue Potential**: "Fund Manager" tier for institutional DeFi users ($79-149/mo) + bridge fee optimization savings
 
 ---
 
