@@ -80,3 +80,34 @@ ANALYTICS OPTIONS RESEARCH:
 *PostHog self-hosted = unlimited (requires 4vCPU, 16GB RAM)
 
 RECOMMENDATION: Keep Mixpanel for now (already configured), consider PostHog self-hosted for full data ownership at scale.
+
+[2026-03-03 11:13] [UPGRADE] Lyrikali Social v3.0.0 Deployed
+==============================================================
+✅ Upgraded social-media service to v3.0.0 with BTC Lightning payments
+
+CHANGES:
+- New service port: 10500
+- Added BTC Lightning subscription payments via LND gRPC
+- Added tiered subscription system (Free/Pro/Premium)
+- Added Keycloak role management for subscribers
+- Added Consul service discovery integration
+- Updated frontend with BTC Lightning pricing
+
+SUBSCRIPTION PLANS:
+===================
+| Tier     | Price (KSh) | Price (sats) | Features                    |
+|----------|-------------|---------------|-----------------------------|
+| Free     | 0           | 0             | 5 memes/day, standard       |
+| Pro      | 350         | 5,000         | Unlimited, HD, priority    |
+| Premium  | 900         | 15,000        | 4K, API access, branding   |
+
+DEPLOYMENT:
+- Image: lyrikali-social:v3.0.0
+- Port: 10500
+- Status: Running ✅
+
+API ENDPOINTS:
+- GET  /api/v1/subscriptions/plans
+- POST /api/v1/subscriptions/create-invoice
+- GET  /api/v1/subscriptions/check-payment/<invoice_id>
+- POST /api/v1/subscriptions/simulate-payment/<invoice_id> (demo)

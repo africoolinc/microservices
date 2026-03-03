@@ -9,9 +9,12 @@ const FALLBACK_BASE = 'https://lyrikali-app.web.app'; // Firebase fallback
 // Mixpanel Configuration - REPLACE WITH YOUR TOKEN
 const MIXPANEL_TOKEN = '6f1822434e5fe7491b6acf4efe9a0b5d';
 
+// Expose current user globally for other scripts
+window.currentUser = null;
+window.API_BASE = ''; // Same origin
+
 // Auth State
 let isLoginMode = true;
-let currentUser = null;
 let memes = [];
 
 // Keycloak & Gibson Server Config

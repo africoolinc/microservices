@@ -254,6 +254,12 @@ services:
     container_name: social-media-service
     environment:
       SERVICE_ID: social-media-service
+      SERVICE_PORT: 10500
+      KEYCLOAK_URL: http://10.144.118.159:8080
+      KEYCLOAK_REALM: lyrikali
+      KEYCLOAK_CLIENT_ID: lyrikali-app
+      CONSUL_URL: http://10.144.118.159:8500
+      LND_GRPC_HOST: 10.144.118.159:10009
     depends_on:
       consul:
         condition: service_healthy
@@ -262,9 +268,10 @@ services:
       redis:
         condition: service_healthy
     ports:
-      - '5003:5000'
+      - '10500:10500'
     networks:
       - backend
+    restart: unless-stopped
 
   # ==========================================
   # MONITORING
