@@ -111,3 +111,18 @@ API ENDPOINTS:
 - POST /api/v1/subscriptions/create-invoice
 - GET  /api/v1/subscriptions/check-payment/<invoice_id>
 - POST /api/v1/subscriptions/simulate-payment/<invoice_id> (demo)
+
+[2026-03-03 12:00] [RULE] Development Rules - Port Allocation
+==============================================================
+✅ Created DEVELOPMENT_RULES.md with port allocation standards
+
+PORT ALLOCATION RULE:
+- Development/Testing: Ports 5000-6000
+- Production (Live): Ports 10000-11000
+
+RATIONALE: Security isolation between dev/test and live production
+environments with paying clients.
+
+CURRENT PORT MAPPING:
+- Dev (5000-6000): stack-duka-dao:3000, social-media:5003, fintech:5004, ecommerce:5005
+- Prod (10000-11000): gibsons_dash:10000, dao_wallet:10002, social-media:10500, portainer:8000/9443
