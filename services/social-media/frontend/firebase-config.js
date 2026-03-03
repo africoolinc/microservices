@@ -1,14 +1,14 @@
 // Firebase Configuration for Lyrikali
-// Replace with your Firebase project config
+// Updated: March 3, 2026
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAmS0qOzT2QIfw_4pvGjdK9zRDUNYrX41s",
-  authDomain: "lyrikali-app.firebaseapp.com",
-  projectId: "lyrikali-app",
-  storageBucket: "lyrikali-app.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID",
-  measurementId: "YOUR_MEASUREMENT_ID"
+  apiKey: "AIzaSyD3JYyK4aN7G3B8PlU7tXIqn1GkuXm9Z-Q",
+  authDomain: "africool-fd821.firebaseapp.com",
+  projectId: "africool-fd821",
+  storageBucket: "africool-fd821.firebasestorage.app",
+  messagingSenderId: "149058299293",
+  appId: "1:149058299293:web:ee9d1775d70b277a67bb74",
+  measurementId: "G-GJQDHVVRSH"
 };
 
 // Initialize Firebase

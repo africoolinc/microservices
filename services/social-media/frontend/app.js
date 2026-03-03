@@ -4,7 +4,7 @@
 
 // ==================== CONFIGURATION ====================
 const API_BASE = ''; // Same origin - uses Gibson infrastructure by default
-const FALLBACK_BASE = 'https://lyrikali-app.web.app'; // Firebase fallback
+const FALLBACK_BASE = 'https://africool-fd821.web.app'; // Firebase fallback
 
 // Mixpanel Configuration - REPLACE WITH YOUR TOKEN
 const MIXPANEL_TOKEN = '6f1822434e5fe7491b6acf4efe9a0b5d';
@@ -147,7 +147,7 @@ const FirebaseAuth = {
 // Firebase fallback - activates when primary Gibson API is unavailable
 const FirebaseFallback = {
     enabled: false,
-    firebaseUrl: 'https://lyrikali-app.web.app',
+    firebaseUrl: 'https://africool-fd821.web.app',
     
     async checkHealth() {
         try {
