@@ -215,3 +215,30 @@ VERIFIED:
 NEXT STEPS:
 - User needs to run firebase login locally to deploy to Firebase Hosting
 - firebase deploy --only hosting
+
+[2026-03-03 15:05] [DEPLOYMENT] DEV + PROD Social Media Services
+==============================================================
+✅ DEV Environment (Port 5003):
+   - Service: social-media-service-dev
+   - Port: 5003
+   - Keycloak: http://host.docker.internal:8080
+   - Consul: http://host.docker.internal:8500
+   - Status: Running ✅
+
+✅ PROD Environment (Port 10500):
+   - Service: social-media-service
+   - Port: 10500
+   - Keycloak: http://localhost:8080
+   - Status: Running ✅
+
+AUTH METHODS (Both ENV):
+✅ Keycloak Login (username/password)
+✅ Firebase Google Sign-In
+✅ PostHog Analytics
+✅ Subscription Tiers (Free/Pro/Premium)
+
+TESTED:
+- DEV Keycloak Login: ✅
+- DEV Firebase Login: ✅  
+- PROD Keycloak Login: ✅
+- PROD Firebase Login: ✅
