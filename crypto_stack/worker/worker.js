@@ -1,213 +1,204 @@
 /**
- * Cloudflare Worker - .crypto Domain Resolution
- * 
- * Resolves .crypto (ENS) domains through the crypto_stack API
- * Falls back to traditional DNS for non-.crypto domains
- * 
- * Usage:
- *   Deploy to Cloudflare Workers
- *   Set CRYPTO_API_URL environment variable to your API endpoint
- *   Configure DNS to point to worker
+ * Cloudflare Worker for .crypto Domain Resolution
+ * Deploy at: dns.mamaduka.crypto
  */
 
-const API_URL = CRYPTO_API_URL || 'http://localhost:8080';
-const CACHE_TTL = 300; // 5 minutes
+// .Crypto Registry Contract
+const REGISTRY_ADDRESS = '0xD1E5b0FF1287aA9f9A268759062E4Ab08b9Dacbe';
 
-export default {
-  async fetch(request, env, ctx) {
-    const url = new URL(request.url);
+// ABI for registry
+const REGISTRY_ABI = [
+  'function resolverOf(uint256 tokenId) view returns (address)',
+  'function ownerOf(uint256 tokenId) view returns (address)'
+];
 
-    // Handle DNS-over-HTTPS queries
-    if (url.pathname === '/dns-query' || url.pathname === '/resolve') {
-      return await handleDNSQuery(request, url);
-    }
+// Resolver ABI
+const RESOLVER_ABI = [
+  'function addr(bytes32 node) view returns (address)',
+  'function contenthash(bytes32 node) view returns (bytes)',
+  'function text(bytes32 node, string calldata key) view returns (string)'
+];
 
-    // Handle REST API
-    if (url.pathname.startsWith('/api/')) {
-      return await handleAPIRequest(request, url);
-    }
-
-    // Serve worker info
-    if (url.pathname === '/' || url.pathname === '/worker.js') {
-      return new Response(WORKER_JS, {
-        headers: { 'Content-Type': 'application/javascript' }
-      });
-    }
-
-    return new Response('Not Found', { status: 404 });
-  }
+// DNS record types
+const DNS_TYPES = {
+  A: 1,
+  AAAA: 28,
+  CNAME: 5,
+  TXT: 16,
+  MX: 15,
+  NS: 2,
+  CAA: 257
 };
 
-async function handleDNSQuery(request, url) {
-  const name = url.searchParams.get('name');
-  const type = url.searchParams.get('type') || 'A';
+// ENS namehash algorithm
+function namehash(domain) {
+  let node = '0x0000000000000000000000000000000000000000000000000000000000000000';
+  const labels = domain.split('.').reverse();
 
-  if (!name) {
-    return new Response(JSON.stringify({ error: 'Missing name parameter' }), {
-      status: 400,
-      headers: { 'Content-Type': 'application/json' }
-    });
+  for (const label of labels) {
+    const labelHash = ethers.keccak256(ethers.toUtf8Bytes(label));
+    node = ethers.keccak256(
+      Buffer.concat([
+        Buffer.from(node.slice(2), 'hex'),
+        Buffer.from(labelHash.slice(2), 'hex')
+      ])
+    );
   }
+  return node;
+}
 
-  // Check if it's a .crypto domain
-  if (name.endsWith('.crypto')) {
-    return await resolveCryptoDomain(name, type, url);
-  }
-
-  // Fallback to Cloudflare DNS for non-.crypto domains
-  return await fetch(`https://cloudflare-dns.com/dns-query?name=${name}&type=${type}`, {
-    headers: { 'Accept': 'application/dns-json' }
+// Parse query string
+function getQueryParams(url) {
+  const params = {};
+  const urlObj = new URL(url);
+  urlObj.searchParams.forEach((value, key) => {
+    params[key] = value;
   });
+  return params;
 }
 
-async function resolveCryptoDomain(name, type, url) {
-  const cacheKey = `crypto:${name}:${type}`;
-  
-  // Check KV cache if available
-  if (typeof CRYPTO_CACHE !== 'undefined') {
-    const cached = await CRYPTO_CACHE.get(cacheKey);
-    if (cached) {
-      return new Response(cached, {
-        headers: { 
-          'Content-Type': 'application/dns-json',
-          'X-Cache': 'HIT'
-        }
-      });
-    }
-  }
-
-  try {
-    // Query our resolver API
-    const response = await fetch(`${API_URL}/api/resolve?domain=${name}&type=${type}`);
-    
-    if (!response.ok) {
-      throw new Error(`API error: ${response.status}`);
-    }
-
-    const data = await response.json();
-    const dnsResponse = convertToDNSJSON(data, name, type);
-
-    // Cache the result
-    if (typeof CRYPTO_CACHE !== 'undefined') {
-      await CRYPTO_CACHE.put(cacheKey, JSON.stringify(dnsResponse), { expirationTtl: CACHE_TTL });
-    }
-
-    return new Response(JSON.stringify(dnsResponse), {
-      headers: { 
-        'Content-Type': 'application/dns-json',
-        'X-Cache': 'MISS'
-      }
-    });
-
-  } catch (error) {
-    // Fallback to cached error response
-    return new Response(JSON.stringify({
-      Status: 2, // SERVFAIL
-      TC: false,
-      RD: true,
-      RA: true,
-      AD: false,
-      CD: false,
-      Question: [{ name, type, class: 'IN' }],
-      Answer: []
-    }), {
-      status: 500,
-      headers: { 'Content-Type': 'application/dns-json' }
-    });
-  }
-}
-
-async function handleAPIRequest(request, url) {
-  const path = url.pathname.replace('/api/', '');
-  
-  if (path === 'resolve' || path === 'domain') {
-    const domain = url.searchParams.get('domain');
-    if (!domain) {
-      return new Response(JSON.stringify({ error: 'Missing domain parameter' }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
-
-    // Forward to resolver service
-    const response = await fetch(`${API_URL}/api/resolve?domain=${domain}`);
-    return new Response(response.body, {
-      headers: { 
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
-      }
-    });
-  }
-
-  return new Response(JSON.stringify({ 
-    service: '.crypto Resolver Worker',
-    version: '1.0.0',
-    endpoints: [
-      '/dns-query - DNS-over-HTTPS endpoint',
-      '/api/resolve?domain=x.crypto - REST API'
-    ]
-  }), {
-    headers: { 'Content-Type': 'application/json' }
-  });
-}
-
-// Convert resolver response to DNS JSON format
-function convertToDNSJSON(data, name, type) {
-  const answer = [];
-  
-  if (data.records && data.records.A) {
-    data.records.A.forEach(addr => {
-      answer.push({
-        name,
-        type: 1, // A
-        TTL: CACHE_TTL,
-        data: addr
-      });
-    });
-  }
-
-  if (data.records && data.records.AAAA) {
-    data.records.AAAA.forEach(addr => {
-      answer.push({
-        name,
-        type: 28, // AAAA
-        TTL: CACHE_TTL,
-        data: addr
-      });
-    });
-  }
-
-  return {
-    Status: 0, // NOERROR
+// Build DNS JSON response
+function buildDNSResponse(domain, type, resolution) {
+  const response = {
+    Status: 0,
     TC: false,
     RD: true,
     RA: true,
     AD: false,
     CD: false,
-    Question: [{ name, type: typeToNumber(type), class: 'IN' }],
-    Answer: answer,
-    Authority: [],
-    Additional: []
+    Question: [{ name: domain, type: DNS_TYPES[type] || 1 }],
+    Answer: []
   };
-}
 
-function typeToNumber(type) {
-  const types = { A: 1, AAAA: 28, CNAME: 5, TXT: 16, MX: 15, NS: 2, ANY: 255 };
-  return types[type.toUpperCase()] || 1;
-}
-
-// Worker info constant
-const WORKER_JS = `
-// .crypto Resolver Worker Client
-// Include this script in your HTML to resolve .crypto domains
-
-class CryptoDNS {
-  static async resolve(domain, type = 'A') {
-    const response = await fetch(
-      \`\${WORKER_URL}/dns-query?name=\${domain}&type=\${type}\`,
-      { headers: { 'Accept': 'application/dns-json' } }
-    );
-    return response.json();
+  if (!resolution) {
+    response.Status = 2;
+    return response;
   }
+
+  // Add ETH address as A record
+  if (resolution.records?.A?.[0]) {
+    response.Answer.push({
+      name: domain,
+      type: 1,
+      TTL: 300,
+      data: resolution.records.A[0]
+    });
+  }
+
+  // Add contenthash
+  if (resolution.records?.contenthash) {
+    response.Answer.push({
+      name: domain,
+      type: 16,
+      TTL: 300,
+      data: resolution.records.contenthash
+    });
+  }
+
+  return response;
 }
-`;
+
+// Main fetch handler
+export default {
+  async fetch(request) {
+    const url = new URL(request.url);
+    const params = getQueryParams(request.url);
+
+    // Handle DNS-over-HTTPS
+    if (url.pathname === '/dns-query' || url.pathname === '/dns') {
+      const name = params.name;
+      const type = params.type || 'A';
+
+      if (!name) {
+        return new Response(JSON.stringify({ Status: 1, error: 'Missing name' }), {
+          headers: { 'Content-Type': 'application/dns-json' }
+        });
+      }
+
+      // Only handle .crypto domains
+      if (!name.endsWith('.crypto')) {
+        // Forward to Cloudflare DNS
+        const cfResponse = await fetch(`https://cloudflare-dns.com/dns-query?${url.searchParams}`, {
+          headers: { 'Accept': 'application/dns-json' }
+        });
+        return cfResponse;
+      }
+
+      // Resolve .crypto domain via Ethereum
+      try {
+        // Use public RPC
+        const provider = new ethers.JsonRpcProvider('https://eth.llamarpc.com');
+        
+        const registry = new ethers.Contract(REGISTRY_ADDRESS, REGISTRY_ABI, provider);
+        const tokenId = namehash(name);
+        
+        const resolverAddress = await registry.resolverOf(tokenId);
+        
+        const resolution = {
+          domain: name,
+          resolver: resolverAddress,
+          records: {}
+        };
+
+        if (resolverAddress && resolverAddress !== ethers.ZeroAddress) {
+          const resolver = new ethers.Contract(resolverAddress, RESOLVER_ABI, provider);
+          
+          try {
+            const ethAddress = await resolver.addr(tokenId);
+            if (ethAddress && ethAddress !== ethers.ZeroAddress) {
+              resolution.records.A = [ethAddress];
+            }
+          } catch (e) {}
+
+          try {
+            const contenthash = await resolver.contenthash(tokenId);
+            if (contenthash && contenthash !== '0x') {
+              resolution.records.contenthash = contenthash;
+            }
+          } catch (e) {}
+        }
+
+        const dnsResponse = buildDNSResponse(name, type, resolution);
+        return new Response(JSON.stringify(dnsResponse), {
+          headers: { 'Content-Type': 'application/dns-json' }
+        });
+
+      } catch (error) {
+        return new Response(JSON.stringify({ 
+          Status: 2, 
+          error: error.message 
+        }), {
+          headers: { 'Content-Type': 'application/dns-json' }
+        });
+      }
+    }
+
+    // Health check
+    if (url.pathname === '/health') {
+      return new Response(JSON.stringify({ 
+        status: 'ok', 
+        worker: 'crypto-dns',
+        domain: 'mamaduka.crypto'
+      }), {
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+
+    // Default response
+    return new Response(`
+      <html>
+        <head><title>mamaduka.crypto DNS</title></head>
+        <body>
+          <h1>🔗 mamaduka.crypto DNS Worker</h1>
+          <p>Blockchain-powered DNS resolution</p>
+          <ul>
+            <li><a href="/dns-query?name=mamaduka.crypto&type=A">Test Resolution</a></li>
+            <li><a href="/health">Health Check</a></li>
+          </ul>
+        </body>
+      </html>
+    `, {
+      headers: { 'Content-Type': 'text/html' }
+    });
+  }
+};

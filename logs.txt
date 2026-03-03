@@ -126,3 +126,29 @@ environments with paying clients.
 CURRENT PORT MAPPING:
 - Dev (5000-6000): stack-duka-dao:3000, social-media:5003, fintech:5004, ecommerce:5005
 - Prod (10000-11000): gibsons_dash:10000, dao_wallet:10002, social-media:10500, portainer:8000/9443
+
+[2026-03-03 14:06] [INTEGRATION] PostHog + Keycloak + Subscriptions v3.1.0
+==========================================================================
+✅ Keycloak Integration:
+   - Realm "lyrikali" created and verified
+   - Client "lyrikali-app" configured
+   - Roles: free_subscriber, pro_subscriber, premium_subscriber
+
+✅ PostHog Integration:
+   - API Key: phc_SVmgEZyseThkm6cJInz6klQxCpER3L3qfgLb6yw2pwE
+   - Events tracked: User Registered, User Logged In, Subscription Invoice Created, Subscription Upgraded
+
+✅ Lyrikali Social v3.1.0 Deployed:
+   - Port: 10500 (PROD)
+   - Features: auth, keycloak, posthog, btc-lightning, subscriptions
+   - Keycloak Realm: lyrikali
+   - PostHog: https://us.i.posthog.com
+
+VERIFIED:
+✅ Health endpoint returns correct status
+✅ User registration works
+✅ User login works
+✅ Subscription tier upgrade works
+✅ PostHog events sent successfully
+
+PostHog Dashboard: https://app.posthog.com

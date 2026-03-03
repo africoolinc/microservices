@@ -1,5 +1,5 @@
 # Lyrikali Social - Upgraded with BTC Lightning & Subscriptions
-# Version: 3.0.0 - Added BTC Lightning payments + Tiered subscriptions
+# Version: 3.1.0 - Added PostHog analytics + Keycloak realm
 
 from flask import Flask, request, jsonify, send_from_directory
 from prometheus_flask_exporter import PrometheusMetrics
@@ -14,6 +14,34 @@ from pywebpush import webpush, WebPushException
 import hashlib
 import time
 
+# PostHog Analytics
+try:
+    from posthog import Posthog
+    POSTHOG_AVAILABLE = True
+except ImportError:
+    POSTHOG_AVAILABLE = False
+
+# Setup logging (must be before PostHog init)
+logger = logging.getLogger()
+handler = logging.StreamHandler()
+formatter = jsonlogger.JsonFormatter('%(asctime)s %(levelname)s %(name)s %(message)s')
+handler.setFormatter(formatter)
+logger.addHandler(handler)
+logger.setLevel(logging.INFO)
+
+# Initialize PostHog
+posthog = None
+if POSTHOG_AVAILABLE:
+    try:
+        posthog = Posthog(
+            api_key=POSTHOG_API_KEY,
+            host=POSTHOG_HOST,
+            debug=False
+        )
+        logger.info(f"✅ PostHog initialized: {POSTHOG_HOST}")
+    except Exception as e:
+        logger.warning(f"⚠️ PostHog init failed: {e}")
+
 # Initialize Flask app
 app = Flask(__name__, static_folder='../frontend', static_url_path='')
 
@@ -27,13 +55,57 @@ SERVICE_PORT = int(os.environ.get('SERVICE_PORT', 10500))
 SERVICE_ID = os.environ.get('SERVICE_ID', 'social-media-service')
 
 # Keycloak Configuration
-KEYCLOAK_URL = os.environ.get('KEYCLOAK_URL', 'http://10.144.118.159:8080')
+KEYCLOAK_URL = os.environ.get('KEYCLOAK_URL', 'http://localhost:8080')
 KEYCLOAK_REALM = os.environ.get('KEYCLOAK_REALM', 'lyrikali')
 KEYCLOAK_CLIENT_ID = os.environ.get('KEYCLOAK_CLIENT_ID', 'lyrikali-app')
 KEYCLOAK_ADMIN_SECRET = os.environ.get('KEYCLOAK_ADMIN_SECRET', '')
 
+# PostHog Configuration
+POSTHOG_API_KEY = os.environ.get('POSTHOG_API_KEY', 'phc_SVmgEZyseThkm6cJInz6klQxCpER3L3qfgLb6yw2pwE')
+POSTHOG_HOST = os.environ.get('POSTHOG_HOST', 'https://us.i.posthog.com')
+
+# Initialize PostHog
+posthog = None
+if POSTHOG_AVAILABLE:
+    try:
+        posthog = Posthog(
+            api_key=POSTHOG_API_KEY,
+            host=POSTHOG_HOST,
+            debug=False
+        )
+        logger.info(f"✅ PostHog initialized: {POSTHOG_HOST}")
+    except Exception as e:
+        logger.warning(f"⚠️ PostHog init failed: {e}")
+
 # Consul Configuration
-CONSUL_URL = os.environ.get('CONSUL_URL', 'http://10.144.118.159:8500')
+CONSUL_URL = os.environ.get('CONSUL_URL', 'http://localhost:8500')
+
+# ==================== POSTHOG TRACKING ====================
+
+def track_event(event_name, distinct_id, properties=None):
+    """Track event to PostHog."""
+    if posthog:
+        try:
+            posthog.capture(
+                distinct_id=distinct_id,
+                event=event_name,
+                properties=properties or {},
+                timestamp=datetime.utcnow().isoformat()
+            )
+            logger.info(f"📊 PostHog: {event_name} for {distinct_id}")
+        except Exception as e:
+            logger.warning(f"⚠️ PostHog track error: {e}")
+
+def track_user(distinct_id, properties):
+    """Identify user in PostHog."""
+    if posthog:
+        try:
+            posthog.identify(
+                distinct_id=distinct_id,
+                properties=properties
+            )
+        except Exception as e:
+            logger.warning(f"⚠️ PostHog identify error: {e}")
 
 # BTC Lightning Configuration (LND)
 LND_GRPC_HOST = os.environ.get('LND_GRPC_HOST', '10.144.118.159:10009')
@@ -69,14 +141,6 @@ SUBSCRIPTION_PLANS = {
         "limits": {"memes_per_day": -1, "ai_quality": "4k", "api_calls": 1000}
     }
 }
-
-# Setup logging
-logger = logging.getLogger()
-handler = logging.StreamHandler()
-formatter = jsonlogger.JsonFormatter('%(asctime)s %(levelname)s %(name)s %(message)s')
-handler.setFormatter(formatter)
-logger.addHandler(handler)
-logger.setLevel(logging.INFO)
 
 # In-memory storage
 subscriptions = {}
@@ -450,6 +514,20 @@ def register_user():
     # Register with Consul
     register_user_with_consul(user_id, email, username)
     
+    # Track registration in PostHog
+    track_event("User Registered", username, {
+        "email": email,
+        "tier": "free",
+        "keycloak_created": kc_result is not None
+    })
+    
+    # Identify user
+    track_user(username, {
+        "email": email,
+        "tier": "free",
+        "registered_at": datetime.utcnow().isoformat()
+    })
+    
     logger.info(f"New user registered: {username}")
     
     return jsonify({
@@ -493,6 +571,12 @@ def login_user():
                 "tier": "free",
                 "started_at": datetime.utcnow().isoformat()
             }
+        
+        # Track login in PostHog
+        track_event("User Logged In", username, {
+            "tier": subscription_tiers.get(username, {}).get("tier", "free"),
+            "method": "keycloak"
+        })
         
         return jsonify({
             "status": "success",
@@ -600,6 +684,13 @@ def create_subscription_invoice():
         "created_at": datetime.utcnow().isoformat()
     }
     
+    # Track subscription attempt in PostHog
+    track_event("Subscription Invoice Created", username, {
+        "tier": tier,
+        "amount_sats": plan["price_sats"],
+        "amount_ksh": plan["price_ksh"]
+    })
+    
     logger.info(f"Created subscription invoice for {username}: {tier} - {plan['price_sats']} sats")
     
     return jsonify({
@@ -650,6 +741,13 @@ def check_payment(invoice_id):
         
         # Add Keycloak role
         add_role_to_user(username, f"{tier}_subscriber")
+        
+        # Track successful subscription in PostHog
+        track_event("Subscription Upgraded", username, {
+            "tier": tier,
+            "amount_sats": payment.get("amount_sats"),
+            "invoice_id": invoice_id
+        })
         
         logger.info(f"User {username} upgraded to {tier}")
     
@@ -878,11 +976,12 @@ def health():
     return jsonify({
         "status": "UP",
         "service": "lyrikali-social",
-        "version": "3.0.0",
+        "version": "3.1.0",
         "port": SERVICE_PORT,
-        "features": ["auth", "meme-engine", "keycloak", "consul", "btc-lightning", "subscriptions"],
+        "features": ["auth", "meme-engine", "keycloak", "consul", "btc-lightning", "subscriptions", "posthog"],
         "keycloak": KEYCLOAK_URL,
-        "consul": CONSUL_URL,
+        "keycloak_realm": KEYCLOAK_REALM,
+        "posthog": POSTHOG_HOST if POSTHOG_AVAILABLE else "not configured",
         "lnd": LND_GRPC_HOST if LND_GRPC_HOST else "not configured"
     })
 
