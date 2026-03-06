@@ -1,36 +1,36 @@
 {
-  "timestamp": "2026-03-06T16:51:22.710262",
+  "timestamp": "2026-03-06T17:00:37.570439",
   "services": [
     {
       "port": 5000,
       "name": "BTC Options Bot",
       "status": "healthy",
-      "ms": 106.3
+      "ms": 177.1
     },
     {
       "port": 3000,
       "name": "Bridge API",
       "status": "healthy",
-      "ms": 49.1
+      "ms": 4.5
     },
     {
       "port": 3001,
       "name": "Bridge Heartbeat",
       "status": "down",
-      "ms": 0.5,
+      "ms": 0.6,
       "error": "<urlopen error [Errno 111] Connection refused>"
     },
     {
       "port": 8080,
       "name": "Crypto Resolver",
       "status": "healthy",
-      "ms": 54.1
+      "ms": 39.4
     },
     {
       "port": 8888,
       "name": "CF Worker Sim",
       "status": "down",
-      "ms": 0.4,
+      "ms": 0.5,
       "error": "<urlopen error [Errno 111] Connection refused>"
     }
   ],
