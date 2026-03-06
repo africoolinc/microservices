@@ -1,36 +1,36 @@
 {
-  "timestamp": "2026-03-06T14:39:50.668019",
+  "timestamp": "2026-03-06T16:51:22.710262",
   "services": [
     {
       "port": 5000,
       "name": "BTC Options Bot",
       "status": "healthy",
-      "ms": 4.9
+      "ms": 106.3
     },
     {
       "port": 3000,
       "name": "Bridge API",
       "status": "healthy",
-      "ms": 1.9
+      "ms": 49.1
     },
     {
       "port": 3001,
       "name": "Bridge Heartbeat",
       "status": "down",
-      "ms": 0.3,
+      "ms": 0.5,
       "error": "<urlopen error [Errno 111] Connection refused>"
     },
     {
       "port": 8080,
       "name": "Crypto Resolver",
       "status": "healthy",
-      "ms": 22.8
+      "ms": 54.1
     },
     {
       "port": 8888,
       "name": "CF Worker Sim",
       "status": "down",
-      "ms": 0.5,
+      "ms": 0.4,
       "error": "<urlopen error [Errno 111] Connection refused>"
     }
   ],
@@ -38,17 +38,17 @@
     {
       "container": "crypto_resolver",
       "status": "running",
-      "detail": "Up 20 hours"
+      "detail": "Up 22 hours"
     },
     {
       "container": "crypto_stack-options-bot-1",
       "status": "running",
-      "detail": "Up 20 hours"
+      "detail": "Up 22 hours"
     },
     {
       "container": "bridge_api",
       "status": "running",
-      "detail": "Up 20 hours (healthy)"
+      "detail": "Up 22 hours (healthy)"
     },
     {
       "container": "redis",

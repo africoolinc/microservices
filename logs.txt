@@ -530,3 +530,8 @@ Gibson Local (192.168.100.238): No route to host
 Gibson VPN (10.144.118.159): No route to host
 ZeroTier: Connected but Gibson not in peer list
 
+=== Firebase Deployment Complete -  6 Machi 2026 02:42:41 alasiri EAT ===
+✅ Firebase Hosting: https://africool-fd821.web.app
+✅ Ngrok Tunnel: https://unknotty-sleazily-kathline.ngrok-free.app
+✅ CORS enabled for both Firebase and ngrok origins
+
