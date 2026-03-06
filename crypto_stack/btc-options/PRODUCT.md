@@ -3,6 +3,11 @@
 ## Overview
 A product under mamaduka.crypto that predicts BTC price surges (>5% in 24-72h) and automates call option purchases for asymmetric upside.
 
+## Current Status: ✅ OPERATIONAL (DEV)
+- **Live Endpoint**: http://localhost:5000/
+- **Health Score**: 60%
+- **Last Check**: 2026-03-06
+
 ## Core Features
 
 ### 1. Surge Prediction Engine
