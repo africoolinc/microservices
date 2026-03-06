@@ -65,7 +65,7 @@ def run_status_check():
     ports = [
         (5000, "BTC Options Bot"),
         (3000, "Bridge API"),
-        (3001, "Bridge Heartbeat"),
+        (3101, "Bridge Heartbeat (3101)"),
         (8080, "Crypto Resolver"),
         (8888, "CF Worker Sim")
     ]
