@@ -1,0 +1,63 @@
+{
+  "timestamp": "2026-03-06T14:34:20.200716",
+  "services": [
+    {
+      "port": 5000,
+      "name": "BTC Options Bot",
+      "status": "healthy",
+      "ms": 3.7
+    },
+    {
+      "port": 3000,
+      "name": "Bridge API",
+      "status": "healthy",
+      "ms": 2.4
+    },
+    {
+      "port": 3001,
+      "name": "Bridge Heartbeat",
+      "status": "down",
+      "ms": 0.3,
+      "error": "<urlopen error [Errno 111] Connection refused>"
+    },
+    {
+      "port": 8080,
+      "name": "Crypto Resolver",
+      "status": "healthy",
+      "ms": 1495.2
+    },
+    {
+      "port": 8888,
+      "name": "CF Worker Sim",
+      "status": "down",
+      "ms": 0.5,
+      "error": "<urlopen error [Errno 111] Connection refused>"
+    }
+  ],
+  "containers": [
+    {
+      "container": "crypto_resolver",
+      "status": "running",
+      "detail": "Up 20 hours"
+    },
+    {
+      "container": "crypto_stack-options-bot-1",
+      "status": "running",
+      "detail": "Up 20 hours"
+    },
+    {
+      "container": "bridge_api",
+      "status": "running",
+      "detail": "Up 20 hours (healthy)"
+    },
+    {
+      "container": "redis",
+      "status": "stopped"
+    }
+  ],
+  "summary": {
+    "healthy": 3,
+    "total": 5,
+    "health_score": 60.0
+  }
+}

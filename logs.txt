@@ -525,3 +525,8 @@ Backend CORS: Enabled ✅
 Frontend API: http://192.168.100.182:10500 ✅
 Firebase Auth: Requires manual re-authentication
 
+=== SSH Status Check -  6 Machi 2026 02:22:28 alasiri EAT ===
+Gibson Local (192.168.100.238): No route to host
+Gibson VPN (10.144.118.159): No route to host
+ZeroTier: Connected but Gibson not in peer list
+
