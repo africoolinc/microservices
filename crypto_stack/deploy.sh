@@ -2,7 +2,7 @@
 # Deploy crypto_stack to remote server
 
 STACK_DIR="/home/africool/.openclaw/workspace/projects/members/Gibson/crypto_stack"
-REM.144.118OTE_HOST="10.159"
+REMOTE_HOST="10.144.118.159"
 REMOTE_USER="gibz"
 REMOTE_DIR="~/crypto_stack"
 
@@ -22,16 +22,10 @@ echo "🔧 Running remote setup..."
 ssh "$REMOTE_USER@$REMOTE_HOST" << 'EOF'
   cd ~/crypto_stack
   
-  # Copy environment file
-  cp .env.example .env
-  
-  # Install dependencies for each service
-  for dir in blockchain-listener dns-resolver cf-worker; do
-    echo "Installing $dir..."
-    cd $dir
-    npm install --production 2>/dev/null || echo "Skipping npm install"
-    cd ..
-  done
+  # Copy environment file (will need manual config)
+  if [ ! -f .env ]; then
+    cp .env.example .env
+  fi
   
   # Start the stack
   docker-compose up -d

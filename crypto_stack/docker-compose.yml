@@ -1,10 +1,29 @@
-# crypto_stack - .crypto Domain Resolution Service
-# Integrates UNS (.crypto) domains with Cloudflare DNS
+# crypto_stack - .crypto Domain Resolution Service + BTC Options
+# Integrates UNS (.crypto) domains with Cloudflare DNS + BTC Options Trading
 
 version: '3.8'
 
 services:
-  # Blockchain Listener - Monitors .crypto registry events
+  # Cloudflare Worker Simulator (local testing)
+  cf-worker-sim:
+    build:
+      context: ./cf-worker-sim
+      dockerfile: Dockerfile
+    container_name: crypto-cf-worker
+    restart: unless-stopped
+    ports:
+      - "8888:8888"
+    environment:
+      - RESOLVER_URL=http://resolver-gateway:8080
+      - REDIS_URL=redis://redis:6379
+      - DOMAIN=mamaduka.crypto
+      - LOG_LEVEL=info
+    depends_on:
+      - resolver-gateway
+    networks:
+      - crypto_network
+
+  # Blockchain Listener Service
   blockchain-listener:
     build:
       context: ./blockchain-listener
@@ -40,7 +59,6 @@ services:
       - LOG_LEVEL=info
     depends_on:
       - redis
-      - blockchain-listener
     networks:
       - crypto_network
     volumes:
@@ -80,22 +98,35 @@ services:
     volumes:
       - redis_data:/data
 
-  # Cloudflare Worker Simulator (local testing)
-  cf-worker-sim:
+  # BTC Options API - Surge Prediction & Trading
+  btc-options-api:
     build:
-      context: ./cf-worker-sim
+      context: ./btc-options/api
       dockerfile: Dockerfile
-    container_name: crypto-cf-worker
+    container_name: btc-options-api
     restart: unless-stopped
     ports:
-      - "8888:8888"
+      - "3000:3000"
     environment:
-      - RESOLVER_URL=http://resolver-gateway:8080
-      - CACHE_URL=redis://redis:6379
-      - DOMAIN=mamaduka.crypto
+      - REDIS_URL=redis://redis:6379
+      - DERIBIT_API_URL=https://www.deribit.com/api/v2
       - LOG_LEVEL=info
     depends_on:
-      - resolver-gateway
+      - redis
+    networks:
+      - crypto_network
+    volumes:
+      - ./btc-options/api:/app
+
+  # BTC Options Frontend
+  btc-options-frontend:
+    image: nginx:alpine
+    container_name: btc-options-frontend
+    restart: unless-stopped
+    ports:
+      - "3001:80"
+    volumes:
+      - ./btc-options/frontend:/usr/share/nginx/html:ro
     networks:
       - crypto_network
 
@@ -114,6 +145,8 @@ services:
     depends_on:
       - doh-proxy
       - cf-worker-sim
+      - btc-options-api
+      - btc-options-frontend
     networks:
       - crypto_network
 

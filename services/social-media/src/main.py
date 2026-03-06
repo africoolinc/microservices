@@ -2,6 +2,7 @@
 # Version: 3.1.0 - Added PostHog analytics + Keycloak realm
 
 from flask import Flask, request, jsonify, send_from_directory
+from flask_cors import CORS
 from prometheus_flask_exporter import PrometheusMetrics
 import os
 import json
@@ -44,6 +45,15 @@ if POSTHOG_AVAILABLE:
 
 # Initialize Flask app
 app = Flask(__name__, static_folder='../frontend', static_url_path='')
+
+# Enable CORS for Firebase hosting
+CORS(app, resources={
+    r"/api/*": {
+        "origins": ["https://africool-fd821.web.app", "https://africool-fd821.firebaseapp.com"],
+        "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization"]
+    }
+})
 
 # Metrics for monitoring
 metrics = PrometheusMetrics(app)

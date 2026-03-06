@@ -3,7 +3,7 @@
 // Version: Firebase + Mixpanel Enabled
 
 // ==================== CONFIGURATION ====================
-const API_BASE = ''; // Same origin - uses Gibson infrastructure by default
+const API_BASE = 'http://192.168.100.182:10500'; // Gibson Production API
 const FALLBACK_BASE = 'https://africool-fd821.web.app'; // Firebase fallback
 
 // Mixpanel Configuration - REPLACE WITH YOUR TOKEN
@@ -11,15 +11,15 @@ const MIXPANEL_TOKEN = '6f1822434e5fe7491b6acf4efe9a0b5d';
 
 // Expose current user globally for other scripts
 window.currentUser = null;
-window.API_BASE = ''; // Same origin
+window.API_BASE = 'http://192.168.100.182:10500'; // Same origin
 
 // Auth State
 let isLoginMode = true;
 let memes = [];
 
 // Keycloak & Gibson Server Config
-const KEYCLOAK_URL = 'http://localhost:8080';
-const CONSUL_URL = 'http://localhost:8500';
+const KEYCLOAK_URL = 'http://192.168.100.182:8080';
+const CONSUL_URL = 'http://192.168.100.182:8500';
 const REALM = 'lyrikali';
 
 // ==================== MIXPANEL TRACKING ====================
