@@ -1,0 +1,47 @@
+# Gibson Trading API - Docker Compose
+# API-as-a-Service Platform - DEV Environment
+
+version: '3.8'
+
+services:
+  trading-api:
+    build:
+      context: ./services/trading-api
+      dockerfile: Dockerfile
+    container_name: trading-api
+    environment:
+      PORT: 5200
+      BTC_OPTIONS_URL: http://crypto_stack-options-bot-1:5000
+      BRIDGE_API_URL: http://bridge_api:3100
+      REDIS_URL: redis://crypto_redis:6379
+      NODE_ENV: development
+    ports:
+      - '5200:5200'
+    networks:
+      - microservices-stack_backend
+    depends_on:
+      - redis
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:5200/health"]
+      interval: 30s
+      retries: 3
+      timeout: 10s
+
+  redis:
+    image: redis:7-alpine
+    container_name: trading-api-redis
+    ports:
+      - '6380:6379'
+    networks:
+      - microservices-stack_backend
+    volumes:
+      - trading-api-redis-data:/data
+    restart: unless-stopped
+
+networks:
+  microservices-stack_backend:
+    external: true
+
+volumes:
+  trading-api-redis-data:
