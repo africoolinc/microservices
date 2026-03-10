@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "africool-fd821"
-  }
+    "default": "gibson-trading-api",
+    "kalahari": "kalahari-484816"
+  },
+  "targets": {},
+  "etags": {}
 }
