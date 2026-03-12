@@ -1,537 +1,127 @@
-[2026-03-03 10:01] [CRON] Gibson Microservices Stack Status Check
+[2026-03-07 10:44] [CRON] Gibson Microservices Stack Status Check
 =================================================================
-CONTAINER STATUS (6 Running)
-============================
+CONTAINER STATUS (20 Running)
+==============================
 - stack-duka-dao-app-1: Up (healthy) - port 3000 (DAO app)
 - gibsons_dash: Up - port 10000 (dashboard)
 - dao_wallet: Up - port 5002 (wallet)
-- trusting_beaver: Up (ngrok/tunnel)
-- zerotier: Up (VPN)
+- social-media-service: Up (PROD) - port 10500
+- social-media-service-dev: Up (DEV) - port 5003
+- keycloak: Up - port 8080 (auth)
+- keycloak-db: Up (healthy)
+- redis: Up (healthy) - port 6379
+- bridge_api: Up (healthy) - port 3100
+- bridge_heartbeat: Up - port 3101
+- bridge_tracker: Up - port 3102
+- bridge_db: Up (healthy)
+- crypto_stack-options-bot: Up - port 5000
 - portainer: Up - ports 8000, 9443
+- zerotier: Up (VPN)
+- trusting_beaver: Up (ngrok/tunnel)
+- crypto-resolver-test: Up - port 3000
+- compassionate_dhawan: Up - port 3001
+- crypto_redis: Up - port 6379
 
-NOT RUNNING/EXITED (24 containers)
-==================================
-Infrastructure (exited): consul, kong, kong-db, keycloak-db, redis, zookeeper, kafka, prometheus, grafana, elasticsearch, kibana, app-db, ollama
-Business Services (created, not started): ecommerce-service, fintech-service, social-media-service, ecommerce-frontend
-
-GIT STATUS
-==========
-Branch: master
-Uncommitted changes: Multiple files (see git status)
-Remote: git@github.com:africoolinc/microservices (origin)
-
-DOCKER RESOURCE USAGE
-=====================
-Disk: 203G/457G (47% used)
-Images: 44 total, 27 active
-Containers: 30 total, 6 active
-
-HEALTH SCORE: 6/10
-==================
-- Core services running: 6 of 30 containers (20%)
-- Business services: 0 of 4 running
-- Infrastructure: Most down (Kafka, Redis, ES, Consul)
-
-ALERTS
-======
-- 24 containers not running - full stack not deployed
-- Uncommitted changes pending push to remote
-
-BUSINESS INSIGHT
-================
-The minimal viable stack (DAO app, dashboard, wallet, tunnel) remains operational. Trading desk with Insilico/Blofin API integration is the most market-ready feature. Prioritize: (1) Commit and push pending changes to GitHub, (2) Consider deploying fintech or ecommerce service to test market fit.
-
-[2026-03-03 10:44] [INTEGRATION] Firebase & Mixpanel API Keys Updated
-=======================================================================
-✅ Firebase API Key configured in firebase-config.js
-   - API Key: AIzaSyAmS0qOzT2QIfw_4pvGjdK9zRDUNYrX41s
-
-✅ Mixpanel Token configured in index.html & app.js
-   - Token: 6f1822434e5fe7491b6acf4efe9a0b5d
-
-NEXT STEPS:
-- Deploy frontend to Firebase Hosting: firebase deploy --only hosting
-
-[2026-03-03 10:58] [GIT] Pushed Updates to GitHub
-=================================================
-✅ Committed 50 files (3925 insertions)
-✅ Pushed to git@github.com:africoolinc/microservices (master)
-   - Commit: 97765fb
-
-[2026-03-03 10:58] [ANALYTICS] Research & Firebase Fallback Update
-==================================================================
-✅ Updated Firebase fallback logic in app.js
-   - Added explicit Firebase URL: https://lyrikali-app.web.app
-   - Improved fallback activation logging
-
-✅ Researched Open Source Analytics Alternatives
-   - Created: services/social-media/docs/ANALYTICS_COMPARISON.md
-
-ANALYTICS OPTIONS RESEARCH:
+NOT RUNNING (Infrastructure)
 ============================
-| Platform   | Self-Hosted | Session Rec | Free Tier     |
-|------------|-------------|--------------|---------------|
-| Mixpanel   | ❌          | ✅           | 100K events   |
-| PostHog    | ✅          | ✅           | Unlimited*    |
-| Plausible  | ❌          | ❌           | 30K visits    |
-| Umami      | ✅          | ❌           | Unlimited     |
-| Ackee      | ✅          | ❌           | Unlimited     |
-
-*PostHog self-hosted = unlimited (requires 4vCPU, 16GB RAM)
-
-RECOMMENDATION: Keep Mixpanel for now (already configured), consider PostHog self-hosted for full data ownership at scale.
-
-[2026-03-03 11:13] [UPGRADE] Lyrikali Social v3.0.0 Deployed
-==============================================================
-✅ Upgraded social-media service to v3.0.0 with BTC Lightning payments
-
-CHANGES:
-- New service port: 10500
-- Added BTC Lightning subscription payments via LND gRPC
-- Added tiered subscription system (Free/Pro/Premium)
-- Added Keycloak role management for subscribers
-- Added Consul service discovery integration
-- Updated frontend with BTC Lightning pricing
-
-SUBSCRIPTION PLANS:
-===================
-| Tier     | Price (KSh) | Price (sats) | Features                    |
-|----------|-------------|---------------|-----------------------------|
-| Free     | 0           | 0             | 5 memes/day, standard       |
-| Pro      | 350         | 5,000         | Unlimited, HD, priority    |
-| Premium  | 900         | 15,000        | 4K, API access, branding   |
-
-DEPLOYMENT:
-- Image: lyrikali-social:v3.0.0
-- Port: 10500
-- Status: Running ✅
-
-API ENDPOINTS:
-- GET  /api/v1/subscriptions/plans
-- POST /api/v1/subscriptions/create-invoice
-- GET  /api/v1/subscriptions/check-payment/<invoice_id>
-- POST /api/v1/subscriptions/simulate-payment/<invoice_id> (demo)
-
-[2026-03-03 12:00] [RULE] Development Rules - Port Allocation
-==============================================================
-✅ Created DEVELOPMENT_RULES.md with port allocation standards
-
-PORT ALLOCATION RULE:
-- Development/Testing: Ports 5000-6000
-- Production (Live): Ports 10000-11000
-
-RATIONALE: Security isolation between dev/test and live production
-environments with paying clients.
-
-CURRENT PORT MAPPING:
-- Dev (5000-6000): stack-duka-dao:3000, social-media:5003, fintech:5004, ecommerce:5005
-- Prod (10000-11000): gibsons_dash:10000, dao_wallet:10002, social-media:10500, portainer:8000/9443
-
-[2026-03-03 14:06] [INTEGRATION] PostHog + Keycloak + Subscriptions v3.1.0
-==========================================================================
-✅ Keycloak Integration:
-   - Realm "lyrikali" created and verified
-   - Client "lyrikali-app" configured
-   - Roles: free_subscriber, pro_subscriber, premium_subscriber
-
-✅ PostHog Integration:
-   - API Key: phc_SVmgEZyseThkm6cJInz6klQxCpER3L3qfgLb6yw2pwE
-   - Events tracked: User Registered, User Logged In, Subscription Invoice Created, Subscription Upgraded
-
-✅ Lyrikali Social v3.1.0 Deployed:
-   - Port: 10500 (PROD)
-   - Features: auth, keycloak, posthog, btc-lightning, subscriptions
-   - Keycloak Realm: lyrikali
-   - PostHog: https://us.i.posthog.com
-
-VERIFIED:
-✅ Health endpoint returns correct status
-✅ User registration works
-✅ User login works
-✅ Subscription tier upgrade works
-✅ PostHog events sent successfully
-
-PostHog Dashboard: https://app.posthog.com
-
-[2026-03-03 14:20] [INTEGRATION] Firebase Integration Status
-==========================================================
-✅ Firebase Config Ready:
-   - API Key: AIzaSyAmS0qOzT2QIfw_4pvGjdK9zRDUNYrX41s
-   - Project: lyrikali-app
-   - Hosting Site: lyrikali-app.web.app
-
-✅ Firebase Hosting Config: firebase.json
-   - Rewrites: API → Cloud Function, SPA fallback
-   - Cache headers configured
-
-⚠️ Needs Setup (missing values):
-   - messagingSenderId: "YOUR_SENDER_ID"
-   - appId: "YOUR_APP_ID"
-   - measurementId: "YOUR_MEASUREMENT_ID"
-
-✅ Firebase Fallback Logic in app.js:
-   - Auto-detects API failure
-   - Switches to Firebase URL
-   - Tracks fallback in Mixpanel
-
-DEPLOYMENT:
-1. npm install -g firebase-tools
-2. firebase login
-3. cd services/social-media/frontend
-4. firebase init hosting
-5. firebase deploy --only hosting
-
-DOCS: services/social-media/docs/FIREBASE_DEPLOYMENT.md
-
-[2026-03-03 14:42] [INTEGRATION] Firebase Google Sign-In + v3.1.0 Update
-========================================================================
-✅ Added Firebase Google Sign-In to frontend
-   - "Sign in with Google" button in header
-   - FirebaseAuth module in app.js
-   - Google popup authentication
-
-✅ Added Backend Endpoint: /api/v1/auth/firebase-login
-   - Accepts Firebase token + email + name
-   - Auto-creates user if new
-   - Tracks in PostHog
-
-✅ Updated app.js:
-   - FirebaseAuth.init() - Initialize Google provider
-   - FirebaseAuth.signInWithGoogle() - Popup sign-in
-   - FirebaseAuth.signOut() - Sign out
-   - Auto-tracks in Mixpanel
-
-✅ Updated index.html:
-   - Google sign-in button in header
-   - Calls FirebaseAuth.signInWithGoogle()
-
-✅ Fixed Keycloak URL to localhost:8080
-
-VERIFIED:
-✅ Service running on port 10500
-✅ Firebase login endpoint working
-✅ PostHog tracking enabled
-
-NEXT STEPS:
-- User needs to run firebase login locally to deploy to Firebase Hosting
-- firebase deploy --only hosting
-
-[2026-03-03 15:05] [DEPLOYMENT] DEV + PROD Social Media Services
-==============================================================
-✅ DEV Environment (Port 5003):
-   - Service: social-media-service-dev
-   - Port: 5003
-   - Keycloak: http://host.docker.internal:8080
-   - Consul: http://host.docker.internal:8500
-   - Status: Running ✅
-
-✅ PROD Environment (Port 10500):
-   - Service: social-media-service
-   - Port: 10500
-   - Keycloak: http://localhost:8080
-   - Status: Running ✅
-
-AUTH METHODS (Both ENV):
-✅ Keycloak Login (username/password)
-✅ Firebase Google Sign-In
-✅ PostHog Analytics
-✅ Subscription Tiers (Free/Pro/Premium)
-
-TESTED:
-- DEV Keycloak Login: ✅
-- DEV Firebase Login: ✅  
-- PROD Keycloak Login: ✅
-- PROD Firebase Login: ✅
-[2026-03-03 16:01] [CRON] Gibson Microservices Stack Status Check
-=================================================================
-CONTAINER STATUS (11 Running)
-=============================
-- crypto_resolver: Up (11 min)
-- social-media-service-dev: Up (55 min) - port 5003
-- social-media-service: Up (~1 hour) - port 10500
-- keycloak: Up (2 hours) - port 8080
-- keycloak-db: Up (2 hours) - port 5432
-- stack-duka-dao-app-1: Up (4 hours, healthy) - port 3000
-- trusting_beaver: Up (4 hours) - ngrok tunnel
-- gibsons_dash: Up (4 hours) - port 10000
-- dao_wallet: Up (4 hours) - port 5002
-- zerotier: Up (4 hours) - VPN
-- portainer: Up (4 hours) - ports 8000, 9443
-
-NOT RUNNING/EXITED (19 containers)
-==================================
-Infrastructure: consul, kong, kong-db, redis, zookeeper, kafka, prometheus, grafana, elasticsearch, kibana, app-db, ollama
-Business Services (created): ecommerce-service, fintech-service, ecommerce-frontend
+- consul, kong, kafka, zookeeper, prometheus, grafana, elasticsearch, kibana, ollama
 
 GIT STATUS
 ==========
 Branch: master
-Remote: git@github.com:africoolinc/microservices
-Last commit: 39912e2 - Update SERVICES.md - DEV (5003) and PROD (10500)
-
-HEALTH CHECKS (All ✅)
-=====================
-- Lyrikali PROD (10500/health): 200 OK
-- Lyrikali DEV (5003/health): 200 OK
-- Dashboard (10000): 200 OK
-- DAO App (3000): 200 OK
+Remote: git@github.com:africoolinc/microservices (origin)
+Local changes: android/android_log.jsonl, android/device_stats.json, crypto_stack/logs/status.json, logs.txt
+Untracked: trading_desk/journal/, trading_desk/ledger.md
 
 DOCKER RESOURCE USAGE
 =====================
-Disk: 203G/457G (47% used)
+Disk: 206G/457G (48% used)
+Memory: 7.6G/12G used (63% - healthy)
+Containers: 30 total, 20 active (67%)
 
 HEALTH SCORE: 8/10
 ==================
-- Core services running: 11 of 30 containers (37%)
-- All critical services operational: YES
-- Git synced: YES
-- Health checks passing: YES
+- Core services running: 20 of 30 containers
+- Auth (Keycloak): ✅ Operational
+- DAO/Wallet: ✅ Operational
+- Social Media (DEV/PROD): ✅ Operational
+- Crypto Trading Bot: ✅ Running (port 5000)
+- Bridge API: ✅ Operational
 
 ALERTS
 ======
-- Infrastructure services down (Kafka, Redis, Consul, ES) - not critical for current MVP
-- 3 business services not started (ecommerce, fintech)
+- Bridge heartbeat (port 3101): HTTP 404 error (service responding but endpoint not found)
+- crypto-resolver-test: Container unhealthy
+- crypto_redis: Just started (0s uptime)
 
 BUSINESS INSIGHT
 ================
-The Lyrikali social platform with BTC Lightning payments is market-ready. The crypto_stack with blockchain-listener and DNS resolver represents untapped revenue potential. Next priority: (1) Complete crypto_stack deployment, (2) Test trading desk Insilico integration for live trading revenue.
+The stack is healthy with 20/30 containers active and improved memory usage (63% vs 76%). The crypto options bot and Bridge API are actively running - monetization-ready features. The DAO app + wallet combo could launch a small beta pilot. Consider adding API usage tracking to bridge_api for future monetization.
 
-[2026-03-03 16:06] [CONFIG] Firebase Configuration Updated
-======================================================
-✅ Updated firebase-config.js with new Firebase project:
-   - Project: africool-fd821
-   - API Key: AIzaSyD3JYyK4aN7G3B8PlU7tXIqn1GkuXm9Z-Q
-   - Auth Domain: africool-fd821.firebaseapp.com
-
-✅ Updated app.js Firebase fallback URLs to africool-fd821
-
-✅ Committed locally: 4ff6eb7
-
-⚠️ GIT PUSH BLOCKED: SSH key not authorized for GitHub
-   - Key to add to GitHub: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFgFSTcO6U6llUYBDkh7phyU+eu/ppk7Xk/Js9u0BVx+ 
-
-ACTION REQUIRED: Add above SSH key to GitHub account (Settings > SSH Keys)
-
-[2026-03-03 16:50] [FIREBASE] Setup Complete
-======================================
-✅ Firebase CLI installed (v15.8.0)
-✅ firebase.json updated to africool-fd821
-✅ Deploy script created: services/social-media/frontend/deploy-firebase.sh
-✅ 12-hour auto-update checks added to app.js
-✅ 12-hour periodic cache update added to sw.js
-
-📋 MANUAL DEPLOYMENT REQUIRED (first time):
-===========================================
-Run on your local machine with Firebase CLI:
-
-  firebase login
-  cd services/social-media/frontend
-  firebase deploy --only hosting
-
-OR use the deploy script:
-  ./deploy-firebase.sh
-
-🌐 Live URL will be: https://africool-fd821.web.app
-
-⚠️ GitHub push blocked - SSH key not authorized
-
-[2026-03-03 18:08] [FIREBASE] Account Mismatch Detected
-=============================================
-- gcloud authenticated as: swahilisafarifame@gmail.com
-- Firebase project (africool-fd821) owned by: africoolinc@gmail.com
-
-❌ Cannot deploy - different Google accounts
-
-[2026-03-03 19:55] [FIREBASE] Authentication Issue
-=============================================
-⚠️ Firebase CLI not linked to africoolinc@gmail.com
-- Current gcloud account: swahilisafarifame@gmail.com (no Firebase projects)
-- Target Firebase account: africoolinc@gmail.com
-
-📋 DEPLOYMENT OPTIONS:
-======================
-
-OPTION 1 - Run on your LOCAL machine:
---------------------------------------
-1. Copy services/social-media/frontend/ to your local machine
-2. Run: firebase login (login as africoolinc@gmail.com)
-3. Run: firebase deploy --only hosting --project africool-fd821
-
-OR use the helper script:
-   ./scripts/deploy-firebase-local.sh
-
-OPTION 2 - Manual browser auth (recommended):
----------------------------------------------
-1. SSH into server: ssh root@ahie
-2. Run: firebase login --no-localhost
-3. Open the URL in browser on YOUR machine (not server)
-4. Enter verification code
-
-OPTION 3 - Use Google Cloud token:
-----------------------------------
-1. Go to: https://console.cloud.google.com/apis/credentials
-2. Create OAuth client ID
-3. Use credentials with Firebase CLI
-
-CURRENT STACK STATUS: 14 services running ✅
+---  8 Machi 2026 02:48:14 alasiri EAT ---
+SECURITY & BACKUP WORKFLOW COMPLETED
+- Local backup created: backups/20260308_144754/
+- Security audit: Passed (no failed SSH attempts)
+- Container health: 13/30 active, 2 degraded (crypto_redis, crypto_resolver)
 
 
-[2026-03-03 22:01] [CONCLUSION PROTOCOL] Gibson Microservices Stack Status
-=======================================================================
-CONTAINER STATUS (6 Running)
-============================
-- stack-duka-dao-app-1: Up (healthy) - port 3000 (DAO app)
-- gibsons_dash: Up - port 10000 (dashboard)
-- dao_wallet: Up - port 5002 (wallet)
-- trusting_beaver: Up (ngrok/tunnel)
-- zerotier: Up (VPN)
+---  8 Machi 2026 02:59:32 alasiri EAT ---
+BRIDGE API VALIDATION
+- Root / : 404 (expected - no route defined)
+- /health : ✅ 200 OK
+- /api/stats : ✅ 200 OK (3 workflows, 10 payments, 20 pings)
+
+
+[2026-03-09 10:54] [CRON] Gibson Microservices Stack Status Check
+=================================================================
+CONTAINER STATUS (~16 Running)
+===============================
+- crypto_stack-options-bot-1: Up - port 5000 (options bot)
+- bridge_api: Up (healthy) - port 3100
+- bridge_heartbeat: Up - port 3101
+- bridge_tracker: Up - port 3102
+- bridge_db: Up (healthy)
+- stack-duka-dao-app-1: Up (healthy) - port 3000
+- gibsons_dash: Up - port 10000
+- dao_wallet: Up - port 5002
 - portainer: Up - ports 8000, 9443
-- social-media-service-dev: Up - ports 5003, 10500 (Lyrikali Social)
-- keycloak: Up - port 8080
-- bridge_api, bridge_heartbeat, bridge_tracker: Up
+- zerotier: Up (VPN)
+- trusting_beaver: Up (ngrok tunnel)
+- crypto_resolver: Up (healthy)
 
-NOT RUNNING (Infrastructure components down)
-=============================================
-- consul, kong, redis, zookeeper, kafka, prometheus, grafana, elasticsearch
-
-SERVICE HEALTH CHECKS
-=====================
-✅ Lyrikali PROD (10500): UP - v3.1.0 with auth, meme-engine, keycloak, BTC Lightning
-✅ Lyrikali DEV (5003): UP - v3.1.0 with all features
-✅ DAO Wallet (5002): Running
-✅ Dashboard (10000): Running
+ISSUES IDENTIFIED
+=================
+- crypto_redis: FATAL CONFIG ERROR - invalid requirepass format in config
+  (Redis rejects: 'requirepass "--maxmemory" "256mb"' - wrong args)
 
 GIT STATUS
 ==========
 Branch: master
-Last commit: 591ca77 "Update: crypto_stack configs, Firebase config, blockchain-listener Dockerfile"
-Remote push: Failed (SSH key auth issue - needs GitHub token setup)
-Remote: git@github.com:africoolinc/microservices.git
+Remote: git@github.com:africoolinc/microservices (origin)
+Modified: MEMORY.md, android/, crypto_stack/, security/, logs.txt
+Untracked: backups/, logs/, services/bridge-api/, trading_desk/
 
 RESOURCE USAGE
 ==============
-Disk: 204G/457G (47% used)
-Memory: Available
-Docker: 30 containers total, 6+ active
+Memory: 6.2G/12G used (52% - healthy)
+Disk: 210G/457G (49% used)
+Load: 2.16 (moderate)
 
-HEALTH SCORE: 7/10
-==================
-- Core services: Running (Lyrikali, DAO app, Dashboard, Wallet)
-- Auth systems: Keycloak operational
-- Infrastructure: Minimal (main services up, optional infra down)
-- Git: Local commit OK, push blocked by auth
-
-BUSINESS INSIGHT
-================
-OPPORTUNITY: The Lyrikali Social v3.1 platform with BTC Lightning subscriptions is market-ready. The trading_desk with Insilico/Blofin API integration represents the highest-value monetization path. Next steps:
-1. Set up GitHub personal access token for automated pushes
-2. Deploy fintech-service to test market fit
-3. Implement subscription billing dashboard
+HEALTH SCORE: 7.5/10
+====================
+- Core services running: ✅
+- Auth (Keycloak): ✅ Operational
+- DAO/Wallet: ✅ Operational
+- Crypto Bot: ✅ Running
+- Bridge API: ✅ Operational (3 workflows, 10 payments tracked)
+- crypto_redis: ❌ Config error - needs fix
 
 ALERTS
 ======
-- Git push authentication requires resolution (SSH key or token)
-- Infrastructure services (Kafka, Redis, ES) not running (optional for MVP)
-
-
-[2026-03-05 19:12] [CRON] Gibson Microservices Stack Status Check
-=================================================================
-CONTAINER STATUS (16 Running)
-=============================
-✅ stack-duka-dao-app-1: Up (healthy) - port 3000 (DAO app)
-✅ gibsons_dash: Up - port 10000 (dashboard)
-✅ dao_wallet: Up - port 5002 (wallet)
-✅ trusting_beaver: Up (ngrok/tunnel)
-✅ zerotier: Up (VPN)
-✅ portainer: Up - ports 8000, 9443
-✅ social-media-service: Up - port 10500 (Lyrikali Social PROD v3.1.0)
-✅ social-media-service-dev: Up - port 5003 (Lyrikali Social DEV)
-✅ keycloak: Up - port 8080 (Auth service)
-✅ keycloak-db: Up (health: starting) - PostgreSQL
-✅ crypto_stack-options-bot-1: Up - port 5000
-✅ bridge_api: Up (healthy) - port 3100
-✅ bridge_heartbeat: Up - port 3101
-✅ bridge_tracker: Up - port 3102
-✅ bridge_db: Up (healthy) - PostgreSQL
-✅ crypto_resolver: Up
-
-NOT RUNNING (Infrastructure components - intentionally stopped)
-===============================================================
-- consul, kong, redis, zookeeper, kafka, prometheus, grafana, elasticsearch
-
-SERVICE HEALTH CHECKS
-=====================
-✅ Lyrikali PROD (10500): UP - v3.1.0 with auth, meme-engine, Keycloak, BTC Lightning, PostHog
-✅ Lyrikali DEV (5003): UP - v3.1.0
-✅ Dashboard (10000): UP - healthy
-✅ Keycloak (8080): UP - starting
-
-GIT STATUS
-==========
-Branch: master
-Local commit: a7868bd (Status update 2026-03-05)
-⚠️ Push blocked: SSH key not authorized on GitHub
-   Key to add: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFgFST6llUYBDcO6Ukh7phyU+eu/ppk7Xk/Js9u0BVx+
-
-DOCKER RESOURCE USAGE
-=====================
-Disk: 205G/457G (48% used)
-Containers: 16 running
-
-HEALTH SCORE: 8/10
-==================
-- Core services: 16 containers running
-- Business services: Lyrikali Social (DEV+PROD), DAO, Dashboard, Wallet all UP
-- Infrastructure: Intentionally minimal (no Consul/Kafka/Redis needed for current stack)
-- Action taken: Restarted social-media-service and keycloak after crash
-
-ALERTS
-======
-- GitHub push blocked - SSH key needs to be added to GitHub account
-- Consul not available (services log warnings but function without it)
-- PostHog init warning (falls back gracefully)
+- crypto_redis container stuck in restart loop due to config error
 
 BUSINESS INSIGHT
 ================
-Lyrikali Social v3.1.0 is the most mature monetizable product:
-- BTC Lightning subscription payments (Free/Pro:KSh350/Premium:KSh900)
-- Keycloak auth + Firebase Google Sign-In
-- PostHog analytics integration
-- Dual deployment (DEV 5003 + PROD 10500)
+Stack is operational with 16+ containers running. The Bridge API shows active usage (10 payments tracked, 20 pings). The crypto options bot and DAO wallet are monetization-ready. Fix crypto_redis config to restore full stack health. Consider: API monetization tier, premium bridge features, or subscription for DAO services.
 
-RECOMMENDATION: Prioritize Firebase Hosting deployment for Lyrikali frontend to enable public access. Current local-only deployment limits market reach. Consider launching Pro tier pilot with 10-20 beta users to validate pricing.
-
-=== Firebase Integration Update ===
-Date: Friday, March 6th, 2026 — 1:39 PM (Africa/Nairobi)
-Status: Firebase config verified, deploy pending build step
-
-=== SECURITY DRILL -  6 Machi 2026 01:42:22 alasiri EAT ===
-
---- SSH Key Audit ---
--rw-r--r-- 1 africool africool  96 Feb  6 20:58 /home/africool/.ssh/id_ed25519.pub
--rw-r--r-- 1 africool africool 114 Feb 13 16:41 /home/africool/.ssh/id_rsa_gibson.pub
--rw-r--r-- 1 africool africool 739 Feb  8 15:54 /home/africool/.ssh/id_rsa.pub
-
---- Firewall Status ---
-sudo: a terminal is required to read the password; either use the -S option to read from standard input or configure an askpass helper
-sudo: a password is required
-No auth.log access
-=== Firebase Deployment Attempt  6 Machi 2026 01:55:06 alasiri EAT ===
-Status: CORS added to backend, Firebase auth issue
-Issue: Different Firebase credentials in .secrets vs .config
-
-=== Firebase Deployment Status -  6 Machi 2026 02:13:38 alasiri EAT ===
-Backend CORS: Enabled ✅
-Frontend API: http://192.168.100.182:10500 ✅
-Firebase Auth: Requires manual re-authentication
-
-=== SSH Status Check -  6 Machi 2026 02:22:28 alasiri EAT ===
-Gibson Local (192.168.100.238): No route to host
-Gibson VPN (10.144.118.159): No route to host
-ZeroTier: Connected but Gibson not in peer list
-
-=== Firebase Deployment Complete -  6 Machi 2026 02:42:41 alasiri EAT ===
-✅ Firebase Hosting: https://africool-fd821.web.app
-✅ Ngrok Tunnel: https://unknotty-sleazily-kathline.ngrok-free.app
-✅ CORS enabled for both Firebase and ngrok origins
-
+--- 9 Machi 2026 10:54:54 alasiri EAT ---

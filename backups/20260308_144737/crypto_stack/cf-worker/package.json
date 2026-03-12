@@ -1,0 +1,15 @@
+{
+  "name": "crypto-cf-worker",
+  "version": "1.0.0",
+  "description": "Cloudflare Worker for .crypto domain DNS resolution",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "deploy": "node src/deploy.js"
+  },
+  "dependencies": {
+    "ethers": "^6.11.0",
+    "dotenv": "^16.4.0",
+    "fetch": "^1.1.0"
+  }
+}

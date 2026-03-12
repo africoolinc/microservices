@@ -1,36 +1,37 @@
 {
-  "timestamp": "2026-03-06T17:34:45.320467",
+  "timestamp": "2026-03-12T18:00:01.586600",
   "services": [
     {
       "port": 5000,
       "name": "BTC Options Bot",
       "status": "healthy",
-      "ms": 78.5
+      "ms": 7.7
     },
     {
       "port": 3000,
       "name": "Bridge API",
       "status": "healthy",
-      "ms": 2.8
+      "ms": 12.3
     },
     {
       "port": 3101,
-      "name": "Bridge Heartbeat",
+      "name": "Bridge Heartbeat (3101)",
       "status": "down",
-      "ms": 2.0,
+      "ms": 6.2,
       "error": "HTTP Error 404: Not Found"
     },
     {
       "port": 8080,
       "name": "Crypto Resolver",
-      "status": "healthy",
-      "ms": 58.0
+      "status": "down",
+      "ms": 0.4,
+      "error": "<urlopen error [Errno 111] Connection refused>"
     },
     {
       "port": 8888,
       "name": "CF Worker Sim",
       "status": "down",
-      "ms": 0.4,
+      "ms": 0.3,
       "error": "<urlopen error [Errno 111] Connection refused>"
     }
   ],
@@ -38,27 +39,26 @@
     {
       "container": "crypto_resolver",
       "status": "running",
-      "detail": "Up 23 hours"
+      "detail": "Up 7 hours (healthy)"
     },
     {
       "container": "crypto_stack-options-bot-1",
       "status": "running",
-      "detail": "Up 23 hours"
+      "detail": "Up 7 hours"
     },
     {
       "container": "bridge_api",
       "status": "running",
-      "detail": "Up 23 hours (healthy)"
+      "detail": "Up 7 hours (healthy)"
     },
     {
       "container": "redis",
-      "status": "running",
-      "detail": "Up About a minute (healthy)"
+      "status": "stopped"
     }
   ],
   "summary": {
-    "healthy": 3,
+    "healthy": 2,
     "total": 5,
-    "health_score": 60.0
+    "health_score": 40.0
   }
 }

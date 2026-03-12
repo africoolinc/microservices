@@ -1,0 +1,28 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: 'crypto-resolver'
+    static_configs:
+      - targets: ['resolver:3000']
+        labels:
+          service: 'resolver'
+
+  - job_name: 'crypto-dns'
+    static_configs:
+      - targets: ['dns:8053']
+        labels:
+          service: 'dns'
+
+  - job_name: 'crypto-listener'
+    static_configs:
+      - targets: ['listener:3001']
+        labels:
+          service: 'listener'
+
+  - job_name: 'redis'
+    static_configs:
+      - targets: ['cache:6379']
+        labels:
+          service: 'cache'

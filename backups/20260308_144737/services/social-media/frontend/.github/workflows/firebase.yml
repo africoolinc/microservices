@@ -1,0 +1,66 @@
+name: Deploy Lyrikali to Firebase
+
+on:
+  push:
+    branches:
+      - main
+      - master
+    paths:
+      - 'services/social-media/frontend/**'
+  pull_request:
+    paths:
+      - 'services/social-media/frontend/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          
+      - name: Install Firebase CLI
+        run: npm install -g firebase-tools
+        
+      - name: Install dependencies
+        run: |
+          cd services/social-media/frontend
+          npm install
+          
+      - name: Run tests (if any)
+        run: |
+          cd services/social-media/frontend
+          npm test -- --passWithNoTests || true
+          
+      - name: Deploy to Firebase (Staging)
+        if: github.event_name == 'pull_request'
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        run: |
+          cd services/social-media/frontend
+          firebase hosting:channel:deploy pr-${{ github.event.pull_request.number }}
+          
+      - name: Deploy to Firebase (Production)
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        run: |
+          cd services/social-media/frontend
+          firebase deploy --only hosting --project lyrikali-app
+          
+      - name: Comment PR with staging URL
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const url = 'https://pr-${{ github.event.pull_request.number }}-lyrikali-app.web.app';
+            github.rest.issues.createComment({
+              issue_number: ${{ github.event.pull_request.number }},
+              body: `🎉 Deploy preview ready: ${url}`
+            })

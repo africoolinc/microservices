@@ -1,0 +1,16 @@
+{
+  "name": "lyrikali-frontend",
+  "version": "3.1.0",
+  "description": "Lyrikali Social Media Frontend with Firebase",
+  "scripts": {
+    "serve": "firebase serve --only hosting",
+    "deploy": "firebase deploy --only hosting",
+    "deploy-all": "firebase deploy"
+  },
+  "dependencies": {
+    "firebase": "^10.7.0"
+  },
+  "devDependencies": {
+    "firebase-tools": "^12.9.0"
+  }
+}

@@ -1,0 +1,44 @@
+# Remote Machine Details - Gibson's Dev Environment
+# Last updated: 2026-02-06 00:43 EAT
+
+## Connection Info
+REMOTE_HOST=10.144.118.159  # UNREACHABLE - NEEDS UPDATE
+REMOTE_USER=gibz
+REMOTE_PASS=Lamborghini
+
+## System Info
+HOSTNAME=gibz-HP
+OS=Ubuntu 24.04.1 LTS
+KERNEL=Linux 6.14.0-37-generic
+ARCH=x86_64
+
+## Docker Versions
+DOCKER_VERSION=28.2.2
+COMPOSE_VERSION=v2.24.7
+
+## Stack Location
+STACK_DIR=/opt/microservices-stack  # Updated to match deployment
+
+## Service Ports
+KONG_GATEWAY=8000
+KONG_ADMIN=8001
+CONSUL=8500
+KEYCLOAK=8080
+ECOMMERCE=5001
+FINTECH=5002
+SOCIAL_MEDIA=5003
+GRAFANA=3010  # Updated from 3000 to match actual deployment
+PROMETHEUS=9090
+KIBANA=5601
+ELASTICSEARCH=9200
+PORTAINER=9443
+
+## Status
+DEPLOYMENT_DATE=2026-02-05
+STATUS=ssh_passwordless_active  # Updated 2026-02-14 18:16
+CONTAINERS_RUNNING=unknown
+
+## Notes
+# ISSUE: Unable to connect to remote machine at current IP
+# ACTION NEEDED: Contact Gibson to get current IP address
+# Once IP is obtained, run: ./scripts/update_remote_ip.sh <new_ip>

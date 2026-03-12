@@ -1,0 +1,65 @@
+{
+  "timestamp": "2026-03-07T15:00:01.478909",
+  "services": [
+    {
+      "port": 5000,
+      "name": "BTC Options Bot",
+      "status": "healthy",
+      "ms": 4.3
+    },
+    {
+      "port": 3000,
+      "name": "Bridge API",
+      "status": "healthy",
+      "ms": 4.5
+    },
+    {
+      "port": 3101,
+      "name": "Bridge Heartbeat (3101)",
+      "status": "down",
+      "ms": 2.9,
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "port": 8080,
+      "name": "Crypto Resolver",
+      "status": "down",
+      "ms": 0.3,
+      "error": "<urlopen error [Errno 111] Connection refused>"
+    },
+    {
+      "port": 8888,
+      "name": "CF Worker Sim",
+      "status": "down",
+      "ms": 0.2,
+      "error": "<urlopen error [Errno 111] Connection refused>"
+    }
+  ],
+  "containers": [
+    {
+      "container": "crypto_resolver",
+      "status": "running",
+      "detail": "Up 3 hours (unhealthy)"
+    },
+    {
+      "container": "crypto_stack-options-bot-1",
+      "status": "running",
+      "detail": "Up 3 hours"
+    },
+    {
+      "container": "bridge_api",
+      "status": "running",
+      "detail": "Up 3 hours (healthy)"
+    },
+    {
+      "container": "redis",
+      "status": "running",
+      "detail": "Restarting (1) 51 seconds ago"
+    }
+  ],
+  "summary": {
+    "healthy": 2,
+    "total": 5,
+    "health_score": 40.0
+  }
+}

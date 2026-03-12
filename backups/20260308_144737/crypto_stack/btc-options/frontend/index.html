@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BTC Options - mamaduka.crypto</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    :root {
+      --bg-primary: #0d1117;
+      --bg-secondary: #161b22;
+      --bg-tertiary: #21262d;
+      --text-primary: #f0f6fc;
+      --text-secondary: #8b949e;
+      --accent-green: #3fb950;
+      --accent-red: #f85149;
+      --accent-blue: #58a6ff;
+      --accent-gold: #d29922;
+      --border: #30363d;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+    }
+    
+    .header {
+      background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent-gold);
+    }
+    
+    .logo span { color: var(--text-primary); }
+    
+    .nav a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      margin-left: 1.5rem;
+      font-size: 0.9rem;
+    }
+    
+    .nav a:hover { color: var(--accent-blue); }
+    
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+    }
+    
+    .card-title {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 1rem;
+    }
+    
+    .price {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    
+    .price-change {
+      font-size: 1rem;
+      margin-left: 0.5rem;
+    }
+    
+    .positive { color: var(--accent-green); }
+    .negative { color: var(--accent-red); }
+    
+    .prediction-box {
+      background: linear-gradient(135deg, var(--bg-tertiary) 0%, var(--bg-secondary) 100%);
+      border: 1px solid var(--accent-blue);
+    }
+    
+    .confidence-bar {
+      height: 8px;
+      background: var(--bg-tertiary);
+      border-radius: 4px;
+      margin: 1rem 0;
+      overflow: hidden;
+    }
+    
+    .confidence-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.5s ease;
+    }
+    
+    .confidence-high { background: var(--accent-green); }
+    .confidence-medium { background: var(--accent-gold); }
+    .confidence-low { background: var(--accent-red); }
+    
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+    
+    .btn-primary {
+      background: var(--accent-blue);
+      color: white;
+    }
+    
+    .btn-primary:hover { opacity: 0.9; }
+    
+    .btn-success {
+      background: var(--accent-green);
+      color: white;
+    }
+    
+    .signal-buy {
+      background: rgba(63, 185, 80, 0.15);
+      border: 1px solid var(--accent-green);
+      color: var(--accent-green);
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      display: inline-block;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    th, td {
+      text-align: left;
+      padding: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    th {
+      color: var(--text-secondary);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+    }
+    
+    .status {
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    
+    .status-active { background: rgba(63, 185, 80, 0.15); color: var(--accent-green); }
+    .status-expired { background: rgba(139, 148, 158, 0.15); color: var(--text-secondary); }
+    
+    .footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="logo">mamaduka<span>.crypto</span></div>
+    <nav class="nav">
+      <a href="#dashboard">Dashboard</a>
+      <a href="#options">Options</a>
+      <a href="#signals">Signals</a>
+      <a href="#portfolio">Portfolio</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <!-- Price & Prediction Section -->
+    <div class="grid">
+      <div class="card">
+        <div class="card-title">BTC Price</div>
+        <div class="price" id="btc-price">$--,---</div>
+        <span class="price-change positive" id="price-change">+0.00%</span>
+      </div>
+      
+      <div class="card prediction-box">
+        <div class="card-title">📈 Surge Prediction</div>
+        <div id="prediction">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+            <span>24h Forecast</span>
+            <span id="pred-24h">--%</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+            <span>72h Forecast</span>
+            <span id="pred-72h">--%</span>
+          </div>
+          <div class="confidence-bar">
+            <div class="confidence-fill confidence-high" id="confidence-bar" style="width: 0%"></div>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
+            <span>Confidence</span>
+            <span id="confidence">--%</span>
+          </div>
+        </div>
+        <div style="margin-top: 1rem;">
+          <span class="signal-buy" id="signal-action">ANALYZING...</span>
+        </div>
+      </div>
+      
+      <div class="card">
+        <div class="card-title">Quick Stats</div>
+        <div style="margin-bottom: 0.75rem;">
+          <div style="color: var(--text-secondary); font-size: 0.85rem;">Surge Probability</div>
+          <div style="font-size: 1.5rem; font-weight: 600;" id="surge-prob">--%</div>
+        </div>
+        <div style="margin-bottom: 0.75rem;">
+          <div style="color: var(--text-secondary); font-size: 0.85rem;">Active Positions</div>
+          <div style="font-size: 1.5rem; font-weight: 600;" id="active-positions">0</div>
+        </div>
+        <div>
+          <div style="color: var(--text-secondary); font-size: 0.85rem;">Available Capital</div>
+          <div style="font-size: 1.5rem; font-weight: 600;" id="capital">$--,---</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Options Chain -->
+    <div class="card" style="margin-bottom: 2rem;">
+      <div class="card-title" style="display: flex; justify-content: space-between; align-items: center;">
+        <span>Options Chain (7 Day Expiry)</span>
+        <button class="btn btn-primary" onclick="refreshOptions()">Refresh</button>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Strike</th>
+            <th>Premium</th>
+            <th>Premium %</th>
+            <th>OTM %</th>
+            <th>Break Even</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="options-table">
+          <tr><td colspan="7" style="text-align: center; color: var(--text-secondary);">Loading options chain...</td></tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <!-- Signals -->
+    <div class="card">
+      <div class="card-title">Recent Signals</div>
+      <table>
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Type</th>
+            <th>Confidence</th>
+            <th>Predicted Move</th>
+            <th>Action</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="signals-table">
+          <tr><td colspan="6" style="text-align: center; color: var(--text-secondary);">Loading signals...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+  <footer class="footer">
+    <p>BTC Options Surge Predictor | Powered by mamaduka.crypto | ⚠️ Not financial advice - trade at your own risk</p>
+  </footer>
+
+  <script>
+    const API_BASE = window.location.origin;
+    
+    async function fetchJSON(url) {
+      try {
+        const res = await fetch(url);
+        return await res.json();
+      } catch (e) {
+        console.error('Fetch error:', e);
+        return null;
+      }
+    }
+    
+    async function loadPrice() {
+      const data = await fetchJSON(`${API_BASE}/api/price`);
+      if (data) {
+        document.getElementById('btc-price').textContent = `$${data.price.toLocaleString()}`;
+      }
+    }
+    
+    async function loadPredictions() {
+      const data = await fetchJSON(`${API_BASE}/api/predictions`);
+      if (data && data.btc) {
+        const { predictedChange24h, predictedChange72h, confidence, surgeProbability, recommendation } = data.btc;
+        
+        document.getElementById('pred-24h').textContent = `${(predictedChange24h * 100).toFixed(1)}%`;
+        document.getElementById('pred-72h').textContent = `${(predictedChange72h * 100).toFixed(1)}%`;
+        document.getElementById('confidence').textContent = `${(confidence * 100).toFixed(0)}%`;
+        document.getElementById('surge-prob').textContent = `${(surgeProbability * 100).toFixed(0)}%`;
+        
+        const bar = document.getElementById('confidence-bar');
+        bar.style.width = `${confidence * 100}%`;
+        bar.className = `confidence-fill ${confidence > 0.7 ? 'confidence-high' : confidence > 0.5 ? 'confidence-medium' : 'confidence-low'}`;
+        
+        const signal = document.getElementById('signal-action');
+        if (recommendation === 'BUY_CALL' && confidence > 0.7) {
+          signal.textContent = '🔥 BUY SIGNAL - EXECUTE CALL';
+          signal.style.background = 'rgba(248, 81, 73, 0.15)';
+          signal.style.borderColor = 'var(--accent-red)';
+          signal.style.color = 'var(--accent-red)';
+        } else if (recommendation === 'HOLD') {
+          signal.textContent = '⏸️ HOLD - LOW CONFIDENCE';
+        } else {
+          signal.textContent = recommendation;
+        }
+      }
+    }
+    
+    async function loadOptions() {
+      const data = await fetchJSON(`${API_BASE}/api/options/chain?expiry=7d`);
+      if (data && data.strikes) {
+        const tbody = document.getElementById('options-table');
+        const calls = data.strikes.filter(s => s.type === 'CALL').slice(0, 8);
+        
+        tbody.innerHTML = calls.map(s => `
+          <tr>
+            <td><span style="color: var(--accent-green); font-weight: 600;">CALL</span></td>
+            <td>$${s.strike.toLocaleString()}</td>
+            <td>${s.premium.toFixed(2)} USDC</td>
+            <td>${s.premiumPct}%</td>
+            <td>+${s.otmPct}%</td>
+            <td>$${s.breakEven.toLocaleString()}</td>
+            <td><button class="btn btn-success" onclick="executeTrade('BUY_CALL', ${s.strike})">Buy</button></td>
+          </tr>
+        `).join('');
+      }
+    }
+    
+    async function loadSignals() {
+      const data = await fetchJSON(`${API_BASE}/api/signals`);
+      if (data && data.signals) {
+        const tbody = document.getElementById('signals-table');
+        tbody.innerHTML = data.signals.map(s => `
+          <tr>
+            <td>${new Date(s.timestamp).toLocaleString()}</td>
+            <td>${s.type}</td>
+            <td>${(s.confidence * 100).toFixed(0)}%</td>
+            <td>${(s.predictedMove * 100).toFixed(1)}%</td>
+            <td>${s.action}</td>
+            <td><span class="status status-${s.status.toLowerCase()}">${s.status}</span></td>
+          </tr>
+        `).join('');
+      }
+    }
+    
+    async function loadPortfolio() {
+      const data = await fetchJSON(`${API_BASE}/api/portfolio`);
+      if (data) {
+        document.getElementById('active-positions').textContent = data.positions.length;
+        document.getElementById('capital').textContent = `$${data.availableCapital.toLocaleString()}`;
+      }
+    }
+    
+    async function executeTrade(strike, action) {
+      const result = await fetchJSON(`${API_BASE}/api/trade/execute`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action, strike, dryRun: true })
+      });
+      alert(result.message);
+    }
+    
+    function refreshOptions() {
+      loadOptions();
+    }
+    
+    // Load all data on page load
+    Promise.all([
+      loadPrice(),
+      loadPredictions(),
+      loadOptions(),
+      loadSignals(),
+      loadPortfolio()
+    ]);
+    
+    // Auto-refresh every 30 seconds
+    setInterval(() => {
+      loadPrice();
+      loadPredictions();
+    }, 30000);
+  </script>
+</body>
+</html>

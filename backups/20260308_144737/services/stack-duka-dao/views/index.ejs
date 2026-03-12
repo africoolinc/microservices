@@ -1,0 +1,119 @@
+<!-- views/index.ejs - Home page with product market list for Duka DAO -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Duka DAO - Marketplace DAO for Emerging Markets</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/styles.css"> <!-- Custom CSS for engagement -->
+</head>
+<body>
+  <header class="bg-primary text-white text-center py-5">
+    <h1>Welcome to Duka DAO</h1>
+    <p>Decentralized marketplace governance for unbanked traders and vendors</p>
+    <a href="/signup" class="btn btn-light btn-lg">Sign Up Now</a> <!-- CTA for engagement -->
+  </header>
+
+  <section class="container my-5">
+    <h2>Product Market List: Verticals and Use Cases</h2>
+    <p>Explore our marketplace verticals and revenue-generating use cases for emerging markets.</p>
+
+    <!-- Verticals Table - Optimized for readability and engagement -->
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th>Vertical</th>
+          <th>Projected Market Size (2025)</th>
+          <th>Revenue Potential</th>
+          <th>Key Risks</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>E-commerce/Marketplace</td>
+          <td>$1T+ (global digital trade)</td>
+          <td>High (transaction fees on vendors)</td>
+          <td>Logistics in remote areas</td>
+        </tr>
+        <tr>
+          <td>DeFi/Trade Finance</td>
+          <td>$100B TVL</td>
+          <td>Medium-High (lending for inventory)</td>
+          <td>Crypto volatility</td>
+        </tr>
+        <tr>
+          <td>Governance/Community</td>
+          <td>$10B DAO assets</td>
+          <td>Medium (vendor subscriptions)</td>
+          <td>Low vendor engagement</td>
+        </tr>
+        <tr>
+          <td>AI/Data Services</td>
+          <td>$5B AI-blockchain</td>
+          <td>High (market analytics)</td>
+          <td>Data privacy concerns</td>
+        </tr>
+        <tr>
+          <td>Gaming/NFTs</td>
+          <td>$50B Web3 gaming</td>
+          <td>Medium (digital collectibles)</td>
+          <td>Competition from centralized platforms</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Use Cases List - With accordions for interactive engagement -->
+    <h3>Key Use Cases</h3>
+    <div class="accordion" id="useCasesAccordion">
+      <div class="card">
+        <div class="card-header" id="headingEcom">
+          <h5 class="mb-0">
+            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseEcom" aria-expanded="true" aria-controls="collapseEcom">
+              E-commerce and Marketplace
+            </button>
+          </h5>
+        </div>
+        <div id="collapseEcom" class="collapse show" aria-labelledby="headingEcom" data-parent="#useCasesAccordion">
+          <div class="card-body">
+            - Listing Fees for Products<br>
+            - Cross-Border Trade<br>
+            - Affiliate Vendor Referrals
+          </div>
+        </div>
+      </div>
+      <!-- Add similar accordions for other verticals -->
+      <div class="card">
+        <div class="card-header" id="headingDeFi">
+          <h5 class="mb-0">
+            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseDeFi" aria-expanded="false" aria-controls="collapseDeFi">
+              DeFi and Trade Finance
+            </button>
+          </h5>
+        </div>
+        <div id="collapseDeFi" class="collapse" aria-labelledby="headingDeFi" data-parent="#useCasesAccordion">
+          <div class="card-body">
+            - Yield Farming for Vendors<br>
+            - DAO-Backed Inventory Loans<br>
+            - Passive Income via Smart Contracts
+          </div>
+        </div>
+      </div>
+      <!-- Repeat for Governance, AI, Gaming -->
+    </div>
+
+    <div class="text-center mt-4">
+      <a href="/signup" class="btn btn-primary btn-lg">Join Duka DAO Today!</a> <!-- Repeated CTA -->
+    </div>
+  </section>
+
+  <footer class="bg-dark text-white text-center py-3">
+    <p>&copy; 2025 Duka DAO</p>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/engagement.js"></script> <!-- Custom JS for engagement -->
+</body>
+</html>

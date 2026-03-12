@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StackForge E-Commerce | Enterprise Microservices</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <span class="logo-icon">🦞</span>
+                <span class="logo-text">StackForge</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#services">Services</a></li>
+                <li><a href="#how-it-works">How it works</a></li>
+                <li><a href="#testimonials">Testimonials</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#faq">FAQ</a></li>
+            </ul>
+            <div class="nav-cta">
+                <button class="btn btn-primary btn-nav">Get Started</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="badge">
+                    <span class="badge-dot"></span>
+                    <span class="badge-text">1200+ active users</span>
+                </div>
+                <h1>Scale Your Store with <br><span class="gradient-text">Agentic Commerce</span></h1>
+                <p class="hero-desc">The first e-commerce engine powered by Bitcoin-native microservices. Asynchronous order events, real-time inventory, and AI-driven insights.</p>
+                <div class="hero-actions">
+                    <button class="btn btn-primary btn-large">Launch Store</button>
+                    <button class="btn btn-secondary btn-large">View Demo</button>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="visual-card">
+                    <div class="card-header">
+                        <div class="dot dot-red"></div>
+                        <div class="dot dot-yellow"></div>
+                        <div class="dot dot-green"></div>
+                    </div>
+                    <div class="card-body">
+                        <pre><code>
+{
+  "order_id": "sf_935102",
+  "status": "PROCESSING",
+  "settlement": "LIGHTNING",
+  "inventory": "RESERVED"
+}
+                        </code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partners Section -->
+    <section class="partners">
+        <div class="container">
+            <p class="partners-title">Trusted by leading agentic teams at:</p>
+            <div class="partners-grid">
+                <div class="partner-logo">Moltchain</div>
+                <div class="partner-logo">JumaTech</div>
+                <div class="partner-logo">BitcoinL2</div>
+                <div class="partner-logo">ClawLabs</div>
+                <div class="partner-logo">AgentFlow</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section (Bento) -->
+    <section id="services" class="benefits">
+        <div class="container">
+            <h2 class="section-title">Everything you need to <br>build the future</h2>
+            <div class="bento-grid">
+                <div class="bento-item bento-large">
+                    <h3>Kafka-Driven Events</h3>
+                    <p>Process thousands of orders asynchronously with zero latency. Distributed events ensure high availability.</p>
+                </div>
+                <div class="bento-item">
+                    <h3>Keycloak Auth</h3>
+                    <p>Enterprise-grade security for your customers.</p>
+                </div>
+                <div class="bento-item">
+                    <h3>Redis Cache</h3>
+                    <p>Lightning-fast product catalogs.</p>
+                </div>
+                <div class="bento-item bento-medium">
+                    <h3>Bitcoin Settlement</h3>
+                    <p>Direct Lightning Network integration for instant global payments.</p>
+                </div>
+                <div class="bento-item">
+                    <h3>Monitoring</h3>
+                    <p>Real-time Grafana boards.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Workflow Section -->
+    <section id="how-it-works" class="workflow">
+        <div class="container">
+            <h2 class="section-title">How it works</h2>
+            <div class="workflow-steps">
+                <div class="step">
+                    <div class="step-num">01</div>
+                    <h4>Connect Realm</h4>
+                    <p>Integrate your Keycloak realm for instant user management.</p>
+                </div>
+                <div class="step">
+                    <div class="step-num">02</div>
+                    <h4>Sync Catalog</h4>
+                    <p>Push your products to our high-performance Redis cluster.</p>
+                </div>
+                <div class="step">
+                    <div class="step-num">03</div>
+                    <h4>Scale Global</h4>
+                    <p>Serve customers worldwide with Bitcoin-native settlement.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing">
+        <div class="container">
+            <h2 class="section-title">Simple Pricing</h2>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3>Starter</h3>
+                    <div class="price">$100<span>/mo</span></div>
+                    <ul class="features">
+                        <li>1,000 Products</li>
+                        <li>Keycloak Integration</li>
+                        <li>Standard Support</li>
+                    </ul>
+                    <button class="btn btn-secondary">Get Started</button>
+                </div>
+                <div class="pricing-card pricing-pro">
+                    <div class="pro-badge">Most Popular</div>
+                    <h3>Pro</h3>
+                    <div class="price">$200<span>/mo</span></div>
+                    <ul class="features">
+                        <li>10,000 Products</li>
+                        <li>Kafka Event Bus</li>
+                        <li>Priority Support</li>
+                        <li>Analytics Dashboard</li>
+                    </ul>
+                    <button class="btn btn-primary">Choose Pro</button>
+                </div>
+                <div class="pricing-card">
+                    <h3>Advanced</h3>
+                    <div class="price">$300<span>/mo</span></div>
+                    <ul class="features">
+                        <li>Unlimited Products</li>
+                        <li>Dedicated Broker</li>
+                        <li>24/7 Managed Ops</li>
+                        <li>Custom SLAs</li>
+                    </ul>
+                    <button class="btn btn-secondary">Get Started</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="faq">
+        <div class="container">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <div class="faq-list">
+                <details class="faq-item">
+                    <summary>Is it compatible with Lightning?</summary>
+                    <p>Yes, all settlement layers are built on the Moltchain Lightning Bridge.</p>
+                </details>
+                <details class="faq-item">
+                    <summary>How do I migrate my data?</summary>
+                    <p>Our CLI tool handles bulk migration from Shopify or WooCommerce.</p>
+                </details>
+                <details class="faq-item">
+                    <summary>What is the latency on Kafka events?</p>
+                    <p>Typically sub-50ms for internal events.</p>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="logo-icon">🦞</span>
+                    <p>Building the sovereign agentic economy.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="link-group">
+                        <h5>Company</h5>
+                        <a href="#">About</a>
+                        <a href="#">Contact</a>
+                    </div>
+                    <div class="link-group">
+                        <h5>Legal</h5>
+                        <a href="#">Privacy</a>
+                        <a href="#">Terms</a>
+                    </div>
+                </div>
+                <div class="footer-newsletter">
+                    <h5>Newsletter</h5>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="email@example.com">
+                        <button type="submit" class="btn btn-primary">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; 2026 StackForge. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

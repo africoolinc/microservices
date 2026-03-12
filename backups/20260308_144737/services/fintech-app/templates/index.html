@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinTech Pro - Modern Financial Services</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #0f172a 100%); }
+        .card-gradient { background: linear-gradient(145deg, rgba(30,58,95,0.6) 0%, rgba(15,23,42,0.8) 100%); }
+        .glow { box-shadow: 0 0 40px rgba(59,130,246,0.3); }
+        .pulse-glow { animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { box-shadow: 0 0 20px rgba(59,130,246,0.3); } 50% { box-shadow: 0 0 40px rgba(59,130,246,0.5); } }
+        .hero-pattern { background-image: radial-gradient(circle at 25% 25%, rgba(59,130,246,0.1) 0%, transparent 50%), radial-gradient(circle at 75% 75%, rgba(16,185,129,0.1) 0%, transparent 50%); }
+    </style>
+    <script>
+        // Check if user is logged in and redirect
+        if (localStorage.getItem('token')) {
+            window.location.href = '/dashboard';
+        }
+    </script>
+</head>
+<body class="gradient-bg min-h-screen hero-pattern text-white">
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-slate-900/80 backdrop-blur-lg border-b border-slate-700/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-2">
+                    <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-emerald-500 rounded-xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+                        </svg>
+                    </div>
+                    <span class="text-xl font-bold bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent">FinTech Pro</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#features" class="text-slate-300 hover:text-white transition">Features</a>
+                    <a href="#pricing" class="text-slate-300 hover:text-white transition">Pricing</a>
+                    <a href="/auth" class="px-4 py-2 text-slate-300 hover:text-white transition">Sign In</a>
+                    <a href="/auth" class="px-5 py-2 bg-gradient-to-r from-blue-500 to-emerald-500 rounded-lg font-semibold hover:opacity-90 transition pulse-glow">Get Started</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-20 px-4">
+        <div class="max-w-7xl mx-auto text-center">
+            <div class="inline-flex items-center px-4 py-2 bg-blue-500/10 border border-blue-500/30 rounded-full text-blue-400 text-sm mb-8">
+                <span class="w-2 h-2 bg-blue-400 rounded-full mr-2 animate-pulse"></span>
+                Trusted by 10,000+ users
+            </div>
+            <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+                The Future of<br>
+                <span class="bg-gradient-to-r from-blue-400 via-emerald-400 to-cyan-400 bg-clip-text text-transparent">Digital Finance</span>
+            </h1>
+            <p class="text-xl text-slate-400 mb-10 max-w-2xl mx-auto">
+                Manage your wallets, track transactions, and grow your wealth with AI-powered insights. Built for the modern user.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="/auth" class="px-8 py-4 bg-gradient-to-r from-blue-500 to-emerald-500 rounded-xl font-bold text-lg hover:opacity-90 transition glow">
+                    Get Started Free
+                </a>
+                <a href="#features" class="px-8 py-4 bg-slate-800/50 border border-slate-600 rounded-xl font-semibold text-lg hover:bg-slate-700/50 transition">
+                    Learn More →
+                </a>
+            </div>
+            
+            <!-- Stats -->
+            <div class="grid grid-cols-3 gap-8 mt-20 max-w-3xl mx-auto">
+                <div class="text-center">
+                    <div class="text-4xl font-bold text-blue-400">$50M+</div>
+                    <div class="text-slate-400 text-sm">Transaction Volume</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl font-bold text-emerald-400">10,000+</div>
+                    <div class="text-slate-400 text-sm">Active Users</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl font-bold text-cyan-400">99.9%</div>
+                    <div class="text-slate-400 text-sm">Uptime SLA</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="py-20 px-4 bg-slate-900/50">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-4">Everything You Need</h2>
+            <p class="text-slate-400 text-center mb-16 max-w-2xl mx-auto">Powerful features to manage your finances</p>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Multi-Wallet -->
+                <div class="card-gradient border border-slate-700/50 rounded-2xl p-6 hover:border-blue-500/50 transition glow">
+                    <div class="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Multi-Wallet Support</h3>
+                    <p class="text-slate-400 text-sm">Manage multiple currencies and crypto wallets in one place</p>
+                </div>
+
+                <!-- Analytics -->
+                <div class="card-gradient border border-slate-700/50 rounded-2xl p-6 hover:border-emerald-500/50 transition glow">
+                    <div class="w-12 h-12 bg-emerald-500/20 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Advanced Analytics</h3>
+                    <p class="text-slate-400 text-sm">Track spending patterns and wealth growth with AI insights</p>
+                </div>
+
+                <!-- Security -->
+                <div class="card-gradient border border-slate-700/50 rounded-2xl p-6 hover:border-cyan-500/50 transition glow">
+                    <div class="w-12 h-12 bg-cyan-500/20 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Bank-Grade Security</h3>
+                    <p class="text-slate-400 text-sm">Protected by Keycloak with enterprise encryption</p>
+                </div>
+
+                <!-- API Access -->
+                <div class="card-gradient border border-slate-700/50 rounded-2xl p-6 hover:border-purple-500/50 transition glow">
+                    <div class="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Developer API</h3>
+                    <p class="text-slate-400 text-sm">RESTful APIs for building custom integrations</p>
+                </div>
+
+                <!-- Subscription Tiers -->
+                <div class="card-gradient border border-slate-700/50 rounded-2xl p-6 hover:border-orange-500/50 transition glow">
+                    <div class="w-12 h-12 bg-orange-500/20 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Flexible Plans</h3>
+                    <p class="text-slate-400 text-sm">From free to enterprise, scales with your needs</p>
+                </div>
+
+                <!-- Support -->
+                <div class="card-gradient border border-slate-700/50 rounded-2xl p-6 hover:border-pink-500/50 transition glow">
+                    <div class="w-12 h-12 bg-pink-500/20 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">24/7 Support</h3>
+                    <p class="text-slate-400 text-sm">Expert help whenever you need it</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="py-20 px-4">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-4">Simple, Transparent Pricing</h2>
+            <p class="text-slate-400 text-center mb-16 max-w-2xl mx-auto">Choose the plan that fits your needs</p>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Free -->
+                <div class="card-gradient border border-slate-600 rounded-2xl p-6">
+                    <h3 class="text-xl font-bold mb-2">Free</h3>
+                    <div class="text-4xl font-bold mb-4">$0<span class="text-lg text-slate-400">/mo</span></div>
+                    <ul class="space-y-3 text-slate-300 mb-6">
+                        <li class="flex items-center"><svg class="w-5 h-5 text-emerald-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Basic wallet</li>
+                        <li class="flex items-center"><svg class="w-5 h-5 text-emerald-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>5 transactions/month</li>
+                        <li class="flex items-center"><svg class="w-5 h-5 text-emerald-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Email support</li>
+                    </ul>
+                    <a href="/auth" class="block w-full py-3 text-center rounded-xl bg-slate-700 font-semibold hover:bg-slate-600 transition">Get Started</a>
+                </div>
+                
+                <!-- Basic -->
+                <div class="card-gradient border border-blue-500 rounded-2xl p-6">
+                    <h3 class="text-xl font-bold mb-2">Basic</h3>
+                    <div class="text-4xl font-bold mb-4">$9.99<span class="text-lg text-slate-400">/mo</span></div>
+                    <ul class="space-y-3 text-slate-300 mb-6">
+                        <li class="flex items-center"><svg class="w-5 h-5 text-emerald-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Premium wallet</li>
+                        <li class="flex items-center"><svg class="w-5 h-5 text-emerald-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>50 transactions/month</li>
+                        <li class="flex items-center"><svg class="w-5 h-5 text-emerald-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Priority support</li>
+                        <li class="flex items-center"><svg class="w-5 h-5 text-emerald-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Basic analytics</li>
+                    </ul>
+                    <a href="/auth" class="block w-full py-3 text-center rounded-xl bg-blue-500 font-semibold hover:opacity-90 transition">Upgrade</a>
+                </div>
+                
+                <!-- Pro -->
+                <div class="card-gradient border border-emerald-500 rounded-2xl p-6 relative">
+                    <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 px-3 py-1 bg-emerald-500 text-white text-xs rounded-full">Popular</div>
+                    <h3 class="text-xl font-bold mb-2">Pro</h3>
+                    <div class="text-4xl font-bold mb-4">$29.99<span class="text-lg text-slate-400">/mo</span></div>
+                    <ul class="space-y-3 text-slate-300 mb-6">
+                        <li class="flex items-center"><svg class="w-5 h-5 text-emerald-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Multiple wallets</li>
+                        <li class="flex items-center"><svg class="w-5 h-5 text-emerald-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Unlimited transactions</li>
+                        <li class="flex items-center"><svg class="w-5 h-5 text-emerald-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>24/7 support</li>
+                        <li class="flex items-center"><svg class="w-5 h-5 text-emerald-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Advanced analytics</li>
+                        <li class="flex items-center"><svg class="w-5 h-5 text-emerald-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>API access</li>
+                    </ul>
+                    <a href="/auth" class="block w-full py-3 text-center rounded-xl bg-emerald-500 font-semibold hover:opacity-90 transition">Get Pro</a>
+                </div>
+                
+                <!-- Enterprise -->
+                <div class="card-gradient border border-purple-500 rounded-2xl p-6">
+                    <h3 class="text-xl font-bold mb-2">Enterprise</h3>
+                    <div class="text-4xl font-bold mb-4">$99.99<span class="text-lg text-slate-400">/mo</span></div>
+                    <ul class="space-y-3 text-slate-300 mb-6">
+                        <li class="flex items-center"><svg class="w-5 h-5 text-emerald-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Unlimited everything</li>
+                        <li class="flex items-center"><svg class="w-5 h-5 text-emerald-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Dedicated support</li>
+                        <li class="flex items-center"><svg class="w-5 h-5 text-emerald-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Custom integrations</li>
+                        <li class="flex items-center"><svg class="w-5 h-5 text-emerald-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>White-label</li>
+                        <li class="flex items-center"><svg class="w-5 h-5 text-emerald-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>SLA guarantee</li>
+                    </ul>
+                    <a href="/auth" class="block w-full py-3 text-center rounded-xl bg-purple-500 font-semibold hover:opacity-90 transition">Contact Sales</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-20 px-4 bg-gradient-to-r from-blue-600/20 to-emerald-600/20">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-4xl font-bold mb-6">Ready to Get Started?</h2>
+            <p class="text-xl text-slate-400 mb-8">Join thousands of users already managing their finances with FinTech Pro</p>
+            <a href="/auth" class="inline-block px-10 py-4 bg-gradient-to-r from-blue-500 to-emerald-500 rounded-xl font-bold text-lg hover:opacity-90 transition glow">
+                Create Free Account
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 px-4 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto text-center text-slate-400">
+            <p>&copy; 2026 FinTech Pro. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

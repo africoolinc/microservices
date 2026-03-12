@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lyrikali - AI-Powered Music Discovery</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            color: white;
+        }
+        
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(79, 172, 254, 0.1) 0%, transparent 50%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+        
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            position: relative;
+            z-index: 10;
+            backdrop-filter: blur(10px);
+            background: rgba(0,0,0,0.2);
+        }
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            background: linear-gradient(90deg, #4facfe, #00f2fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        .btn {
+            padding: 12px 28px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #4facfe;
+            color: #4facfe;
+        }
+        .btn-outline:hover {
+            background: #4facfe;
+            color: white;
+            transform: translateY(-2px);
+        }
+        .btn-primary {
+            background: linear-gradient(90deg, #4facfe, #00f2fe);
+            border: none;
+            color: #1a1a2e;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(79, 172, 254, 0.4);
+        }
+        
+        /* Hero */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
+            text-align: center;
+            padding: 40px;
+            position: relative;
+            z-index: 10;
+        }
+        .hero h1 {
+            font-size: 64px;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+        .hero h1 span {
+            background: linear-gradient(90deg, #4facfe, #00f2fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p {
+            font-size: 20px;
+            color: #a0a0a0;
+            max-width: 600px;
+            margin-bottom: 40px;
+        }
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+        }
+        .hero-buttons .btn {
+            padding: 16px 40px;
+            font-size: 16px;
+        }
+        
+        /* Features */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            padding: 60px 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+        .feature-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: #4facfe;
+        }
+        .feature-card h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: #4facfe;
+        }
+        .feature-card p {
+            color: #a0a0a0;
+            line-height: 1.6;
+        }
+        
+        /* Pricing */
+        .pricing {
+            padding: 60px 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+        .pricing h2 {
+            text-align: center;
+            font-size: 42px;
+            margin-bottom: 40px;
+        }
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        .pricing-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+        }
+        .pricing-card.featured {
+            border-color: #4facfe;
+            background: linear-gradient(135deg, rgba(79,172,254,0.1), rgba(0,242,254,0.1));
+        }
+        .pricing-card h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .price {
+            font-size: 42px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .price span {
+            font-size: 16px;
+            color: #a0a0a0;
+        }
+        .pricing-card ul {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+        .pricing-card li {
+            padding: 10px 0;
+            color: #a0a0a0;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            position: relative;
+            z-index: 10;
+        }
+        
+        /* Mobile */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 40px; }
+            header { padding: 15px 20px; }
+            .nav-buttons { gap: 10px; }
+            .btn { padding: 10px 20px; font-size: 12px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+    
+    <header>
+        <div class="logo">🎵 Lyrikali</div>
+        <div class="nav-buttons">
+            <a href="#signin" class="btn btn-outline">Sign In</a>
+            <a href="#signup" class="btn btn-primary">Get Started</a>
+        </div>
+    </header>
+    
+    <section class="hero">
+        <h1>Discover Music with<br><span>AI-Powered Intelligence</span></h1>
+        <p>Remix, discover, and create music with cutting-edge AI. Join thousands of creators building the future of African music.</p>
+        <div class="hero-buttons">
+            <a href="#signup" class="btn btn-primary">Start Creating</a>
+            <a href="#features" class="btn btn-outline">Learn More</a>
+        </div>
+    </section>
+    
+    <section class="features" id="features">
+        <div class="feature-card">
+            <h3>🎛️ AI Remixing</h3>
+            <p>Transform any track with intelligent remixing powered by advanced AI models.</p>
+        </div>
+        <div class="feature-card">
+            <h3>🔍 Smart Discovery</h3>
+            <p>Find music that matches your mood, style, and listening preferences.</p>
+        </div>
+        <div class="feature-card">
+            <h3>💰 Earn Royalties</h3>
+            <p>Upload your creations, build your fanbase, and earn from your music.</p>
+        </div>
+    </section>
+    
+    <section class="pricing">
+        <h2>Choose Your Plan</h2>
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <h3>Free</h3>
+                <div class="price">KSh 0<span>/mo</span></div>
+                <ul>
+                    <li>✓ Basic discovery</li>
+                    <li>✓ 5 remixes/day</li>
+                    <li>✓ Ads included</li>
+                </ul>
+                <a href="#signup" class="btn btn-outline">Sign Up</a>
+            </div>
+            <div class="pricing-card featured">
+                <h3>Premium</h3>
+                <div class="price">KSh 50<span>/mo</span></div>
+                <ul>
+                    <li>✓ Unlimited remixes</li>
+                    <li>✓ Ad-free experience</li>
+                    <li>✓ HD audio quality</li>
+                </ul>
+                <a href="#signup" class="btn btn-primary">Go Premium</a>
+            </div>
+            <div class="pricing-card">
+                <h3>Pro</h3>
+                <div class="price">KSh 200<span>/mo</span></div>
+                <ul>
+                    <li>✓ Priority rendering</li>
+                    <li>✓ Premium beats</li>
+                    <li>✓ 80% royalty split</li>
+                </ul>
+                <a href="#signup" class="btn btn-outline">Go Pro</a>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <p>&copy; 2026 Lyrikali. Built with ❤️ in Kenya.</p>
+    </footer>
+    
+    <script>
+        // Sign In / Sign Up Modal Handling
+        document.querySelectorAll('a[href="#signin"], a[href="#signup"]').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const mode = btn.getAttribute('href').replace('#', '');
+                alert(`Lyrikali ${mode === 'signin' ? 'Sign In' : 'Sign Up'} would open here.\n\nThis will connect to Keycloak for authentication.\n\nAPI: /api/v1/auth/${mode}`);
+            });
+        });
+    </script>
+</body>
+</html>

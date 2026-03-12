@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>.crypto Domain Resolver</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #0d1117;
+            color: #c9d1d9;
+        }
+        h1 { color: #58a6ff; }
+        .card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        code { background: #21262d; padding: 2px 6px; border-radius: 3px; }
+        .endpoint { margin: 10px 0; }
+        .method { 
+            display: inline-block; 
+            padding: 3px 8px; 
+            border-radius: 3px; 
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .get { background: #238636; color: white; }
+        .badge { 
+            background: #1f6feb; 
+            color: white; 
+            padding: 2px 8px; 
+            border-radius: 12px; 
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔗 .crypto Domain Resolver</h1>
+    <p>Blockchain-powered DNS resolution for ENS .crypto domains</p>
+    
+    <div class="card">
+        <h3>📡 Service Status</h3>
+        <p><span class="badge">Operational</span> Registry: <code>0xD1E5b0FF1287aA9f9A268759062E4Ab08b9Dacbe</code></p>
+    </div>
+
+    <div class="card">
+        <h3>🔌 API Endpoints</h3>
+        
+        <div class="endpoint">
+            <span class="method get">GET</span> 
+            <code>/health</code> - Health check
+        </div>
+        
+        <div class="endpoint">
+            <span class="method get">GET</span> 
+            <code>/api/resolve?domain=example.crypto</code> - Resolve domain
+        </div>
+        
+        <div class="endpoint">
+            <span class="method get">GET</span> 
+            <code>/api/domain/:name</code> - Get domain info
+        </div>
+        
+        <div class="endpoint">
+            <span class="method get">GET</span> 
+            <code>/dns-query?name=example.crypto&type=A</code> - DNS-over-HTTPS
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>📝 Example Usage</h3>
+        <pre><code>curl "http://localhost:8080/api/resolve?domain=mamaduka.crypto"</code></pre>
+    </div>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "name": "crypto-blockchain-listener",
+  "version": "1.0.0",
+  "description": "Blockchain listener for .crypto domain registry events",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "web3": "^4.0.0",
+    "ioredis": "^5.3.0",
+    "dotenv": "^16.3.1"
+  }
+}

@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  fintech-service:
+    build:
+      context: ./services/fintech-app
+      dockerfile: Dockerfile
+    container_name: fintech-service
+    environment:
+      SERVICE_ID: fintech-service
+      FLASK_ENV: production
+      KEYCLOAK_URL: http://keycloak:8080
+      KEYCLOAK_REALM: fintech
+      KEYCLOAK_CLIENT_ID: fintech-app
+      KEYCLOAK_CLIENT_SECRET: ${KEYCLOAK_CLIENT_SECRET:-fintech-secret-key}
+    ports:
+      - '5007:5000'
+    networks:
+      - backend
+    restart: unless-stopped
+    volumes:
+      - ./services/fintech-app:/app
+    command: python src/main.py
+
+  fintech-keycloak:
+    image: quay.io/keycloak/keycloak:25.0
+    container_name: fintech-keycloak
+    environment:
+      KC_DB: postgres
+      KC_DB_URL_HOST: fintech-keycloak-db
+      KC_DB_URL_DATABASE: fintech
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: keycloakpass
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: adminpass
+      KC_HEALTH_ENABLED: 'true'
+    command: start-dev
+    ports:
+      - '8085:8080'
+    networks:
+      - backend
+
+  fintech-keycloak-db:
+    image: postgres:16
+    container_name: fintech-keycloak-db
+    environment:
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: keycloakpass
+      POSTGRES_DB: fintech
+    volumes:
+      - fintech-keycloak-data:/var/lib/postgresql/data
+    networks:
+      - backend
+
+networks:
+  backend:
+    name: microservices-stack_backend
+
+volumes:
+  fintech-keycloak-data:

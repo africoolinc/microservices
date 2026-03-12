@@ -1,0 +1,14 @@
+{
+  "name": "crypto-dns",
+  "version": "1.0.0",
+  "description": "DNS-over-HTTPS service for .crypto domains",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "axios": "^1.6.0",
+    "cors": "^2.8.5"
+  }
+}

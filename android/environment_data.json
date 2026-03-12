@@ -1,0 +1,33 @@
+{
+  "wifi": {
+    "current_network": "SSID",
+    "signal_strength": 0,
+    "frequency": 0,
+    "networks": [],
+    "ip_address": "192.168.100.224"
+  },
+  "gps": {
+    "latitude": -1.217755,
+    "longitude": 36.939079,
+    "altitude": 1519.199951171875,
+    "accuracy": 28.782,
+    "provider": "network"
+  },
+  "noise": {
+    "level": "N/A",
+    "status": "unavailable",
+    "db_estimate": 0
+  },
+  "movement": {
+    "status": "moving",
+    "acceleration": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "magnitude": 0.0,
+    "is_moving": true,
+    "deviation": 9.8
+  },
+  "timestamp": "2026-03-11T11:44:59.812363"
+}
