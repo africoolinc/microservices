@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-03-13T08:01:23.650767",
+  "timestamp": "2026-03-13T12:00:56.694434",
   "services": [
     {
       "port": 5000,
       "name": "BTC Options Bot",
       "status": "down",
-      "ms": 0,
-      "error": "Command '['curl', '-s', '-w', '\\n%{time_total}', 'http://10.144.118.159:5000/health', '-o', '/dev/null']' timed out after 10 seconds",
+      "ms": 3109.347,
+      "error": "Connection failed",
       "critical": true,
       "tier": "core"
     },
@@ -41,7 +41,7 @@
       "port": 8080,
       "name": "Crypto Resolver",
       "status": "healthy",
-      "ms": 986.4300000000001,
+      "ms": 1217.2320000000002,
       "error": null,
       "critical": false,
       "tier": "support"

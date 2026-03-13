@@ -109,15 +109,13 @@ async function createKeycloakUser(username, email, password, tier) {
         enabled: true,
         emailVerified: true,
         email,
+        firstName: username.charAt(0).toUpperCase() + username.slice(1),
+        lastName: 'User',
         credentials: [{
             type: 'password',
             value: password,
             temporary: false
-        }],
-        attributes: {
-            tier: [tier],
-            phone_verified: [false]
-        }
+        }]
     };
     
     try {

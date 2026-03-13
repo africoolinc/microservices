@@ -1,30 +1,30 @@
 {
-  "timestamp": "2026-03-13T09:00:02.156162",
+  "timestamp": "2026-03-13T12:00:02.096645",
   "services": [
     {
       "port": 5000,
       "name": "BTC Options Bot",
       "status": "healthy",
-      "ms": 64.1
+      "ms": 10.7
     },
     {
       "port": 3000,
       "name": "Bridge API",
       "status": "healthy",
-      "ms": 12.1
+      "ms": 11.2
     },
     {
       "port": 3101,
       "name": "Bridge Heartbeat (3101)",
       "status": "down",
-      "ms": 8.5,
+      "ms": 116.8,
       "error": "HTTP Error 404: Not Found"
     },
     {
       "port": 8080,
       "name": "Crypto Resolver",
       "status": "healthy",
-      "ms": 126.5
+      "ms": 32.3
     },
     {
       "port": 8888,
@@ -38,17 +38,17 @@
     {
       "container": "crypto_resolver",
       "status": "running",
-      "detail": "Up 22 hours (healthy)"
+      "detail": "Up 25 hours (unhealthy)"
     },
     {
       "container": "crypto_stack-options-bot-1",
       "status": "running",
-      "detail": "Up 22 hours"
+      "detail": "Up 25 hours"
     },
     {
       "container": "bridge_api",
       "status": "running",
-      "detail": "Up 22 hours (healthy)"
+      "detail": "Up 25 hours (healthy)"
     },
     {
       "container": "redis",

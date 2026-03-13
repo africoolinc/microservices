@@ -1,0 +1,187 @@
+{
+  "services": [
+    {
+      "name": "crypto-register-api",
+      "id": "crypto-register-api-1",
+      "port": 3002,
+      "address": "crypto-register-api",
+      "tags": ["api", "crypto", "registration", "v1"],
+      "meta": {
+        "version": "1.0.0",
+        "team": "crypto",
+        "tier": "critical"
+      },
+      "check": {
+        "id": "crypto-register-api-health",
+        "name": "HTTP Health Check",
+        "http": "http://crypto-register-api:3002/health",
+        "interval": "10s",
+        "timeout": "5s",
+        "deregister_critical_service_after": "60s"
+      }
+    },
+    {
+      "name": "crypto-register-frontend",
+      "id": "crypto-register-frontend-1",
+      "port": 80,
+      "address": "crypto-register-frontend",
+      "tags": ["frontend", "crypto", "web", "v1"],
+      "meta": {
+        "version": "1.0.0",
+        "team": "crypto"
+      },
+      "check": {
+        "http": "http://crypto-register-frontend:80/",
+        "interval": "15s",
+        "timeout": "5s"
+      }
+    },
+    {
+      "name": "bridge-api",
+      "id": "bridge-api-1",
+      "port": 3000,
+      "address": "bridge_api",
+      "tags": ["api", "bridge", "core", "v1"],
+      "meta": {
+        "version": "1.0.0",
+        "team": "bridge",
+        "tier": "critical"
+      },
+      "check": {
+        "http": "http://bridge_api:3000/health",
+        "interval": "10s",
+        "timeout": "5s"
+      }
+    },
+    {
+      "name": "bridge-heartbeat",
+      "id": "bridge-heartbeat-1",
+      "port": 3001,
+      "address": "bridge_heartbeat",
+      "tags": ["heartbeat", "bridge", "monitoring", "v1"],
+      "meta": {
+        "version": "1.0.0",
+        "team": "bridge"
+      },
+      "check": {
+        "http": "http://bridge_heartbeat:3001/health",
+        "interval": "10s",
+        "timeout": "5s"
+      }
+    },
+    {
+      "name": "bridge-tracker",
+      "id": "bridge-tracker-1",
+      "port": 3002,
+      "address": "bridge_tracker",
+      "tags": ["tracker", "bridge", "analytics", "v1"],
+      "meta": {
+        "version": "1.0.0",
+        "team": "bridge"
+      },
+      "check": {
+        "http": "http://bridge_tracker:3002/health",
+        "interval": "10s",
+        "timeout": "5s"
+      }
+    },
+    {
+      "name": "keycloak",
+      "id": "keycloak-1",
+      "port": 8080,
+      "address": "keycloak",
+      "tags": ["auth", "oidc", "oauth2", "v25", "critical"],
+      "meta": {
+        "version": "25.0.6",
+        "team": "security",
+        "tier": "critical"
+      },
+      "check": {
+        "http": "http://keycloak:8080/health/ready",
+        "interval": "15s",
+        "timeout": "10s",
+        "deregister_critical_service_after": "120s"
+      }
+    },
+    {
+      "name": "btc-options-bot",
+      "id": "btc-options-bot-1",
+      "port": 5000,
+      "address": "crypto_stack-options-bot-1",
+      "tags": ["bot", "btc", "options", "trading", "v1"],
+      "meta": {
+        "version": "1.0.0",
+        "team": "trading"
+      },
+      "check": {
+        "http": "http://crypto_stack-options-bot-1:5000/health",
+        "interval": "10s",
+        "timeout": "5s"
+      }
+    },
+    {
+      "name": "stack-duka-dao",
+      "id": "stack-duka-dao-1",
+      "port": 3000,
+      "address": "stack-duka-dao-app-1",
+      "tags": ["dao", "duka", "governance", "v1"],
+      "meta": {
+        "version": "1.0.0",
+        "team": "dao"
+      },
+      "check": {
+        "http": "http://stack-duka-dao-app-1:3000/health",
+        "interval": "15s",
+        "timeout": "5s"
+      }
+    },
+    {
+      "name": "gibsons-dash",
+      "id": "gibsons-dash-1",
+      "port": 3000,
+      "address": "gibsons_dash",
+      "tags": ["dashboard", "analytics", "v1"],
+      "meta": {
+        "version": "1.0.0",
+        "team": "analytics"
+      },
+      "check": {
+        "http": "http://gibsons_dash:3000/health",
+        "interval": "15s",
+        "timeout": "5s"
+      }
+    },
+    {
+      "name": "dao-wallet",
+      "id": "dao-wallet-1",
+      "port": 3000,
+      "address": "dao_wallet",
+      "tags": ["wallet", "dao", "crypto", "v1"],
+      "meta": {
+        "version": "1.0.0",
+        "team": "dao"
+      },
+      "check": {
+        "http": "http://dao_wallet:3000/health",
+        "interval": "15s",
+        "timeout": "5s"
+      }
+    },
+    {
+      "name": "crypto-resolver",
+      "id": "crypto-resolver-1",
+      "port": 80,
+      "address": "56eea813a6dc_crypto_resolver",
+      "tags": ["resolver", "dns", "crypto", "v1"],
+      "meta": {
+        "version": "1.0.0",
+        "team": "crypto"
+      },
+      "check": {
+        "http": "http://56eea813a6dc_crypto_resolver/health",
+        "interval": "10s",
+        "timeout": "5s"
+      }
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+groups:
+  - name: consul-services
+    interval: 30s
+    rules:
+      # Critical: Service completely down
+      - alert: ConsulServiceDown
+        expr: consul_catalog_service_node_healthy == 0
+        for: 1m
+        labels:
+          severity: critical
+          team: infrastructure
+        annotations:
+          summary: "Service {{ $labels.service_name }} is completely down"
+          description: "No healthy nodes for service {{ $labels.service_name }} in datacenter {{ $labels.dc }}"
+          runbook_url: "https://wiki.internal/runbooks/consul-service-down"
+
+      # Warning: Some instances unhealthy
+      - alert: ConsulServiceDegraded
+        expr: |
+          (
+            consul_catalog_service_node_healthy 
+            / 
+            consul_catalog_service_total_nodes
+          ) < 0.5
+        for: 5m
+        labels:
+          severity: warning
+          team: infrastructure
+        annotations:
+          summary: "Service {{ $labels.service_name }} is degraded"
+          description: "Only {{ $value | humanizePercentage }} of nodes are healthy"
+
+      # Critical: Health check failing
+      - alert: ConsulHealthCheckFailing
+        expr: consul_health_check_status != 1
+        for: 2m
+        labels:
+          severity: warning
+          team: "{{ $labels.service }}"
+        annotations:
+          summary: "Health check failing for {{ $labels.service }} ({{ $labels.check }})"
+          description: "Check {{ $labels.check }} has status {{ $value }}"
+
+      # Critical: Consul agent down
+      - alert: ConsulAgentDown
+        expr: consul_runtime_alloc_bytes == 0
+        for: 1m
+        labels:
+          severity: critical
+          team: infrastructure
+        annotations:
+          summary: "Consul agent on {{ $labels.instance }} is down"
+          description: "Consul agent stopped responding"
+
+      # Warning: High memory usage
+      - alert: ConsulHighMemory
+        expr: consul_runtime_alloc_bytes / consul_runtime_sys_bytes > 0.8
+        for: 10m
+        labels:
+          severity: warning
+          team: infrastructure
+        annotations:
+          summary: "Consul high memory usage on {{ $labels.instance }}"
+          description: "Memory usage is {{ $value | humanizePercentage }}"
+
+      # Warning: Leader election
+      - alert: ConsulLeaderElection
+        expr: changes(consul_autopilot_healthy[5m]) > 0
+        for: 0m
+        labels:
+          severity: warning
+          team: infrastructure
+        annotations:
+          summary: "Consul leader election detected"
+          description: "Leader changed in the last 5 minutes"
+
+      # Info: Service registered/deregistered
+      - alert: ConsulServiceChanged
+        expr: changes(consul_catalog_service_total_nodes[5m]) > 0
+        for: 0m
+        labels:
+          severity: info
+          team: "{{ $labels.service }}"
+        annotations:
+          summary: "Service {{ $labels.service }} node count changed"
+          description: "Node count changed from previous value"
+
+  - name: consul-security
+    interval: 1m
+    rules:
+      # Critical: ACL disabled in production
+      - alert: ConsulACLPolicyDeny
+        expr: consul_acl_request_denied > 0
+        for: 5m
+        labels:
+          severity: warning
+          team: security
+        annotations:
+          summary: "ACL requests being denied"
+          description: "{{ $value }} ACL requests denied in the last minute"
+
+      # Warning: Unencrypted traffic
+      - alert: ConsulUnencryptedTraffic
+        expr: consul_rpc_encrypted == 0
+        for: 0m
+        labels:
+          severity: warning
+          team: security
+        annotations:
+          summary: "Consul RPC traffic is not encrypted"
+          description: "Enable encryption for RPC traffic"
