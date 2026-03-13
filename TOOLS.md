@@ -37,4 +37,24 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 
 ---
 
-Add whatever helps you do your job. This is your cheat sheet.
+## Crypto Stack Monitor
+
+- **Skill Location:** `skills/crypto-stack-monitor/`
+- **Main Script:** `monitor_stack.py`
+- **Usage:** 
+  - `--quick` for local status
+  - `--audit` for full remote check
+- **Outputs:** `logs/crypto_stack_status.json`
+
+### Gibson Connection
+
+- **VPN IP:** 10.144.118.159 (use `gibson-vpn` alias)
+- **Local IP:** 192.168.100.238 (not reachable from gateway)
+- **SSH User:** gibz
+- **SSH Key:** `~/.ssh/id_rsa_gibson`
+
+---
+
+## Business Intelligence
+
+- **Phone Signup Blueprint:** `docs/BUSINE` (incomplete reference)

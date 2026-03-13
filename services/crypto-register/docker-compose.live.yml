@@ -1,0 +1,60 @@
+# Crypto Register Service - LIVE Deployment
+# Docker Compose for production deployment
+# Ports: 10110 (Frontend), 10112 (API)
+
+version: '3.8'
+
+services:
+  # Frontend - Nginx
+  crypto-register-frontend:
+    image: nginx:alpine
+    container_name: crypto-register-frontend
+    ports:
+      - '10110:80'
+    volumes:
+      - ./public:/usr/share/nginx/html:ro
+    networks:
+      - microservices-stack_backend
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:80"]
+      interval: 30s
+      retries: 3
+      timeout: 10s
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.crypto-register.rule=Host(`crypto.gibson.trade`)"
+      - "traefik.http.services.crypto-register.loadbalancer.server.port=80"
+
+  # Backend API - Node.js with Keycloak
+  crypto-register-api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: crypto-register-api
+    environment:
+      PORT: 10112
+      DB_PATH: /data/registrations.json
+      KEYCLOAK_URL: http://keycloak:8080
+      KEYCLOAK_REALM: crypto-register
+    volumes:
+      - crypto-register-data:/data
+    ports:
+      - '10112:10112'
+    networks:
+      - microservices-stack_backend
+    depends_on:
+      - crypto-register-frontend
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:10112/health"]
+      interval: 30s
+      retries: 3
+      timeout: 10s
+
+networks:
+  microservices-stack_backend:
+    external: true
+
+volumes:
+  crypto-register-data:

@@ -1,0 +1,55 @@
+# Crypto Register Service - Docker Compose
+# Phone registration + .crypto domain service on port 3001
+
+version: '3.8'
+
+services:
+  crypto-register:
+    image: node:18-alpine
+    container_name: crypto-register
+    working_dir: /app
+    command: sh -c "npm install -g serve && serve -s /app/public -l 3001"
+    volumes:
+      - ./public:/app/public:ro
+    ports:
+      - '3001:3001'
+    networks:
+      - microservices-stack_backend
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:3001"]
+      interval: 30s
+      retries: 3
+      timeout: 10s
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.crypto-register.rule=Host(`crypto.gibson.trade`)"
+      - "traefik.http.routers.crypto-register.entrypoints=websecure"
+      - "traefik.http.routers.crypto-register.tls=true"
+      - "traefik.http.services.crypto-register.loadbalancer.server.port=3001"
+
+  # Registration API (backend)
+  crypto-register-api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: crypto-register-api
+    environment:
+      PORT: 3002
+      DB_PATH: /data/registrations.json
+    volumes:
+      - ./data:/data
+    ports:
+      - '3002:3002'
+    networks:
+      - microservices-stack_backend
+    depends_on:
+      - crypto-register
+    restart: unless-stopped
+
+networks:
+  microservices-stack_backend:
+    external: true
+
+volumes:
+  registrations-data:

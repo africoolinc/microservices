@@ -1,0 +1,59 @@
+{
+  "balance": {
+    "error": "Failed to connect to Sepolia",
+    "balance_eth": 0
+  },
+  "deployment": {
+    "timestamp": "2026-03-12T23:44:13.778521",
+    "tests": {
+      "frontend": {
+        "status": "pass",
+        "status_code": 200,
+        "content_type": "text/html",
+        "has_crypto_domain": true
+      },
+      "api_health": {
+        "status": "pass",
+        "status_code": 200,
+        "response": {
+          "status": "healthy",
+          "timestamp": "2026-03-12T20:44:13.783Z"
+        }
+      },
+      "domain_check": {
+        "status": "pass",
+        "response": {
+          "available": true,
+          "domain": "test.crypto"
+        }
+      },
+      "registration": {
+        "status": "pass",
+        "status_code": 201,
+        "response": {
+          "success": true,
+          "registration": {
+            "id": "90105610-46e0-44b6-af31-35c3cb82a9d6",
+            "domain": "testuser.crypto",
+            "createdAt": "2026-03-12T20:44:13.791Z"
+          }
+        }
+      }
+    },
+    "score": "4/4",
+    "pass_rate": 100.0
+  },
+  "rating": {
+    "timestamp": "2026-03-12T23:44:13.792512",
+    "score": 8,
+    "max_score": 10,
+    "breakdown": {
+      "testnet_funds": 0,
+      "frontend": 2,
+      "api_health": 2,
+      "domain_check": 2,
+      "registration": 2
+    },
+    "grade": "B - Good"
+  }
+}

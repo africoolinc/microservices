@@ -1,0 +1,17 @@
+{
+  "status": "degraded",
+  "updated": "2026-03-13T08:01:23.650767",
+  "health_score": 0.0,
+  "services": [
+    {
+      "name": "BTC Options Bot",
+      "status": "down",
+      "latency_ms": 0
+    },
+    {
+      "name": "Bridge API",
+      "status": "down",
+      "latency_ms": 0
+    }
+  ]
+}

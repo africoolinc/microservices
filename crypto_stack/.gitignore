@@ -1,0 +1,30 @@
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Logs
+logs/
+
+# Build outputs
+node_modules/
+target/
+dist/
+build/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# SSL/TLS keys (keep certs if needed, but not private keys)
+ssl/*.key
+ssl/*.pem
+
+# Secrets
+.secrets/
